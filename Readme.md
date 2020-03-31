@@ -20,4 +20,4 @@ Quarantinos propone una aplicación tipo red social con bulletin board digital. 
 
 Este proyecto está bajo la Licencia de la Pontificia Universidad Católica de Chile.
 
-Todos los derechos reservados :rotating_light:
+Todos los derechos reservados. :pencil:
