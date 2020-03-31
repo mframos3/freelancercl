@@ -8,11 +8,11 @@ Quarantinos propone una aplicación tipo red social con bulletin board digital. 
 
 ## Developers :construction_worker:
 
-* **Matías Ramos** 
+* **Matías Ramos:** mframos@uc.cl
 
-* **Nicolás Casassus** 
+* **Nicolás Casassus:** ncasassus@uc.cl
 
-* **Christian Carstens** 
+* **Christian Carstens:** ctcarstens@uc.cl 
 
 
 
