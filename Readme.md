@@ -4,6 +4,8 @@ Quarantinos propone una aplicación tipo red social con bulletin board digital. 
 
 ## Product Owner :robot:
 
+* **Alejandro Ramírez** 
+
 ## Developers :construction_worker:
 
 * **Matías Ramos** 
