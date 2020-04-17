@@ -1,0 +1,44 @@
+<div>
+  <% if (locals.errors) { %>
+    <div class="errors">
+      You need to fix the following errors:
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  <form action="<%= submitReportPath %>" method="post">
+    <% if (!report.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+    <% } %>
+    <div  class="field">
+      <label for="title">Title</label>
+      <input type="text" name="title" value="<%= report.title %>" />
+    </div>
+    <div  class="field">
+      <label for="content">Content</label>
+      <input type="text" name="content" value="<%= report.content %>" />
+    </div>
+    <div  class="field">
+      <label for="reportingUserId">Reporting User</label>
+      <textarea type="number" name="reportingUserId"><%= report.reportingUserId %></textarea>
+    </div>
+    <div  class="field">
+      <label for="reportedUserId">Reported User</label>
+      <textarea type="number" name="reportedUserId"><%= report.reportedUserId %></textarea>
+    </div>
+    <div  class="field">
+      <label for="reportedPost">Reported Post</label>
+      <textarea type="number" name="reportedPost"><%= report.reportedPost %></textarea>
+    </div>
+    <div  class="field">
+      <% if (report.isNewRecord) { %>
+        <input type="submit" name="create" value="Create" />
+      <% } else { %>
+        <input type="submit" name="update" value="Update" />
+      <% } %>
+    </div>
+  </form>
+</div>

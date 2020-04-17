@@ -1,0 +1,37 @@
+<h2>Reports</h2>
+<% if (!reportsList.length) { %>
+  <p>No results</p>
+<% } else { %>
+  <table id="reports-list">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Reporting User</th>
+        <th>Reported User</th>
+        <th>Reported Post</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% reportsList.forEach((report) => { %>
+        <tr>
+          <td><%= report.title %></td>
+          <td><%= report.content %></td>
+          <td><%= report.reportingUserId %></td>
+          <td><%= report.reportedUserId %></td>
+          <td><%= report.reportedPost %></td>
+          <td><a href="<%= editReportPath(report) %>">Edit</a></td>
+          <td>
+            <form action="<%= deleteReportPath(report) %>" method="POST">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="submit" value="Delete" />
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<a href="<%= newReportPath %>">New Report</a>
