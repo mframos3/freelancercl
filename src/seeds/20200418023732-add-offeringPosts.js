@@ -15,6 +15,7 @@ module.exports = {
         name: 'Se busca consultor informático.',
         category: 'Tecnología, Computación, Ingeniería',
         description: 'Se requiere programador con al menos 2 años de experiencia para pizzería.',
+        rating: 3,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

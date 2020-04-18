@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     img: DataTypes.STRING,
     category: DataTypes.STRING,
     description: DataTypes.STRING,
+    rating: DataTypes.INTEGER,
   }, {});
 
   searchingPost.associate = function associate() {

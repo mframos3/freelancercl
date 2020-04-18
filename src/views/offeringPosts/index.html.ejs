@@ -6,7 +6,9 @@
     <thead>
       <tr>
         <th>Name</th>
+        <th>Category</th>
         <th>Description</th>
+        <th>Rating</th>
         <th colspan="2">Actions</th>
       </tr>
     </thead>
@@ -14,7 +16,9 @@
       <% offeringPostsList.forEach((offeringPost) => { %>
         <tr>
           <td><%= offeringPost.name %></td>
+          <td><%= offeringPost.category %></td>
           <td><%= offeringPost.description %></td>
+          <td><%= offeringPost.rating %></td>
           <td><a href="<%= editOfferingPostPath(offeringPost) %>">Edit</a></td>
           <td>
           <form action="<%= deleteOfferingPostPath(offeringPost) %>" method="POST">

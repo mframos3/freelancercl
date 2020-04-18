@@ -18,8 +18,20 @@
         <input type="text" name="name" value="<%= offeringPost.name %>" />
       </div>
       <div  class="field">
+        <label for="img">Image</label>
+        <textarea type="text" name="img"><%= offeringPost.img %></textarea>
+      </div>
+      <div  class="field">
+        <label for="category">Catrgory</label>
+        <textarea type="text" name="category"><%= offeringPost.category %></textarea>
+      </div>
+      <div  class="field">
         <label for="description">Description</label>
         <textarea type="text" name="description"><%= offeringPost.description %></textarea>
+      </div>
+      <div  class="field">
+        <label for="rating">Rating</label>
+        <textarea type="number" name="rating"><%= offeringPost.rating %></textarea>
       </div>
       <div  class="field">
         <% if (offeringPost.isNewRecord) { %>
