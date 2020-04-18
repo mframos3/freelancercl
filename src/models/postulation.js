@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     content: DataTypes.STRING,
   }, {});
   postulation.associate = function associate() {
-    // associations can be defined here
+    // postulation.belongsTo(models.offeringPost, { foreignKey: 'offeringPostId' });
+    // aquí falta asociar a user
   };
   return postulation;
 };
