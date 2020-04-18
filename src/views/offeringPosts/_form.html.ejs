@@ -1,0 +1,32 @@
+<div>
+    <% if (locals.errors) { %>
+      <div class="errors">
+        You need to fix the following errors:
+        <ul>
+          <% errors.forEach(error => { %>
+            <li><%= error.message %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+    <form action="<%= submitOfferingPostPath %>" method="post">
+      <% if (!offeringPost.isNewRecord) { %>
+        <input type="hidden" name="_method" value="patch" />
+      <% } %>
+      <div  class="field">
+        <label for="name">Name</label>
+        <input type="text" name="name" value="<%= offeringPost.name %>" />
+      </div>
+      <div  class="field">
+        <label for="description">Description</label>
+        <textarea type="text" name="description"><%= offeringPost.description %></textarea>
+      </div>
+      <div  class="field">
+        <% if (offeringPost.isNewRecord) { %>
+          <input type="submit" name="create" value="Create" />
+        <% } else { %>
+          <input type="submit" name="update" value="Update" />
+        <% } %>
+      </div>
+    </form>
+  </div>

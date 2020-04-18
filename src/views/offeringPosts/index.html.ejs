@@ -1,0 +1,32 @@
+<h2>Offering Posts</h2>
+<% if (!offeringPostsList.length) { %>
+  <p>No results</p>
+<% } else { %>
+  <table id="offeringPosts-list">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% offeringPostsList.forEach((offeringPost) => { %>
+        <tr>
+          <td><%= offeringPost.name %></td>
+          <td><%= offeringPost.description %></td>
+          <td><a href="<%= editOfferingPostPath(offeringPost) %>">Edit</a></td>
+          <td>
+          <form action="<%= deleteOfferingPostPath(offeringPost) %>" method="POST">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" value="Delete" />
+          </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<a href="<%= newOfferingPostPath %>">New Offering Post</a>
+
