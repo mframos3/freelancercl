@@ -12,7 +12,7 @@ const config = {
   },
   test: {
     extend: 'default',
-    database: 'template1',
+    database: 'iic2513template_test',
   },
   production: {
     extend: 'default',

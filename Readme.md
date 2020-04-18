@@ -1,23 +1,53 @@
-# Freelancer by Quarantinos
+# Template
 
-Quarantinos propone una aplicación tipo red social con bulletin board digital. Esto permitea los usuarios que estén buscando algún trabajo freelance u ofreciendo un servicio, el darse a conocer. A su vez, las empresas o particulares que busquen algún servicio o empleo parttime, podrán publicar el aviso correspondiente para que los interesados en la oferta puedan enterarse, informarse y postular con facilidad.
+Template built with [koa](http://koajs.com/) for IIC2513 - Tecnologías y Aplicaciones Web, Pontificia Universidad Católica de Chile.
 
-## Product Owner :robot:
+## Prerequisites:
+* PostgreSQL
+  * you will need a database with name and user/password as configured in `src/config/database.js`
+* Node.js v12.16 or above
+* [Yarn](https://yarnpkg.com)
 
-* **Alejandro Ramírez:** elramirez@uc.cl
+## Project Setup
 
-## Developers :construction_worker:
+* Clone repository
+* Install dependencies:
+  * `yarn install`
 
-* **Matías Ramos:** mframo3@uc.cl 
+## Database Setup (development)
 
-* **Nicolás Casassus:** ncasassus@uc.cl 
+### Install postgresql
+* On Mac OS X using Homebrew: `brew install postgresql`
+  * Start service: check [LaunchRocket](https://github.com/jimbojsb/launchrocket) or [lunchy](https://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/) for postgresql service management
+* [Other platforms](https://www.postgresql.org/download/)
 
-* **Christian Carstens:** ctcarstens@uc.cl 
+### Create development database
 
+```sh
+createdb iic2513template_dev
+```
 
+### Run migrations
+```sh
+./node_modules/.bin/sequelize db:migrate
+```
 
-## Licencia 📄
+## Run the app!
 
-Este proyecto está bajo la Licencia de la Pontificia Universidad Católica de Chile.
+```sh
+yarn start
+```
 
-Todos los derechos reservados. :pencil:
+or directly
+
+```sh
+node index.js
+```
+
+or, if you want automatic restart after any change in your files
+
+```sh
+yarn dev
+```
+
+Now go to http://localhost:3000 and start browsing :)
