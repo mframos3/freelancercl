@@ -1,0 +1,44 @@
+<div>
+  <% if (locals.errors) { %>
+    <div class="errors">
+      You need to fix the following errors:
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  <form action="<%= submitUserPath %>" method="post">
+    <% if (!user.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+    <% } %>
+    <div  class="field">
+      <label for="name">Name</label>
+      <input type="text" name="name" value="<%= user.name %>" />
+    </div>
+    <div  class="field">
+      <label for="email">Email</label>
+      <input type="text" name="email" value="<%= user.email %>" />
+    </div>
+    <div  class="field">
+      <label for="cvPath">CV Pathfile</label>
+      <textarea type="text" name="cvPath"><%= user.cvPath %></textarea>
+    </div>
+    <div  class="field">
+      <label for="imagePath">Image Pathfile</label>
+      <textarea type="text" name="imagePath"><%= user.imagePath %></textarea>
+    </div>
+    <div  class="field">
+      <label for="occupation">Occupation</label>
+      <textarea type="text" name="occupation"><%= user.occupation %></textarea>
+    </div>
+    <div  class="field">
+      <% if (user.isNewRecord) { %>
+        <input type="submit" name="create" value="Create" />
+      <% } else { %>
+        <input type="submit" name="update" value="Update" />
+      <% } %>
+    </div>
+  </form>
+</div>
