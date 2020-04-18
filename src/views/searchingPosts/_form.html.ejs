@@ -9,36 +9,28 @@
         </ul>
       </div>
     <% } %>
-    <form action="<%= submitOfferingPostPath %>" method="post">
-      <% if (!offeringPost.isNewRecord) { %>
+    <form action="<%= submitSearchingPostPath %>" method="post">
+      <% if (!searchingPost.isNewRecord) { %>
         <input type="hidden" name="_method" value="patch" />
       <% } %>
       <div  class="field">
         <label for="name">Name</label>
-        <input type="text" name="name" value="<%= offeringPost.name %>" />
+        <input type="text" name="name" value="<%= searchingPost.name %>" />
       </div>
       <div  class="field">
         <label for="img">Image</label>
-        <textarea type="text" name="img"><%= offeringPost.img %></textarea>
+        <textarea type="text" name="img"><%= searchingPost.img %></textarea>
       </div>
       <div  class="field">
         <label for="category">Category</label>
-        <textarea type="text" name="category"><%= offeringPost.category %></textarea>
+        <textarea type="text" name="category"><%= searchingPost.category %></textarea>
       </div>
       <div  class="field">
         <label for="description">Description</label>
-        <textarea type="text" name="description"><%= offeringPost.description %></textarea>
+        <textarea type="text" name="description"><%= searchingPost.description %></textarea>
       </div>
       <div  class="field">
-        <label for="rating">Rating</label>
-        <textarea type="number" name="rating"><%= offeringPost.rating %></textarea>
-      </div>
-      <div  class="field">
-        <label for="endsAt">End Date</label>
-        <textarea type="date" name="endsAt"><%= offeringPost.endsAt %></textarea>
-      </div>
-      <div  class="field">
-        <% if (offeringPost.isNewRecord) { %>
+        <% if (searchingPost.isNewRecord) { %>
           <input type="submit" name="create" value="Create" />
         <% } else { %>
           <input type="submit" name="update" value="Update" />

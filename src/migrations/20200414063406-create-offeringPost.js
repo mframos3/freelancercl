@@ -22,6 +22,12 @@ module.exports = {
     rating: {
       type: Sequelize.INTEGER,
     },
+    userId: {
+      type: Sequelize.INTEGER,
+    },
+    endsAt: {
+      type: Sequelize.DATE,
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,

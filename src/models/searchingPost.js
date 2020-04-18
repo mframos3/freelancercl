@@ -4,11 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     img: DataTypes.STRING,
     category: DataTypes.STRING,
     description: DataTypes.STRING,
-    rating: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
   }, {});
 
   searchingPost.associate = function associate() {
     // associations can be defined here. This method receives a models parameter.
+    // offeringPost.belongsTo(models.user, { foreignKey: 'userId' });
   };
 
   return searchingPost;

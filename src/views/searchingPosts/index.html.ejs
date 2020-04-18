@@ -1,0 +1,39 @@
+<h2>Searching Posts</h2>
+<% if (!searchingPostsList.length) { %>
+  <p>No results</p>
+<% } else { %>
+  <table id="searchingPosts-list">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>User Owner</th>
+        <th>Publication Date </th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% searchingPostsList.forEach((searchingPost) => { %>
+        <tr>
+          <td><%= searchingPost.name %></td>
+          <td><%= searchingPost.category %></td>
+          <td><%= searchingPost.description %></td>
+          <td><%= searchingPost.userId %></td>
+          <td><%= searchingPost.createdAt %></td>
+          
+          <td><a href="<%= editSearchingPostPath(searchingPost) %>">Edit</a></td>
+          <td>
+          <form action="<%= deleteSearchingPostPath(searchingPost) %>" method="POST">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" value="Delete" />
+          </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<a href="<%= newSearchingPostPath %>">New Searching Post</a>
+

@@ -19,7 +19,7 @@ module.exports = {
     description: {
       type: Sequelize.STRING,
     },
-    rating: {
+    userId: {
       type: Sequelize.INTEGER,
     },
     createdAt: {

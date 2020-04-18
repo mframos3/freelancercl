@@ -4,9 +4,9 @@ module.exports = (sequelize, DataTypes) => {
     offeringPostId: DataTypes.INTEGER,
     content: DataTypes.STRING,
   }, {});
-  postulation.associate = function associate() {
-    // postulation.belongsTo(models.offeringPost, { foreignKey: 'offeringPostId' });
-    // aquí falta asociar a user
+  postulation.associate = function associate(models) {
+    postulation.belongsTo(models.offeringPost, { foreignKey: 'offeringPostId' });
+    // postulation.belongsTo(models.user, { foreignKey: 'userId' });
   };
   return postulation;
 };

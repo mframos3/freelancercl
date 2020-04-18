@@ -16,6 +16,8 @@ module.exports = {
         category: 'Tecnología, Computación, Ingeniería',
         description: 'Se requiere programador con al menos 2 años de experiencia para pizzería.',
         rating: 3,
+        userId: 1,
+        endsAt: '2020-08-09',
         createdAt: new Date(),
         updatedAt: new Date(),
       },

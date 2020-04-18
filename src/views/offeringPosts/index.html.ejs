@@ -9,6 +9,9 @@
         <th>Category</th>
         <th>Description</th>
         <th>Rating</th>
+        <th>User Owner</th>
+        <th>Publication Date </th>
+        <th>End Date </th>
         <th colspan="2">Actions</th>
       </tr>
     </thead>
@@ -19,6 +22,10 @@
           <td><%= offeringPost.category %></td>
           <td><%= offeringPost.description %></td>
           <td><%= offeringPost.rating %></td>
+          <td><%= offeringPost.userId %></td>
+          <td><%= offeringPost.createdAt %></td>
+          <td><%= offeringPost.endsAt %></td>
+          
           <td><a href="<%= editOfferingPostPath(offeringPost) %>">Edit</a></td>
           <td>
           <form action="<%= deleteOfferingPostPath(offeringPost) %>" method="POST">
