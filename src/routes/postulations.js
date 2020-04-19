@@ -28,7 +28,7 @@ router.get('postulations.new', '/new', async (ctx) => {
 router.post('postulations.create', '/', async (ctx) => {
   const postulation = ctx.orm.postulation.build(ctx.request.body);
   try {
-    await postulation.save({ fields: ['userId', 'offeringPost', 'content'] });
+    await postulation.save({ fields: ['userId', 'offeringPostId', 'content'] });
     ctx.redirect(ctx.router.url('postulations.list'));
   } catch (validationError) {
     await ctx.render('postulations/new', {
@@ -51,10 +51,10 @@ router.patch('postulations.update', '/:id', loadPostulation, async (ctx) => {
   const { postulation } = ctx.state;
   try {
     const {
-      userId, offeringPost, content,
+      userId, offeringPostId, content,
     } = ctx.request.body;
     await postulation.update({
-      userId, offeringPost, content,
+      userId, offeringPostId, content,
     });
     ctx.redirect(ctx.router.url('postulations.list'));
   } catch (validationError) {

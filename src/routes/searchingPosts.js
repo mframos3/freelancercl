@@ -16,16 +16,11 @@ router.get('searchingPosts.list', '/', async (ctx) => {
   });
 });
 
-router.get('searchingPosts.list', '/', async (ctx) => {
-  const searchingPostsList = await ctx.orm.searchingPost.findAll();
-  await ctx.render('searchingPost/index', { searchingPostsList });
-});
-
 router.get('searchingPosts.new', '/new', async (ctx) => {
   const searchingPost = ctx.orm.searchingPost.build();
   await ctx.render('searchingPosts/new', {
     searchingPost,
-    submitSearchingPostsPath: ctx.router.url('searchingPosts.create'),
+    submitSearchingPostPath: ctx.router.url('searchingPosts.create'),
   });
 });
 
@@ -35,7 +30,7 @@ router.post('searchingPosts.create', '/', async (ctx) => {
     await searchingPost.save({ fields: ['name', 'img', 'category', 'description', 'userId'] });
     ctx.redirect(ctx.router.url('searchingPosts.list'));
   } catch (validationError) {
-    await ctx.render('searchingPosts.new', {
+    await ctx.render('searchingPosts/new', {
       searchingPost,
       errors: validationError.errors,
       submitSearchingPostPath: ctx.router.url('searchingPosts.create'),
@@ -61,7 +56,7 @@ router.patch('searchingPosts.update', '/:id', loadSearchingPost, async (ctx) => 
     await ctx.render('searchingPosts/edit', {
       searchingPost,
       errors: validationError.errors,
-      submitSearchingPostsPath: ctx.router.url('searchingPosts.update', { id: searchingPost.id }),
+      submitSearchingPostPath: ctx.router.url('searchingPosts.update', { id: searchingPost.id }),
     });
   }
 });

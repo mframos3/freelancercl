@@ -16,10 +16,6 @@ router.get('offeringPosts.list', '/', async (ctx) => {
   });
 });
 
-router.get('offeringPosts.list', '/', async (ctx) => {
-  const offeringPostsList = await ctx.orm.offeringPost.findAll();
-  await ctx.render('offeringPosts/index', { offeringPostsList });
-});
 
 router.get('offeringPosts.new', '/new', async (ctx) => {
   const offeringPost = ctx.orm.offeringPost.build();
@@ -32,10 +28,10 @@ router.get('offeringPosts.new', '/new', async (ctx) => {
 router.post('offeringPosts.create', '/', async (ctx) => {
   const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
   try {
-    await offeringPost.save({ fields: ['name', 'img', 'category', 'description', 'rating', 'userId', 'endsAt'] });
+    await offeringPost.save({ fields: ['name', 'img', 'category', 'description', 'userId', 'endsAt'] });
     ctx.redirect(ctx.router.url('offeringPosts.list'));
   } catch (validationError) {
-    await ctx.render('offeringPosts.new', {
+    await ctx.render('offeringPosts/new', {
       offeringPost,
       errors: validationError.errors,
       submitOfferingPostPath: ctx.router.url('offeringPosts.create'),
@@ -54,14 +50,14 @@ router.get('offeringPosts.edit', '/:id/edit', loadOfferingPost, async (ctx) => {
 router.patch('offeringPosts.update', '/:id', loadOfferingPost, async (ctx) => {
   const { offeringPost } = ctx.state;
   try {
-    const { name, img, category, description, rating, userId, endsAt } = ctx.request.body;
-    await offeringPost.update({ name, img, category, description, rating, userId, endsAt });
+    const { name, img, category, description, userId, endsAt } = ctx.request.body;
+    await offeringPost.update({ name, img, category, description, userId, endsAt });
     ctx.redirect(ctx.router.url('offeringPosts.list'));
   } catch (validationError) {
     await ctx.render('offeringPosts/edit', {
       offeringPost,
       errors: validationError.errors,
-      submitOfferingPostsPath: ctx.router.url('offeringPosts.update', { id: offeringPost.id }),
+      submitOfferingPostPath: ctx.router.url('offeringPosts.update', { id: offeringPost.id }),
     });
   }
 });

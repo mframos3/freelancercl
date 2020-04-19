@@ -1,10 +1,37 @@
 module.exports = (sequelize, DataTypes) => {
   const searchingPost = sequelize.define('searchingPost', {
-    name: DataTypes.STRING,
-    img: DataTypes.STRING,
-    category: DataTypes.STRING,
-    description: DataTypes.STRING,
-    userId: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+        isAlpha: true,
+      },
+    },
+    img: {
+      type: DataTypes.STRING,
+      defaultValue: '/src/images/defaultavatar.png',
+    },
+    category: {
+      type: DataTypes.STRING,
+      defaultValue: 'General',
+      validate: {
+        isAlpha: true,
+      },
+    },
+    description: {
+      type: DataTypes.STRING,
+      Validate: {
+        notEmpty: false,
+        len: [0, 300],
+      },
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: true,
+        isInt: true,
+      },
+    },
   }, {});
 
   searchingPost.associate = function associate() {

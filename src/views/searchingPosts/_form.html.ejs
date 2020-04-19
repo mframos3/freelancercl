@@ -30,6 +30,10 @@
         <textarea type="text" name="description"><%= searchingPost.description %></textarea>
       </div>
       <div  class="field">
+        <label for="userId">User Owner</label>
+        <textarea type="date" name="userId"><%= searchingPost.userId %></textarea>
+      </div>
+      <div  class="field">
         <% if (searchingPost.isNewRecord) { %>
           <input type="submit" name="create" value="Create" />
         <% } else { %>

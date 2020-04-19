@@ -1,8 +1,26 @@
 module.exports = (sequelize, DataTypes) => {
   const postulation = sequelize.define('postulation', {
-    userId: DataTypes.INTEGER,
-    offeringPostId: DataTypes.INTEGER,
-    content: DataTypes.STRING,
+    userId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: true,
+        isInt: true,
+      },
+    },
+    offeringPostId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: true,
+        isInt: true,
+      },
+    },
+    content: {
+      type: DataTypes.STRING,
+      Validate: {
+        notEmpty: false,
+        isAlpha: true,
+      },
+    },
   }, {});
   postulation.associate = function associate(models) {
     postulation.belongsTo(models.offeringPost, { foreignKey: 'offeringPostId' });
