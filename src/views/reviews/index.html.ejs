@@ -1,0 +1,35 @@
+<h2>Reviews</h2>
+<% if (!reviewsList.length) { %>
+  <p>No results</p>
+<% } else { %>
+  <table id="reviews-list">
+    <thead>
+      <tr>
+        <th>PostID</th>
+        <th>WorkerID</th>
+        <th>Rating</th>
+        <th>Comment</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% reviewsList.forEach((review) => { %>
+        <tr>
+          <td><%= review.id_post %></td>
+          <td><%= review.id_worker %></td>
+          <td><%= review.rating %></td>
+          <td><%= review.comment %></td>
+          <td><a href="<%= editReviewPath(review) %>">Edit</a></td>
+          <td>
+            <form action="<%= deleteReviewPath(review) %>" method="POST">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="submit" value="Delete" />
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<a href="<%= newReviewPath %>">New Review</a>
