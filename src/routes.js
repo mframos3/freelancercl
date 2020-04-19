@@ -6,6 +6,7 @@ const offeringPosts = require('./routes/offeringPosts');
 const reports = require('./routes/reports');
 const postulations = require('./routes/postulations');
 const searchingPosts = require('./routes/searchingPosts');
+const users = require('./routes/users');
 
 const router = new KoaRouter();
 
@@ -15,5 +16,6 @@ router.use('/offeringPosts', offeringPosts.routes());
 router.use('/reports', reports.routes());
 router.use('/postulations', postulations.routes());
 router.use('/searchingPosts', searchingPosts.routes());
+router.use('/users', users.routes());
 
 module.exports = router;

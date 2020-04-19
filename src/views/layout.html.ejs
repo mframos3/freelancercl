@@ -10,13 +10,14 @@
   </head>
 
   <body>
-    <div id="container">
-      <header>
-        <h1>Freelancer</h1>
-      </header>
-      <%- body %>
-      <script src="<%= assetPath('app.js') %>"></script>
-    </div>
+
+    <header>
+      <div id="logo">
+        <img id="freelancer-logo" src="<%= assetPath('logo.png') %>" alt="Logo" />
+      </div>
+    </header>
+    <%- body %>
+    <script src="<%= assetPath('app.js') %>"></script>
   </body>
 
 </html>
