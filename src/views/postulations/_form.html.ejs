@@ -9,21 +9,21 @@
       </ul>
     </div>
   <% } %>
-  <form action="<%= submitPostulationPath %>" method="post">
+  <form class="form-style-1" action="<%= submitPostulationPath %>" method="post">
     <% if (!postulation.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
     <div  class="field">
       <label for="userId">User</label>
-      <textarea type="number" name="userId"><%= postulation.userId %></textarea>
+      <input type="number" name="userId"><%= postulation.userId %></input>
     </div>
     <div  class="field">
       <label for="offeringPostId">Offering Post</label>
-      <textarea type="number" name="offeringPostId"><%= postulation.offeringPostId %></textarea>
+      <input type="number" name="offeringPostId"><%= postulation.offeringPostId %></input>
     </div>
     <div  class="field">
       <label for="content">Content</label>
-      <textarea type="number" name="content"><%= postulation.content %></textarea>
+      <input type="number" name="content"><%= postulation.content %></input>
     </div>
     <div  class="field">
       <% if (postulation.isNewRecord) { %>

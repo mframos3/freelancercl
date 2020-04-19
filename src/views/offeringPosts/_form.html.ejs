@@ -9,7 +9,7 @@
         </ul>
       </div>
     <% } %>
-    <form action="<%= submitOfferingPostPath %>" method="post">
+    <form class="form-style-1" action="<%= submitOfferingPostPath %>" method="post">
       <% if (!offeringPost.isNewRecord) { %>
         <input type="hidden" name="_method" value="patch" />
       <% } %>

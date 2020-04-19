@@ -9,21 +9,21 @@
         </ul>
       </div>
     <% } %>
-    <form action="<%= submitReviewPath %>" method="post">
+    <form class="form-style-1" action="<%= submitReviewPath %>" method="post">
       <% if (!review.isNewRecord) { %>
         <input type="hidden" name="_method" value="patch" />
       <% } %>
       <div  class="field">
         <label for="id_post">id_post</label>
-        <textarea type="number" name="id_post"><%= review.id_post %></textarea>
+        <input type="number" name="id_post"><%= review.id_post %></input>
       </div>
       <div  class="field">
         <label for="id_worker">id_worker</label>
-        <textarea type="number" name="id_worker"><%= review.id_worker %></textarea>
+        <input type="number" name="id_worker"><%= review.id_worker %></input>
       </div>
       <div  class="field">
         <label for="rating">Rating</label>
-        <textarea type="number" name="rating"><%= review.rating %></textarea>
+        <input type="number" name="rating"><%= review.rating %></input>
       </div>
       <div  class="field">
         <label for="comment">Comment</label>

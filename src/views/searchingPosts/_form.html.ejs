@@ -9,7 +9,7 @@
         </ul>
       </div>
     <% } %>
-    <form action="<%= submitSearchingPostPath %>" method="post">
+    <form class="form-style-1" action="<%= submitSearchingPostPath %>" method="post">
       <% if (!searchingPost.isNewRecord) { %>
         <input type="hidden" name="_method" value="patch" />
       <% } %>
@@ -31,7 +31,7 @@
       </div>
       <div  class="field">
         <label for="userId">User Owner</label>
-        <textarea type="date" name="userId"><%= searchingPost.userId %></textarea>
+        <input type="date" name="userId"><%= searchingPost.userId %></input>
       </div>
       <div  class="field">
         <% if (searchingPost.isNewRecord) { %>

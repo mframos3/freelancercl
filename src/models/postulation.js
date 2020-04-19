@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
   postulation.associate = function associate(models) {
-    postulation.belongsTo(models.offeringPost, { foreignKey: 'offeringPostId' });
-    postulation.belongsTo(models.user, { foreignKey: 'userId' });
+    postulation.belongsTo(models.offeringPost, { as: 'offeringPost', foreignKey: 'offeringPostId' });
+    postulation.belongsTo(models.user, { as: 'user', foreignKey: 'userId' });
   };
   return postulation;
 };

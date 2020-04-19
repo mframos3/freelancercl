@@ -31,8 +31,11 @@ module.exports = (sequelize, DataTypes) => {
 
   }, {});
 
-  review.associate = function associate() {
+  review.associate = function associate(models) {
     // associations can be defined here. This method receives a models parameter.
+    review.belongsTo(models.offeringPost, { foreignKey: 'id_post' });
+    review.belongsTo(models.user, { foreignKey: 'id_worker' });
+
   };
 
   return review;
