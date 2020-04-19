@@ -1,8 +1,25 @@
 module.exports = (sequelize, DataTypes) => {
   const message = sequelize.define('message', {
-    sender_id: DataTypes.INTEGER,
-    receiver_id: DataTypes.INTEGER,
-    content: DataTypes.TEXT,
+    sender_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: true,
+        isInt: true,
+      },
+    },
+    receiver_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: true,
+        isInt: true,
+      },
+    },
+    content: {
+      type: DataTypes.TEXT,
+      validate: {
+        len: [0, 120],
+      },
+    },
   }, {});
 
   message.associate = function associate() {
