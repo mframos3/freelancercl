@@ -8,7 +8,7 @@ const config = {
   },
   development: {
     extend: 'default',
-    database: process.env.DB_NAME || 'iic2513template_dev',
+    database: process.env.DB_NAME || 'freelancerdb',
   },
   test: {
     extend: 'default',
