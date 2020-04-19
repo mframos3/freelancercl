@@ -34,9 +34,10 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
 
-  searchingPost.associate = function associate() {
+  searchingPost.associate = function associate(models) {
     // associations can be defined here. This method receives a models parameter.
-    // searchingPost.belongsTo(models.user, { foreignKey: 'userId' });
+    searchingPost.belongsTo(models.user, { foreignKey: 'userId' });
+    searchingPost.hasMany(models.report);
   };
 
   return searchingPost;

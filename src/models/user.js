@@ -60,6 +60,9 @@ module.exports = (sequelize, DataTypes) => {
       hooks: true,
     });
     user.hasMany(models.report);
+    user.hasMany(models.offeringPost);
+    user.hasMany(models.searchingPost);
+    user.hasMany(models.postulation);
   };
 
   return user;

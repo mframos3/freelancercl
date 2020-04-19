@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: {
       type: DataTypes.STRING,
-      Validate: {
+      validate: {
         notEmpty: false,
         len: [0, 300],
       },
@@ -34,18 +34,19 @@ module.exports = (sequelize, DataTypes) => {
     },
     endsAt: {
       type: DataTypes.DATE,
-      Validate: {
+      validate: {
         notEmpty: false,
         isDate: true,
-        isAfter: new Date(),
+        isAfter: new Date().toString(),
       },
     },
   }, {});
 
-  offeringPost.associate = function associate() {
+  offeringPost.associate = function associate(models) {
     // associations can be defined here. This method receives a models parameter.
-    // offeringPost.belongsTo(models.user, { foreignKey: 'userId' });
-
+    offeringPost.belongsTo(models.user, { foreignKey: 'userId' });
+    offeringPost.hasMany(models.postulation);
+    offeringPost.hasMany(models.report);
   };
 
   return offeringPost;
