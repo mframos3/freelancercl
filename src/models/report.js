@@ -50,11 +50,9 @@ module.exports = (sequelize, DataTypes) => {
     report.belongsTo(models.user, {
       foreignKey: 'reportedUserId',
     });
-    // TODO: relacion con posts por evaluar
-    // report.belongsTo(models.post, {
-    //   foreignKey: 'reportingUserId',
-    // });
 
+    report.hasOne(models.offeringPost, { foreignKey: 'reportedPost' });
+    report.hasOne(models.searchingPost, { foreignKey: 'reportedPost' });
   };
 
   return report;

@@ -1,0 +1,34 @@
+<h2>Postulations</h2>
+<% if (!postulationsList.length) { %>
+  <p>No results</p>
+<% } else { %>
+  <table id="postulations-list">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Offering Post</th>
+        <th>Content</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% postulationsList.forEach((postulation) => { %>
+        <tr>
+
+          <td><%= postulation.userId %></td>
+          <td><%= postulation.offeringPostId %></td>
+          <td><%= postulation.content %></td>
+          <td><a href="<%= editPostulationPath(postulation) %>">Edit</a></td>
+          <td>
+            <form action="<%= deletePostulationPath(postulation) %>" method="POST">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="submit" value="Delete" />
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<a href="<%= newPostulationPath %>">New Postulation</a>
