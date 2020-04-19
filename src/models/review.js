@@ -1,32 +1,42 @@
 module.exports = (sequelize, DataTypes) => {
-  const message = sequelize.define('message', {
-    sender_id: {
+  const review = sequelize.define('review', {
+    id_post: {
       type: DataTypes.INTEGER,
       validate: {
         notEmpty: true,
         isInt: true,
       },
     },
-    receiver_id: {
+    id_worker: {
       type: DataTypes.INTEGER,
       validate: {
         notEmpty: true,
         isInt: true,
       },
     },
-    content: {
+    rating: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isFloat: true,
+        min: 0,
+        max: 5,
+      },
+    },
+    comment: {
       type: DataTypes.TEXT,
       validate: {
         len: [0, 120],
       },
     },
+
   }, {});
 
-  message.associate = function associate(models) {
+  review.associate = function associate(models) {
     // associations can be defined here. This method receives a models parameter.
-    message.belongsTo(models.user, { as: 'sender', foreignKey: 'sender_id' });
-    message.belongsTo(models.user, { as: 'receiver', foreignKey: 'receiver_id' });
+    review.belongsTo(models.offeringPost, { foreignKey: 'id_post' });
+    review.belongsTo(models.user, { foreignKey: 'id_worker' });
+
   };
 
-  return message;
+  return review;
 };

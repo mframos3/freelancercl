@@ -9,17 +9,17 @@
         </ul>
       </div>
     <% } %>
-    <form action="<%= submitMessagePath %>" method="post">
+    <form class="form-style-1" action="<%= submitMessagePath %>" method="post">
         <% if (!message.isNewRecord) { %>
           <input type="hidden" name="_method" value="patch" />
         <% } %>
         <div  class="field">
           <label for="sender_id">Sender_ID</label>
-          <textarea type="number" name="sender_id"><%= message.sender_id %> </textarea>
+          <input type="number" name="sender_id"><%= message.sender_id %> </input>
         </div>
         <div  class="field">
           <label for="receiver_id">Receiver_ID</label>
-          <textarea type="number" name="receiver_id"><%= message.receiver_id %> </textarea>
+          <input type="number" name="receiver_id"><%= message.receiver_id %> </input>
         </div>
         <div  class="field">
           <label for="message">Content</label>

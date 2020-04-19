@@ -1,0 +1,36 @@
+<div>
+  <% if (locals.errors) { %>
+    <div class="errors">
+      You need to fix the following errors:
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  <form class="form-style-1" action="<%= submitPostulationPath %>" method="post">
+    <% if (!postulation.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+    <% } %>
+    <div  class="field">
+      <label for="userId">User</label>
+      <input type="number" name="userId"><%= postulation.userId %></input>
+    </div>
+    <div  class="field">
+      <label for="offeringPostId">Offering Post</label>
+      <input type="number" name="offeringPostId"><%= postulation.offeringPostId %></input>
+    </div>
+    <div  class="field">
+      <label for="content">Content</label>
+      <input type="number" name="content"><%= postulation.content %></input>
+    </div>
+    <div  class="field">
+      <% if (postulation.isNewRecord) { %>
+        <input type="submit" name="create" value="Create" />
+      <% } else { %>
+        <input type="submit" name="update" value="Update" />
+      <% } %>
+    </div>
+  </form>
+</div>

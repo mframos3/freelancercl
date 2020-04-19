@@ -9,7 +9,7 @@
       </ul>
     </div>
   <% } %>
-  <form action="<%= submitReportPath %>" method="post">
+  <form class="form-style-1" action="<%= submitReportPath %>" method="post">
     <% if (!report.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
@@ -23,15 +23,15 @@
     </div>
     <div  class="field">
       <label for="reportingUserId">Reporting User</label>
-      <textarea type="number" name="reportingUserId"><%= report.reportingUserId %></textarea>
+      <input type="number" name="reportingUserId"><%= report.reportingUserId %></input>
     </div>
     <div  class="field">
       <label for="reportedUserId">Reported User</label>
-      <textarea type="number" name="reportedUserId"><%= report.reportedUserId %></textarea>
+      <input type="number" name="reportedUserId"><%= report.reportedUserId %></input>
     </div>
     <div  class="field">
       <label for="reportedPost">Reported Post</label>
-      <textarea type="number" name="reportedPost"><%= report.reportedPost %></textarea>
+      <input type="number" name="reportedPost"><%= report.reportedPost %></input>
     </div>
     <div  class="field">
       <% if (report.isNewRecord) { %>

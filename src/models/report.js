@@ -45,16 +45,16 @@ module.exports = (sequelize, DataTypes) => {
   report.associate = function associate(models) {
     // associations can be defined here. This method receives a models parameter.
     report.belongsTo(models.user, {
+      as: 'reportingUser',
       foreignKey: 'reportingUserId',
     });
     report.belongsTo(models.user, {
+      as: 'reportedUser',
       foreignKey: 'reportedUserId',
     });
-    // TODO: relacion con posts por evaluar
-    // report.belongsTo(models.post, {
-    //   foreignKey: 'reportingUserId',
-    // });
 
+    report.hasOne(models.offeringPost, { foreignKey: 'id' });
+    report.hasOne(models.searchingPost, { foreignKey: 'id' });
   };
 
   return report;

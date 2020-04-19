@@ -1,0 +1,44 @@
+<div>
+    <% if (locals.errors) { %>
+      <div class="errors">
+        You need to fix the following errors:
+        <ul>
+          <% errors.forEach(error => { %>
+            <li><%= error.message %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+    <form class="form-style-1" action="<%= submitSearchingPostPath %>" method="post">
+      <% if (!searchingPost.isNewRecord) { %>
+        <input type="hidden" name="_method" value="patch" />
+      <% } %>
+      <div  class="field">
+        <label for="name">Name</label>
+        <input type="text" name="name" value="<%= searchingPost.name %>" />
+      </div>
+      <div  class="field">
+        <label for="img">Image</label>
+        <textarea type="text" name="img"><%= searchingPost.img %></textarea>
+      </div>
+      <div  class="field">
+        <label for="category">Category</label>
+        <textarea type="text" name="category"><%= searchingPost.category %></textarea>
+      </div>
+      <div  class="field">
+        <label for="description">Description</label>
+        <textarea type="text" name="description"><%= searchingPost.description %></textarea>
+      </div>
+      <div  class="field">
+        <label for="userId">User Owner</label>
+        <input type="date" name="userId"><%= searchingPost.userId %></input>
+      </div>
+      <div  class="field">
+        <% if (searchingPost.isNewRecord) { %>
+          <input type="submit" name="create" value="Create" />
+        <% } else { %>
+          <input type="submit" name="update" value="Update" />
+        <% } %>
+      </div>
+    </form>
+  </div>
