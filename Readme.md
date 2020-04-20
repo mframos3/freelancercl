@@ -22,11 +22,11 @@ https://freelancercl.herokuapp.com
 
 Consideraciones a tener:
 
-La versión 1.0.0 de esta App, presenta a modo general, todos los modelos y tablas que estarán presentes en una futura versión definitiva de freelancercl. Las presentamos con un css básico, a modo de tener ya el archivo para futuro enfocarnos en una buena apariencia para el usuario. Lo mismo al rellenar un form para crear una nueva entidad. Además, todas las relaciones están hechas y checkeadas entre las distintas entidades, de manera que el modelamiento a futuro se hará mucho más fácil teniendo una base firme en el modelo y entendimiento por parte de los desarrolladores. 
+* La versión 1.0.0 de esta App, presenta a modo general, todos los modelos y tablas que estarán presentes en una futura versión definitiva de freelancercl. Las presentamos con un css básico, a modo de tener ya el archivo para futuro enfocarnos en una buena apariencia para el usuario. Lo mismo al rellenar un form para crear una nueva entidad. Además, todas las relaciones están hechas y checkeadas entre las distintas entidades, de manera que el modelamiento a futuro se hará mucho más fácil teniendo una base firme en el modelo y entendimiento por parte de los desarrolladores. 
 
-Lo mismo ocurre con las validaciones al crear nuevas entidades, por ejemplo, los caracteres de un nombre, que la fecha de término debe ser mayor a la de inicio (actual), etc. A modo de prueba, dejamos ciertas validaciones  que, posteriormente, serán reafinadas de acuerdo a los requerimientos de la página.
+* Lo mismo ocurre con las validaciones al crear nuevas entidades, por ejemplo, los caracteres de un nombre, que la fecha de término debe ser mayor a la de inicio (actual), etc. A modo de prueba, dejamos ciertas validaciones  que, posteriormente, serán reafinadas de acuerdo a los requerimientos de la página.
 
-Básicamente, está todo lo que se esperaba para esta entrega de la App, espero seas feliz navegando por ella!
+* Básicamente, está todo lo que se esperaba para esta entrega de la App, espero seas feliz navegando por ella!
 
 Puedes visitar cada una de ellas en las siguientes rutas (De todos modos, habilitamos una navbar para su facilidad):
 
