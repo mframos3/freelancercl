@@ -22,16 +22,22 @@ https://freelancercl.herokuapp.com
 
 Consideraciones a tener:
 
-La versión 1.0.0 de esta App, presenta a modo general, todos los modelos y tablas que estarán presentes en una futura versión definitiva de freelancercl.
+La versión 1.0.0 de esta App, presenta a modo general, todos los modelos y tablas que estarán presentes en una futura versión definitiva de freelancercl. Las presentamos con un css básico, a modo de tener ya el archivo para futuro enfocarnos en una buena apariencia para el usuario. Lo mismo al rellenar un form para crear una nueva entidad. Además, todas las relaciones están hechas y checkeadas entre las distintas entidades, de manera que el modelamiento a futuro se hará mucho más fácil teniendo una base firme en el modelo y entendimiento por parte de los desarrolladores. Lo mismo ocurre con las validaciones al crear nuevas entidades, por ejemplo, los caracteres de un nombre, que la fecha de término debe ser mayor a la de inicio (actual), etc.
 
 Puedes visitar cada una de ellas en las siguientes rutas:
 
 Usuarios: https://freelancercl.herokuapp.com/users
+
 Posts de Oferta: https://freelancercl.herokuapp.com/offeringPosts
+
 Posts de Búsqueda: https://freelancercl.herokuapp.com/searchingPosts
+
 Postulaciones a las Oferta: https://freelancercl.herokuapp.com/postulations
+
 Mensajes: https://freelancercl.herokuapp.com/messages
+
 Reviews de las Ofertas: https://freelancercl.herokuapp.com/reviews
+
 Denuncias a Usuarios o Publicaciones: https://freelancercl.herokuapp.com/reports
 
 La tabla follows también fue creada, pero sin vista (ya que no tenía mucho sentido realizarle ahora independiente del usuario, pero están creadas sus partes necesarias para las siguientes entregas del proyecto)
