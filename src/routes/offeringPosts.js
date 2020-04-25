@@ -72,4 +72,5 @@ router.del('offeringPosts.delete', '/:id', loadOfferingPost, async (ctx) => {
   ctx.redirect(ctx.router.url('offeringPosts.list'));
 });
 
+
 module.exports = router;
