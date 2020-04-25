@@ -1,53 +1,53 @@
-# Template
+# FREELANCERCL By Quarantinos :rotating_light:
 
-Template built with [koa](http://koajs.com/) for IIC2513 - Tecnologías y Aplicaciones Web, Pontificia Universidad Católica de Chile.
+Quarantinos propone una aplicación tipo red social con bulletin board digital. Esto permitea los usuarios que estén buscando algún trabajo freelance u ofreciendo un servicio, el darse a conocer. A su vez, las empresas o particulares que busquen algún servicio o empleo part time, podrán publicar el aviso correspondiente para que los interesados en la oferta puedan enterarse, informarse y postular con facilidad.
 
-## Prerequisites:
-* PostgreSQL
-  * you will need a database with name and user/password as configured in `src/config/database.js`
-* Node.js v12.16 or above
-* [Yarn](https://yarnpkg.com)
+## Product Owner :robot:
 
-## Project Setup
+* **Alejandro Ramírez:** elramirez@uc.cl
 
-* Clone repository
-* Install dependencies:
-  * `yarn install`
+## Developers :construction_worker:
 
-## Database Setup (development)
+* **Matías Ramos:** mframos@uc.cl
 
-### Install postgresql
-* On Mac OS X using Homebrew: `brew install postgresql`
-  * Start service: check [LaunchRocket](https://github.com/jimbojsb/launchrocket) or [lunchy](https://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/) for postgresql service management
-* [Other platforms](https://www.postgresql.org/download/)
+* **Nicolás Casassus:** ncasassus@uc.cl
 
-### Create development database
+* **Christian Carstens:** ctcarstens@uc.cl 
 
-```sh
-createdb iic2513template_dev
-```
+### Ya Puedes dejar de esperar!
 
-### Run migrations
-```sh
-./node_modules/.bin/sequelize db:migrate
-```
+La primera versión de freelancercl ya está disponible en tu navegador, solo debes hacer click en el siguiente link y listo!
 
-## Run the app!
+https://freelancercl.herokuapp.com
 
-```sh
-yarn start
-```
+Consideraciones a tener:
 
-or directly
+* La versión 1.0.0 de esta App, presenta a modo general, todos los modelos y tablas que estarán presentes en una futura versión definitiva de freelancercl. Las presentamos con un css básico, a modo de tener ya el archivo para futuro enfocarnos en una buena apariencia para el usuario. Lo mismo al rellenar un form para crear una nueva entidad. Además, todas las relaciones están hechas y checkeadas entre las distintas entidades, de manera que el modelamiento a futuro se hará mucho más fácil teniendo una base firme en el modelo y entendimiento por parte de los desarrolladores. 
 
-```sh
-node index.js
-```
+* Lo mismo ocurre con las validaciones al crear nuevas entidades, por ejemplo, los caracteres de un nombre, que la fecha de término debe ser mayor a la de inicio (actual), etc. A modo de prueba, dejamos ciertas validaciones  que, posteriormente, serán reafinadas de acuerdo a los requerimientos de la página.
 
-or, if you want automatic restart after any change in your files
+* Básicamente, está todo lo que se esperaba para esta entrega de la App, espero seas feliz navegando por ella!
 
-```sh
-yarn dev
-```
+Puedes visitar cada una de ellas en las siguientes rutas (De todos modos, habilitamos una navbar para su facilidad):
 
-Now go to http://localhost:3000 and start browsing :)
+Usuarios: https://freelancercl.herokuapp.com/users
+
+Posts de Oferta: https://freelancercl.herokuapp.com/offeringPosts
+
+Posts de Búsqueda: https://freelancercl.herokuapp.com/searchingPosts
+
+Postulaciones a las Oferta: https://freelancercl.herokuapp.com/postulations
+
+Mensajes: https://freelancercl.herokuapp.com/messages
+
+Reviews de las Ofertas: https://freelancercl.herokuapp.com/reviews
+
+Denuncias a Usuarios o Publicaciones: https://freelancercl.herokuapp.com/reports
+
+La tabla follows también fue creada, pero sin vista (ya que no tenía mucho sentido realizarle ahora independiente del usuario, pero están creadas sus partes necesarias para las siguientes entregas del proyecto)
+
+Además, en estos últimos, las relaciones con usuarios se realizaron en base al siguiente modelo: https://nodeontrain.xyz/tuts/relationship_model/
+
+## Licencia 📄
+
+Este proyecto está bajo la Licencia de la Pontificia Universidad Católica de Chile.
