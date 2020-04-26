@@ -7,6 +7,7 @@
     <% if (env !== 'development') { %>
       <link rel="stylesheet" href="<%= assetPath('app.css') %>">
     <% } %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
 
   <body>
@@ -20,6 +21,17 @@
       <li><a href="/reviews">Reviews</a></li>
       <li><a href="/reports">Reports</a></li>
       <li class="right"><a href="/">About</a></li>
+      
+      <div class="search-container">
+        <form action="/searchResults" class="search-form">
+          
+          <input type="checkbox" name="togBtn" id="togBtn">
+          <input type="search" name="search" placeholder="Search...">
+          <button type="submit" value="Search"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+
+
     </ul>
     <header>
       <div id="logo">
