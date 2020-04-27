@@ -17,7 +17,7 @@
     <tbody>
       <% usersList.forEach((user) => { %>
         <tr>
-          <td><%= user.name %></td>
+          <td><a href="<%= showUserPath(user) %> "><%= user.name %></a></td>
           <td><%= user.email %></td>
           <td><%= user.rating %></td>
           <td><%= user.cvPath %></td>

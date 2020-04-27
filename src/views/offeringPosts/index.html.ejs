@@ -17,7 +17,7 @@
     <tbody>
       <% offeringPostsList.forEach((offeringPost) => { %>
         <tr>
-          <td><%= offeringPost.name %></td>
+          <td><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.name %></a></td>
           <td><%= offeringPost.category %></td>
           <td><%= offeringPost.description %></td>
           <td><%= offeringPost.userId %></td>
