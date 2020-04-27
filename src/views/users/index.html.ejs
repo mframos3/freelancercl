@@ -23,17 +23,21 @@
           <td><%= user.cvPath %></td>
           <td><%= user.imagePath %></td>
           <td><%= user.occupation %></td>
-          <td><a href="<%= editUserPath(user) %>">Edit</a></td>
-          <td>
-            <form action="<%= deleteUserPath(user) %>" method="POST">
-              <input type="hidden" name="_method" value="delete" />
-              <input type="submit" value="Delete" />
-            </form>
-          </td>
+          <% if (currentUser) { %>
+            <td><a href="<%= editUserPath(user) %>">Edit</a></td>
+            <td>
+              <form action="<%= deleteUserPath(user) %>" method="POST">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" value="Delete" />
+              </form>
+            </td>
+          <% } %>
         </tr>
       <% }) %>
     </tbody>
   </table>
 <% } %>
 
-<a href="<%= newUserPath %>">New User</a>
+<% if (currentUser) { %>
+  <a href="<%= newUserPath %>">New User</a>
+<% } %>

@@ -20,6 +20,16 @@
       <li><a href="/messages">Messages</a></li>
       <li><a href="/reviews">Reviews</a></li>
       <li><a href="/reports">Reports</a></li>
+      <% if (currentUser) { %>
+        <!-- <span class="name">Hi <%= currentUser.name %></span> -->
+        <form action="<%= destroySessionPath %>" method="post">
+          <input type="hidden" name="_method" value="delete" />
+          <input type="submit" value="Logout" />
+        </form>
+      <% } else { %>
+        <!-- <span class="name">Hi!</span> -->
+        <a href="<%= newSessionPath %>">Login</a>
+      <% } %>
       <li class="right"><a href="/">About</a></li>
       
       <div class="search-container">
