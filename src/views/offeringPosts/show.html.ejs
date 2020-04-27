@@ -45,7 +45,7 @@
           <td><%= review.comment %></td>
           <td><a href="<%= editReviewPath(review) %>">Edit</a></td>
           <td>
-            <form action="<%= deleteReviewPath(review) %>" method="POST">
+            <form action="<%=deleteReviewPath(review) %>" method="POST">
               <input type="hidden" name="_method" value="delete" />
               <input type="submit" value="Delete" />
             </form>

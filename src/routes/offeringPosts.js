@@ -74,7 +74,7 @@ router.del('offeringPosts.delete', '/:pid', loadOfferingPost, async (ctx) => {
   ctx.redirect(ctx.router.url('offeringPosts.list'));
 });
 
-router.get('offeringPosts.show', '/:pid/', loadOfferingPost, async (ctx) => {
+router.get('offeringPosts.show', '/:pid', loadOfferingPost, async (ctx) => {
   const { offeringPost } = ctx.state;
   const reviewsList = await offeringPost.getReviews();
   await ctx.render('offeringPosts/show', {
@@ -82,10 +82,10 @@ router.get('offeringPosts.show', '/:pid/', loadOfferingPost, async (ctx) => {
     reviewsList,
     newReviewPath: ctx.router.url('reviews.new', { pid: offeringPost.id }),
     editReviewPath: (review) => ctx.router.url('reviews.edit', { rid: review.id, pid: offeringPost.id }),
-    deleteReviewPath: (review) => ctx.router.url('reviews.delete', { rid: review.id }),
+    deleteReviewPath: (review) => ctx.router.url('reviews.delete', { rid: review.id, pid: offeringPost.id }),
   });
 });
 
-router.use('/:pid/reviews', reviews.routes(), reviews.allowedMethods());
+router.use('/:pid/reviews', loadOfferingPost, reviews.routes());
 
 module.exports = router;
