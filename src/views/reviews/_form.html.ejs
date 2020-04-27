@@ -14,10 +14,6 @@
         <input type="hidden" name="_method" value="patch" />
       <% } %>
       <div  class="field">
-        <label for="id_post">id_post</label>
-        <input type="number" name="id_post"><%= review.id_post %></input>
-      </div>
-      <div  class="field">
         <label for="id_worker">id_worker</label>
         <input type="number" name="id_worker"><%= review.id_worker %></input>
       </div>
@@ -29,6 +25,7 @@
         <label for="comment">Comment</label>
         <textarea type="text" name="comment"><%= review.comment %></textarea>
       </div>
+      <input type="hidden" name="id_post" value="<%= postId %>"></input>
       <div  class="field">
         <% if (review.isNewRecord) { %>
           <input type="submit" name="create" value="Create" />

@@ -13,6 +13,7 @@ router.get('searchingPosts.list', '/', async (ctx) => {
     searchingPostsList,
     newSearchingPostPath: ctx.router.url('searchingPosts.new'),
     editSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.edit', { id: searchingPost.id }),
+    showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
     deleteSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.delete', { id: searchingPost.id }),
   });
 });
@@ -66,6 +67,13 @@ router.del('searchingPosts.delete', '/:id', loadSearchingPost, async (ctx) => {
   const { searchingPost } = ctx.state;
   await searchingPost.destroy();
   ctx.redirect(ctx.router.url('searchingPosts.list'));
+});
+
+router.get('searchingPosts.show', '/:id/', loadSearchingPost, async (ctx) => {
+  const { searchingPost } = ctx.state;
+  await ctx.render('searchingPosts/show', {
+    searchingPost,
+  });
 });
 
 module.exports = router;

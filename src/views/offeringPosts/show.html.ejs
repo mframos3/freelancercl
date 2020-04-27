@@ -1,4 +1,28 @@
-<h2>Reviews</h2>
+<h2>Offering Posts</h2>
+  <table id="offeringPosts-list">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>User Owner</th>
+        <th>Publication Date </th>
+        <th>End Date </th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><%= offeringPost.name %></td>
+          <td><%= offeringPost.category %></td>
+          <td><%= offeringPost.description %></td>
+          <td><%= offeringPost.userId %></td>
+          <td><%= offeringPost.createdAt %></td>
+          <td><%= offeringPost.endsAt %></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <h2>Reviews</h2>
 <% if (!reviewsList.length) { %>
   <p>No results</p>
 <% } else { %>

@@ -13,6 +13,7 @@ router.get('users.list', '/', async (ctx) => {
     usersList,
     newUserPath: ctx.router.url('users.new'),
     editUserPath: (user) => ctx.router.url('users.edit', { id: user.id }),
+    showUserPath: (user) => ctx.router.url('users.show', { id: user.id }),
     deleteUserPath: (user) => ctx.router.url('users.delete', { id: user.id }),
   });
 });
@@ -70,5 +71,12 @@ router.del('users.delete', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   await user.destroy();
   ctx.redirect(ctx.router.url('users.list'));
+});
+
+router.get('users.show', '/:id', loadUser, async (ctx) => {
+  const { user } = ctx.state;
+  await ctx.render('users/show', {
+    user,
+  });
 });
 module.exports = router;
