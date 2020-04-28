@@ -1,5 +1,8 @@
 const KoaRouter = require('koa-router');
 
+const fs = require('fs');
+const fileStorage = require('../services/file-storage');
+
 const router = new KoaRouter();
 
 async function loadUser(ctx, next) {
@@ -15,6 +18,7 @@ router.get('users.list', '/', async (ctx) => {
     editUserPath: (user) => ctx.router.url('users.edit', { id: user.id }),
     showUserPath: (user) => ctx.router.url('users.show', { id: user.id }),
     deleteUserPath: (user) => ctx.router.url('users.delete', { id: user.id }),
+    uploadCvPath: ctx.router.url('users.uploadCv'),
   });
 });
 
@@ -77,6 +81,24 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   await ctx.render('users/show', {
     user,
+    uploadCvPath: ctx.router.url('users.uploadCv', { id: user.id }),
   });
 });
+
+// router.get('users.uploadCv', '/:id/uploadCv', loadUser, async (ctx) => {
+//   await ctx.render('users/uploadCv', {
+//     submitCvPath: ctx.router.url('users.loadCv'),
+//   });
+// });
+
+router.patch('users.uploadCv', '/', loadUser, async (ctx) => {
+  const { uploadCv } = ctx.request.files;
+  const user = ctx.state.currentUser;
+  await user.update({
+    cvPath: uploadCv,
+  });
+  await fileStorage.upload(uploadCv);
+  ctx.redirect(ctx.router.url('users.show'), { id: user.id });
+});
+
 module.exports = router;

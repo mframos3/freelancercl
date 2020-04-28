@@ -84,7 +84,7 @@ module.exports = (sequelize, DataTypes) => {
     user.hasMany(models.searchingPost);
     user.hasMany(models.postulation);
     user.hasMany(models.message, { as: 'sender', foreignKey: 'sender_id' });
-    user.hasMany(models.message, { as: 'receiver', foreignKey: 'receiver_id'});
+    user.hasMany(models.message, { as: 'receiver', foreignKey: 'receiver_id' });
     user.hasMany(models.review, { foreignKey: 'id_worker' });
   };
 

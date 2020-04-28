@@ -1,7 +1,4 @@
 const KoaRouter = require('koa-router');
-const bcrypt = require('bcrypt');
-
-const PASSWORD_SALT = 10;
 
 const router = new KoaRouter();
 
@@ -15,7 +12,7 @@ router.put('session.create', '/', async (ctx) => {
   const user = await ctx.orm.user.findOne({ where: { email } });
   const isPasswordCorrect = user && await user.checkPassword(password);
   if (isPasswordCorrect) {
-    ctx.session.userId = bcrypt.hashSync(toString(user.id), PASSWORD_SALT);
+    ctx.session.userId = user.id;
     return ctx.redirect(ctx.router.url('messages.list'));
   }
   return ctx.render('session/new', {

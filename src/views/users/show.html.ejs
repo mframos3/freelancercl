@@ -20,3 +20,15 @@
         </tr>
     </tbody>
   </table>
+
+  <% if (currentUser) { %>
+      <form action="<%= uploadCvPath %>" enctype="multipart/form-data" method="post"> Upload CV
+        <div class="field">
+          <label for="list">Select file</label>
+          <input type="file" name="uploadCv" />
+        </div>
+        <div class="field">
+          <input type="submit" name="uploadCv" value="Upload" />
+        </div>
+      </form>
+  <% } %>
