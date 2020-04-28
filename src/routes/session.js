@@ -1,9 +1,11 @@
 const KoaRouter = require('koa-router');
-const bcrypt = require('bcrypt');
 
-const PASSWORD_SALT = 10;
+const sgMail = require('../config/emailApi');
+
+const msg = require('../mailers/login-email-Api');
 
 const router = new KoaRouter();
+
 
 router.get('session.new', '/new', (ctx) => ctx.render('session/new', {
   createSessionPath: ctx.router.url('session.create'),
@@ -15,7 +17,24 @@ router.put('session.create', '/', async (ctx) => {
   const user = await ctx.orm.user.findOne({ where: { email } });
   const isPasswordCorrect = user && await user.checkPassword(password);
   if (isPasswordCorrect) {
-    ctx.session.userId = bcrypt.hashSync(toString(user.id), PASSWORD_SALT);
+    msg.to = email;
+    sgMail.send(msg).then(() => {}, (error) => {
+      console.error(error);
+      if (error.response) {
+        console.error(error.response.body);
+      }
+    });
+    (async () => {
+      try {
+        await sgMail.send(msg);
+      } catch (error) {
+        console.error(error);
+        if (error.response) {
+          console.error(error.response.body);
+        }
+      }
+    })();
+    ctx.session.userId = user.id;
     return ctx.redirect(ctx.router.url('messages.list'));
   }
   return ctx.render('session/new', {
