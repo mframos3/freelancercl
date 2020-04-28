@@ -7,10 +7,8 @@
       <tr>
         <th>Name</th>
         <th>Category</th>
-        <th>Description</th>
-        <th>User Owner</th>
         <th>Publication Date </th>
-        <th colspan="2">Actions</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -18,16 +16,7 @@
         <tr>
           <td><a href="<%= showSearchingPostPath(searchingPost) %>"><%= searchingPost.name %></a></td>
           <td><%= searchingPost.category %></td>
-          <td><%= searchingPost.description %></td>
-          <td><%= searchingPost.userId %></td>
           <td><%= searchingPost.createdAt %></td>
-          
-          <td><a href="<%= editSearchingPostPath(searchingPost) %>">Edit</a></td>
-          <td>
-          <form action="<%= deleteSearchingPostPath(searchingPost) %>" method="POST">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" value="Delete" />
-          </form>
           </td>
         </tr>
       <% }) %>

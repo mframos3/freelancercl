@@ -16,10 +16,11 @@
       <li><a href="/users">Users</a></li>
       <li><a href="/offeringPosts">Offering Jobs Posts</a></li>
       <li><a href="/searchingPosts">Searching Jobs Posts</a></li>
-      <li><a href="/postulations">Applications</a></li>
-      <li><a href="/messages">Messages</a></li>
-      <li><a href="/reports">Reports</a></li>
       <% if (currentUser) { %>
+        <% if( currentUser.isAdmin) { %>
+          <li><a href="/reports">Reports</a></li>
+          <% } %>
+        <li><a href="/messages">Messages</a></li>
         <!-- <span class="name">Hi <%= currentUser.name %></span> -->
         <form action="<%= destroySessionPath %>" method="post">
           <input type="hidden" name="_method" value="delete" />
@@ -49,6 +50,7 @@
     </header>
     <%- body %>
     <script src="<%= assetPath('app.js') %>"></script>
+    <input type="button" value="Back" onclick="history.back()"/>
   </body>
 
 </html>

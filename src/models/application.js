@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const postulation = sequelize.define('postulation', {
+  const application = sequelize.define('application', {
     userId: {
       type: DataTypes.INTEGER,
       validate: {
@@ -22,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
   }, {});
-  postulation.associate = function associate(models) {
-    postulation.belongsTo(models.offeringPost, { as: 'offeringPost', foreignKey: 'offeringPostId' });
-    postulation.belongsTo(models.user, { as: 'user', foreignKey: 'userId' });
+  application.associate = function associate(models) {
+    application.belongsTo(models.offeringPost, { as: 'offeringPost', foreignKey: 'offeringPostId' });
+    application.belongsTo(models.user, { as: 'user', foreignKey: 'userId' });
   };
-  return postulation;
+  return application;
 };

@@ -57,6 +57,9 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+    },
   }, {});
 
   user.beforeCreate(buildPasswordHash);
@@ -82,9 +85,9 @@ module.exports = (sequelize, DataTypes) => {
     user.hasMany(models.report, { as: 'reportingUser', foreignKey: 'reportingUserId' });
     user.hasMany(models.offeringPost);
     user.hasMany(models.searchingPost);
-    user.hasMany(models.postulation);
+    user.hasMany(models.application);
     user.hasMany(models.message, { as: 'sender', foreignKey: 'sender_id' });
-    user.hasMany(models.message, { as: 'receiver', foreignKey: 'receiver_id'});
+    user.hasMany(models.message, { as: 'receiver', foreignKey: 'receiver_id' });
     user.hasMany(models.review, { foreignKey: 'id_worker' });
   };
 
