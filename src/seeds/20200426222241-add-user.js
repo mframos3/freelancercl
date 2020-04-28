@@ -12,6 +12,7 @@ module.exports = {
         password: bcrypt.hashSync('123456789', PASSWORD_SALT),
         rating: 3,
         occupation: 'jardinero',
+        isAdmin: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -23,6 +24,7 @@ module.exports = {
         occupation: 'gasfiter',
         createdAt: new Date(),
         updatedAt: new Date(),
+        isAdmin: true,
       },
     ];
     return queryInterface.bulkInsert('users', usersData);

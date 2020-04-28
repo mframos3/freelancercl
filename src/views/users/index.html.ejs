@@ -11,7 +11,7 @@
         <th>CV</th>
         <th>Image</th>
         <th>Occupation</th>
-        <th colspan="2">Actions</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -23,15 +23,6 @@
           <td><%= user.cvPath %></td>
           <td><%= user.imagePath %></td>
           <td><%= user.occupation %></td>
-          <% if (currentUser) { %>
-            <td><a href="<%= editUserPath(user) %>">Edit</a></td>
-            <td>
-              <form action="<%= deleteUserPath(user) %>" method="POST">
-                <input type="hidden" name="_method" value="delete" />
-                <input type="submit" value="Delete" />
-              </form>
-            </td>
-          <% } %>
         </tr>
       <% }) %>
     </tbody>

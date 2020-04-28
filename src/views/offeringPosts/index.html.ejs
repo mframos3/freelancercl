@@ -7,11 +7,7 @@
       <tr>
         <th>Name</th>
         <th>Category</th>
-        <th>Description</th>
-        <th>User Owner</th>
-        <th>Publication Date </th>
         <th>End Date </th>
-        <th colspan="2">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -19,17 +15,7 @@
         <tr>
           <td><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.name %></a></td>
           <td><%= offeringPost.category %></td>
-          <td><%= offeringPost.description %></td>
-          <td><%= offeringPost.userId %></td>
-          <td><%= offeringPost.createdAt %></td>
           <td><%= offeringPost.endsAt %></td>
-          
-          <td><a href="<%= editOfferingPostPath(offeringPost) %>">Edit</a></td>
-          <td>
-          <form action="<%= deleteOfferingPostPath(offeringPost) %>" method="POST">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" value="Delete" />
-          </form>
           </td>
         </tr>
       <% }) %>

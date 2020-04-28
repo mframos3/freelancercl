@@ -6,6 +6,7 @@
         <th>Description</th>
         <th>User Owner</th>
         <th>Publication Date </th>
+        <th colspan="2">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -13,7 +14,15 @@
           <td><%= searchingPost.name %></td>
           <td><%= searchingPost.category %></td>
           <td><%= searchingPost.description %></td>
-          <td><%= searchingPost.userId %></td>
+          <td><a href="<%= userProfilePath(searchingPost.userId) %>"><%= searchingPost.username %></a></td>
           <td><%= searchingPost.createdAt %></td>
+          <td><% if(currentUser.id == searchingPost.userId) { %><a href="<%= editSearchingPostPath %>">Edit</a> <% } %></td>
+          <td>
+          <% if(currentUser.id == searchingPost.userId) { %>
+          <form action="<%= deleteSearchingPostPath %>" method="POST">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" value="Delete" />
+          </form>
+          <% } %>
     </tbody>
   </table>

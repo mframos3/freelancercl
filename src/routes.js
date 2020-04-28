@@ -4,7 +4,6 @@ const hello = require('./routes/hello');
 const index = require('./routes/index');
 const offeringPosts = require('./routes/offeringPosts');
 const reports = require('./routes/reports');
-const postulations = require('./routes/postulations');
 const searchingPosts = require('./routes/searchingPosts');
 const users = require('./routes/users');
 const messages = require('./routes/messages');
@@ -15,7 +14,7 @@ const router = new KoaRouter();
 
 router.use(async (ctx, next) => {
   Object.assign(ctx.state, {
-    currentUser: ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId),
+    currentUser: await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId)),
     newSessionPath: ctx.router.url('session.new'),
     destroySessionPath: ctx.router.url('session.destroy'),
     messagesPath: ctx.router.url('messages.list'),
@@ -27,7 +26,6 @@ router.use('/', index.routes());
 router.use('/hello', hello.routes());
 router.use('/offeringPosts', offeringPosts.routes());
 router.use('/reports', reports.routes());
-router.use('/postulations', postulations.routes());
 router.use('/searchingPosts', searchingPosts.routes());
 router.use('/users', users.routes());
 router.use('/messages', messages.routes());

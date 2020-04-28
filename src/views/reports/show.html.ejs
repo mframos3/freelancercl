@@ -1,0 +1,27 @@
+<table id="reports-list">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th>Reporting User</th>
+      <th>Reported User</th>
+      <th>Reported Post</th>
+      <th colspan="2">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><%= report.title %></td>
+        <td><%= report.content %></td>
+        <td><a href="<%= userProfilePath(report.reportingUserId) %>"><%= report.reportingUserId %></a></td>
+        <td><a href="<%= userProfilePath(report.reportedUserId) %>"><%= report.reportedUserId %></a></td>
+        <td><a href="<%= postPath(report.reportedPost) %>"><%= report.reportedPost %></a></td>
+        <td><a href="<%= editReportPath %>">Edit</a></td>
+          <td>
+            <form action="<%= deleteReportPath %>" method="POST">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="submit" value="Delete" />
+            </form>
+          </td>
+  </tbody>
+</table>
