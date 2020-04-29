@@ -1,5 +1,9 @@
 const KoaRouter = require('koa-router');
 
+const Sequelize = require('sequelize');
+
+const { Op } = Sequelize;
+
 const router = new KoaRouter();
 const reviews = require('./reviews');
 const applications = require('./applications');
@@ -10,7 +14,14 @@ async function loadOfferingPost(ctx, next) {
 }
 
 router.get('offeringPosts.list', '/', async (ctx) => {
-  const offeringPostsList = await ctx.orm.offeringPost.findAll();
+  const result = ctx.request.query;
+  const [term, type] = [result.search, result.type];
+  let offeringPostsList = await ctx.orm.offeringPost.findAll();
+  if (type === 'name') {
+    offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { name: { [Op.like]: `%${term}%` } } });
+  } else if (type === 'category') {
+    offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { category: { [Op.like]: `%${term}%` } } });
+  }
   await ctx.render('offeringPosts/index', {
     offeringPostsList,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
@@ -108,6 +119,7 @@ router.get('offeringPosts.show', '/:pid', loadOfferingPost, async (ctx) => {
     deleteOfferingPostPath: ctx.router.url('offeringPosts.delete', { pid: offeringPost.id }),
   });
 });
+
 
 router.use('/:pid/reviews', loadOfferingPost, reviews.routes());
 router.use('/:pid/applications', loadOfferingPost, applications.routes());

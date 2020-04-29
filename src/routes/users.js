@@ -1,5 +1,9 @@
 const KoaRouter = require('koa-router');
 
+const Sequelize = require('sequelize');
+
+const { Op } = Sequelize;
+
 const router = new KoaRouter();
 
 async function loadUser(ctx, next) {
@@ -8,7 +12,14 @@ async function loadUser(ctx, next) {
 }
 
 router.get('users.list', '/', async (ctx) => {
-  const usersList = await ctx.orm.user.findAll();
+  const result = ctx.request.query;
+  const [term, type] = [result.search, result.type];
+  let usersList = await ctx.orm.user.findAll();
+  if (type === 'name') {
+    usersList = await ctx.orm.user.findAll({ where: { name: { [Op.like]: `%${term}%` } } });
+  } else if (type === 'email') {
+    usersList = await ctx.orm.user.findAll({ where: { email: { [Op.eq]: term } } });
+  }
   await ctx.render('users/index', {
     usersList,
     newUserPath: ctx.router.url('users.new'),
