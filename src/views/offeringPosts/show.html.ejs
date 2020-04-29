@@ -8,7 +8,9 @@
         <th>User Owner</th>
         <th>Publication Date </th>
         <th>End Date </th>
+        <% if(currentUser.id == offeringPost.userId || currentUser.isAdmin) { %>
         <th colspan="2">Actions</th>
+        <% } %>
       </tr>
     </thead>
     <tbody>
@@ -19,9 +21,9 @@
           <td><a href="<%= userProfilePath(offeringPost.userId)%>"><%= offeringPost.username %></a></td>
           <td><%= offeringPost.createdAt %></td>
           <td><%= offeringPost.endsAt %></td>
-          <td><% if(currentUser.id == offeringPost.userId) { %><a href="<%= editOfferingPostPath %>">Edit</a> <% } %></td>
+          <% if(currentUser.id == offeringPost.userId || currentUser.isAdmin) { %>
+          <td><a href="<%= editOfferingPostPath %>">Edit</a></td>
           <td>
-          <% if(currentUser.id == offeringPost.userId) { %>
           <form action="<%= deleteOfferingPostPath %>" method="POST">
             <input type="hidden" name="_method" value="delete" />
             <input type="submit" value="Delete" />
@@ -50,9 +52,9 @@
           <td><a href="<%= userProfilePath(review.id_worker)%>"><%= review.username %></a></td>
           <td><%= review.rating %></td>
           <td><%= review.comment %></td>
-        <td><% if(currentUser.id == review.id_worker) { %><a href="<%= editReviewPath(review) %>">Edit</a> <% } %></td>
+          <% if(currentUser.id == offeringPost.userId || currentUser.isAdmin) { %>
+          <td><a href="<%= editReviewPath(review) %>">Edit</a></td>
           <td>
-            <% if(currentUser.id == review.id_worker) { %>
             <form action="<%=deleteReviewPath(review) %>" method="POST">
               <input type="hidden" name="_method" value="delete" />
               <input type="submit" value="Delete" />
@@ -66,7 +68,7 @@
 <% } %>
 
 <a href="<%= newReviewPath %>">New Review</a>
-<%if(currentUser.id == offeringPost.userId) { %>
+<% if(currentUser.id == offeringPost.userId || currentUser.isAdmin) { %>
 <h2>Applications</h2>
 <% if (!applicationsList.length) { %>
   <p>No results</p>

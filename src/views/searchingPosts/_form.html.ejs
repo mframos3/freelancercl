@@ -30,8 +30,7 @@
         <textarea type="text" name="description"><%= searchingPost.description %></textarea>
       </div>
       <div  class="field">
-        <label for="userId">User Owner</label>
-        <input type="number" name="userId"><%= searchingPost.userId %></input>
+        <input type="hidden" name="userId" value=<%= currentUser.id %>></input>
       </div>
       <div  class="field">
         <% if (searchingPost.isNewRecord) { %>
