@@ -1,3 +1,15 @@
+<div class="search-container">
+  <form action="/searchingPosts" class="search-form">
+    <p>Search by:</p>
+    <input type="radio" id="category" name="type" value="category" checked>
+    <label for="category">Category</label><br>
+    <input type="radio" id="name" name="type" value="name">
+    <label for="name">Name</label><br>
+    <input type="search" name="search" placeholder="Search...">
+    <button type="submit" value="Search"><i class="fa fa-search"></i></button>
+  </form>
+</div>
+
 <h2>Searching Posts</h2>
 <% if (!searchingPostsList.length) { %>
   <p>No results</p>
