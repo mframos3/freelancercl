@@ -14,16 +14,18 @@
         <tbody>
             <% messagesList.forEach((message) => { %>
                 <tr>
-                    <td><%= message.sender_id %></td>
-                    <td><%= message.receiver_id %></td>
-                    <td><%= message.content %></td>
-                    <td><a href="<%= editMessagePath(message) %>">Edit</a></td>
-                    <td>
-                        <form action="<%= deleteMessagePath(message) %>" method="POST">
-                            <input type="hidden" name="_method" value="delete" />
-                            <input type="submit" value="Delete" />
-                        </form>
-                    </td>
+                    <% if(currentUser.id == message.sender_id || currentUser.id == message.receiver_id || currentUser.isAdmin) { %>
+                        <td><%= message.sender_id %></td>
+                        <td><%= message.receiver_id %></td>
+                        <td><%= message.content %></td>
+                        <!-- <td><a href="<%= editMessagePath(message) %>">Edit</a></td> -->
+                        <td>
+                            <form action="<%= deleteMessagePath(message) %>" method="POST">
+                                <input type="hidden" name="_method" value="delete" />
+                                <input type="submit" value="Delete" />
+                            </form>
+                        </td>
+                    <% } %>
                 </tr>
             <% }) %>
         </tbody>

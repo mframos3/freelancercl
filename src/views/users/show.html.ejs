@@ -7,7 +7,9 @@
         <th>CV</th>
         <th>Image</th>
         <th>Occupation</th>
+        <% if (currentUser.id == user.id || currentUser.isAdmin) { %>
         <th colspan="2">Actions</th>
+        <% } %>
       </tr>
     </thead>
     <tbody>
@@ -18,7 +20,7 @@
           <td><%= user.cvPath %></td>
           <td><%= user.imagePath %></td>
           <td><%= user.occupation %></td>
-          <% if (currentUser.id == user.id) { %>
+          <% if (currentUser.id == user.id || currentUser.isAdmin) { %>
             <td><a href="<%= editUserPath %>">Edit</a></td>
             <td>
               <form action="<%= deleteUserPath %>" method="POST">
