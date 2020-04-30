@@ -1,11 +1,13 @@
 const KoaRouter = require('koa-router');
 const sgMail = require('../config/emailApi');
 const msg = require('../mailers/login-email-Api');
+
 const router = new KoaRouter();
 
 
 router.get('session.new', '/new', (ctx) => ctx.render('session/new', {
   createSessionPath: ctx.router.url('session.create'),
+  newRegisterPath: ctx.router.url('users.new'),
   notice: ctx.flashMessage.notice,
 }));
 
