@@ -1,7 +1,8 @@
 const KoaRouter = require('koa-router');
-
 const Sequelize = require('sequelize');
+const bcrypt = require('bcrypt');
 
+const PASSWORD_SALT = 10;
 const { Op } = Sequelize;
 
 const router = new KoaRouter();
@@ -38,8 +39,15 @@ router.get('users.new', '/new', async (ctx) => {
 router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
   try {
-    await user.save({ fields: ['name', 'email', 'cvPath', 'imagePath', 'occupation'] });
-    ctx.redirect(ctx.router.url('users.list'));
+    const {
+      name, email, password, cvPath, imagePath, occupation,
+    } = ctx.request.body;
+    const cryptPassword = bcrypt.hashSync(password, PASSWORD_SALT);
+    await user.save({
+      name, email, cryptPassword, cvPath, imagePath, occupation,
+    });
+    ctx.session.userId = user.id;
+    ctx.redirect(ctx.router.url('messages.list'));
   } catch (validationError) {
     await ctx.render('users/new', {
       user,
