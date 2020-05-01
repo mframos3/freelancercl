@@ -35,5 +35,5 @@
   </table>
 <% } %>
 
-<a href="<%= newOfferingPostPath %>">New Offering Post</a>
+<% if(currentUser) {%><a href="<%= newOfferingPostPath %>">New Offering Post</a><% } %>
 

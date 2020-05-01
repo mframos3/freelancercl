@@ -14,7 +14,7 @@
         <tbody>
             <% messagesList.forEach((message) => { %>
                 <tr>
-                    <% if(currentUser.id == message.sender_id || currentUser.id == message.receiver_id || currentUser.isAdmin) { %>
+                    <% if(currentUser && (currentUser.id == message.sender_id || currentUser.id == message.receiver_id || currentUser.isAdmin)) { %>
                         <td><%= message.sender_id %></td>
                         <td><%= message.receiver_id %></td>
                         <td><%= message.content %></td>
