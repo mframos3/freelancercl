@@ -42,9 +42,12 @@ router.get('offeringPosts.new', '/new', async (ctx) => {
 router.post('offeringPosts.create', '/', async (ctx) => {
   const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
   try {
+    // console.log("holaaaa");
     await offeringPost.save({ fields: ['name', 'img', 'category', 'description', 'userId', 'endsAt'] });
+    // console.log("aki si ke no yego");
     ctx.redirect(ctx.router.url('offeringPosts.list'));
   } catch (validationError) {
+    // console.log("chaoo");
     await ctx.render('offeringPosts/new', {
       offeringPost,
       errors: validationError.errors,

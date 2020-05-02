@@ -14,20 +14,25 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
+        notEmpty: { args: true, msg: 'Please enter your name' },
       },
     },
     password: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
+        notEmpty: { args: true, msg: 'You must include a password' },
       },
     },
     email: {
       type: DataTypes.STRING,
       validate: {
-        isEmail: true,
-        notEmpty: true,
+        isEmail: { args: true, msg: 'You didn`t actually include an email' },
+        notEmpty: { args: true, msg: 'You must include an email' },
+        isUnique(value) {
+          user.findOne({ where: { email: value } }).then(() => {
+            throw new Error('This email already exists!');
+          });
+        },
       },
     },
     rating: {
@@ -54,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
     occupation: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
+        notEmpty: { args: true, msg: 'You must include an ocupation' },
       },
     },
     isAdmin: {
