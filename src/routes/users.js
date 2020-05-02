@@ -1,7 +1,7 @@
 const KoaRouter = require('koa-router');
 
-const fs = require('fs');
 const fileStorage = require('../services/file-storage');
+const storage = require('../config/storage');
 
 const router = new KoaRouter();
 
@@ -18,7 +18,7 @@ router.get('users.list', '/', async (ctx) => {
     editUserPath: (user) => ctx.router.url('users.edit', { id: user.id }),
     showUserPath: (user) => ctx.router.url('users.show', { id: user.id }),
     deleteUserPath: (user) => ctx.router.url('users.delete', { id: user.id }),
-    uploadCvPath: ctx.router.url('users.uploadCv'),
+    downloadCvPath: (user) => ctx.router.url('users.downloadCv', { id: user.id }),
   });
 });
 
@@ -81,24 +81,27 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   await ctx.render('users/show', {
     user,
-    uploadCvPath: ctx.router.url('users.uploadCv', { id: user.id }),
+    submitCvPath: ctx.router.url('users.uploadCv', { id: user.id }),
+    downloadCvPath: ctx.router.url('users.downloadCv', { id: user.id }),
   });
 });
 
-// router.get('users.uploadCv', '/:id/uploadCv', loadUser, async (ctx) => {
-//   await ctx.render('users/uploadCv', {
-//     submitCvPath: ctx.router.url('users.loadCv'),
-//   });
-// });
-
-router.patch('users.uploadCv', '/', loadUser, async (ctx) => {
-  const { uploadCv } = ctx.request.files;
-  const user = ctx.state.currentUser;
-  await user.update({
-    cvPath: uploadCv,
-  });
-  await fileStorage.upload(uploadCv);
-  ctx.redirect(ctx.router.url('users.show'), { id: user.id });
+router.post('users.uploadCv', '/:id', loadUser, async (ctx) => {
+  const { user } = ctx.state;
+  const { CV } = ctx.request.files;
+  user.cvPath = CV.name;
+  await user.save();
+  await fileStorage.upload(CV);
+  ctx.redirect(ctx.router.url('users.show', { id: user.id }));
 });
+
+router.get('users.downloadCv', '/:id', loadUser, async (ctx) => {
+  const { user } = ctx.state;
+  console.log('HOLAAA');
+  console.log(user.cvPath);
+  await fileStorage.download(user.cvPath);
+  ctx.redirect(ctx.router.url('offeringPost.list'));
+});
+
 
 module.exports = router;

@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 0,
     },
     cvPath: {
-      type: DataTypes.STRING,
+      type: DataTypes.BLOB,
       validate: {
       },
       defaultValue: 'none',
@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
       },
-      defaultValue: '/src/images/defaultavatar.png',
+      defaultValue: '../src/images/defaultavatar.png',
     },
     occupation: {
       type: DataTypes.STRING,
