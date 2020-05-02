@@ -18,7 +18,7 @@ router.get('users.list', '/', async (ctx) => {
     editUserPath: (user) => ctx.router.url('users.edit', { id: user.id }),
     showUserPath: (user) => ctx.router.url('users.show', { id: user.id }),
     deleteUserPath: (user) => ctx.router.url('users.delete', { id: user.id }),
-    downloadCvPath: (user) => ctx.router.url('users.downloadCv', { id: user.id }),
+    downloadCVPath: (user) => ctx.router.url('users.downloadCv', { id: user.id }),
   });
 });
 
@@ -82,7 +82,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   await ctx.render('users/show', {
     user,
     submitCvPath: ctx.router.url('users.uploadCv', { id: user.id }),
-    downloadCvPath: ctx.router.url('users.downloadCv', { id: user.id }),
+    downloadCVPath: ctx.router.url('users.downloadCv', { id: user.id }),
   });
 });
 
@@ -99,9 +99,8 @@ router.get('users.downloadCv', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   console.log('HOLAAA');
   console.log(user.cvPath);
-  await fileStorage.download(user.cvPath);
-  ctx.redirect(ctx.router.url('offeringPost.list'));
+  await fileStorage.download('/' + user.cvPath);
+  ctx.redirect(ctx.router.url('users.show', { id: user.id }));
 });
-
 
 module.exports = router;
