@@ -36,5 +36,5 @@
   </table>
 <% } %>
 
-<a href="<%= newSearchingPostPath %>">New Searching Post</a>
+<% if (currentUser) { %><a href="<%= newSearchingPostPath %>">New Searching Post</a> <% } %>
 
