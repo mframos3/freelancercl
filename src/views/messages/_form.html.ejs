@@ -17,8 +17,7 @@
           <input type="hidden" name="sender_id" value="<%= currentUser.id %>"> </input>
         </div>
         <div  class="field">
-          <label for="receiver_id">Receiver_ID</label>
-          <input type="number" name="receiver_id"><%= message.receiver_id %> </input>
+          <input type="hidden" name="receiver_id" value="<%= receiverId %>"></input>
         </div>
         <div  class="field">
           <label for="message">Content</label>

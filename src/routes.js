@@ -18,6 +18,7 @@ router.use(async (ctx, next) => {
     newSessionPath: ctx.router.url('session.new'),
     newRegisterPath: ctx.router.url('users.new'),
     destroySessionPath: ctx.router.url('session.destroy'),
+    landingPath: ctx.router.url('index.landing'),
     messagesPath: ctx.router.url('messages.list'),
   });
   return next();
