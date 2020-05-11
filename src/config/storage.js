@@ -1,7 +1,8 @@
 module.exports = {
   provider: 'amazon',
-  keyId: 'T7QHTHGWSI57EAEH2JVN',
-  key: 'xcCq2amoHcqaWqKh8Ng2sPqOYco2awU4ZIsZ9ngVDzA',
+  keyId: 'ZAEY6LGV5N662VCMTFS3',
+  key: 'BNfV6wjRlPKhek9J54Hnz4JunbkS34sXMp604r5W0Ko',
   region: 'sfo2',
   endpoint: 'https://sfo2.digitaloceanspaces.com',
+  // ACL: 'FULL_CONTROL',
 };

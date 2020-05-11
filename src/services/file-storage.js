@@ -21,7 +21,7 @@ class FileStorage {
         reject(this.noClientError);
       }
       const remote = fileData.name;
-      const writeStream = this.client.upload({ container: CONTAINER_NAME, remote });
+      const writeStream = this.client.upload({ container: CONTAINER_NAME, remote, acl: 'public-read' });
       writeStream.on('error', reject);
       writeStream.on('success', resolve);
       const fileStream = fs.createReadStream(fileData.path);

@@ -5,29 +5,32 @@
         <th>Email</th>
         <th>Rating</th>
         <th>CV</th>
-        <th>Image</th>
         <th>Occupation</th>
       </tr>
     </thead>
     <tbody>
+        <img src="<%= user.imagePath %>" >
         <tr>
           <td><%= user.name %></td>
           <td><%= user.email %></td>
           <td><%= user.rating %></td>
-          <td><a href="<%= downloadCVPath %>"> CV</a></td>
-          <td><%= user.imagePath %></td>
+          <td><a href="<%= user.cvPath %>">Download CV</a></td>
           <td><%= user.occupation %></td>
         </tr>
     </tbody>
   </table>
 
   <% if (currentUser) { %>
-    <form action="<%= submitCvPath %>" enctype="multipart/form-data" method="post"> Upload CV
+    <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
       <div class="field">
-        <label for="CV">Select file</label>
+        <label for="CV">Select CV</label>
         <input type="file" name="CV" />
       </div>
-      <div class="field">
-        <input type="submit" name="uploadCv" value="Upload" />
-      </div>
+        <div class="field">
+          <label for="img">Select Profile Picture</label>
+          <input type="file" name="img" />
+        </div>
+        <div class="field">
+          <input type="submit" name="uploadFile" value="Upload" />
+        </div>
     </form>  <% } %>

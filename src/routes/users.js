@@ -79,28 +79,45 @@ router.del('users.delete', '/:id', loadUser, async (ctx) => {
 
 router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
+  // const downloadCv = 'https://freelancercl.sfo2.digitaloceanspaces.com/' + user.cvPath;
   await ctx.render('users/show', {
     user,
-    submitCvPath: ctx.router.url('users.uploadCv', { id: user.id }),
-    downloadCVPath: ctx.router.url('users.downloadCv', { id: user.id }),
+    submitFilePath: ctx.router.url('users.uploadFile', { id: user.id }),
+    // downloadCv,
+    // downloadCvPath: ctx.router.url('users.downloadCv', { id: user.id }),
+    // downloadPicturePath: ctx.router.url('users.downloadPicture', { id: user.id }),
   });
 });
 
-router.post('users.uploadCv', '/:id', loadUser, async (ctx) => {
+router.post('users.uploadFile', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
-  const { CV } = ctx.request.files;
-  user.cvPath = CV.name;
+  const { img, CV } = ctx.request.files;
+  if (img.name) {
+    user.imagePath = 'https://freelancercl.sfo2.digitaloceanspaces.com/' + img.name;
+    await fileStorage.upload(img);
+  }
+  if (CV.name) {
+    user.cvPath = 'https://freelancercl.sfo2.digitaloceanspaces.com/' + CV.name;
+    await fileStorage.upload(CV);
+  }
   await user.save();
-  await fileStorage.upload(CV);
   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
 });
 
-router.get('users.downloadCv', '/:id', loadUser, async (ctx) => {
-  const { user } = ctx.state;
-  console.log('HOLAAA');
-  console.log(user.cvPath);
-  await fileStorage.download('/' + user.cvPath);
-  ctx.redirect(ctx.router.url('users.show', { id: user.id }));
-});
+// router.get('users.downloadPicture', '/:id', loadUser, async (ctx) => {
+//   const { user } = ctx.state;
+//   console.log('HOLAAA');
+//   console.log(user.imagePath);
+//   await fileStorage.download('/' + user.imagePath);
+//   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
+// });
+
+// router.get('users.downloadCv', '/:id', loadUser, async (ctx) => {
+//   const { user } = ctx.state;
+//   console.log('HOLAAA');
+//   console.log(user.cvPath);
+//   await fileStorage.download('/' + user.cvPath);
+//   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
+// });
 
 module.exports = router;
