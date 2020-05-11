@@ -49,7 +49,7 @@ router.post('users.create', '/', async (ctx) => {
         name, email, cryptPassword, cvPath, imagePath, occupation,
       });
       ctx.session.userId = user.id;
-      ctx.redirect(ctx.router.url('messages.list'));
+      ctx.redirect(ctx.router.url('index.landing'));
     } else {
       await ctx.render('users/new', {
         user,
@@ -106,6 +106,8 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
     user,
     editUserPath: ctx.router.url('users.edit', { id: user.id }),
     deleteUserPath: ctx.router.url('users.delete', { id: user.id }),
+    sendMessagePath: ctx.router.url('messages.new', { id: user.id }),
   });
 });
+
 module.exports = router;
