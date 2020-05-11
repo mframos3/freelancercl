@@ -25,14 +25,20 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
+      // unique: {
+      //   args: true,
+      //   message: 'Username must be unique.',
+      //   fields: [sequelize.fn('lower', sequelize.col('email'))],
+      // },
       validate: {
         isEmail: { args: true, msg: 'You didn`t actually include an email' },
         notEmpty: { args: true, msg: 'You must include an email' },
-        isUnique(value) {
-          user.findOne({ where: { email: value } }).then(() => {
-            throw new Error('This email already exists!');
-          });
-        },
+        // isUnique(value) {
+        //   user.findOne({ where: { email: value } }).then(() => {
+        //     msg: 'This email already exists!',
+        //     // throw new Error('This email already exists!');
+        //   });
+        // },
       },
     },
     rating: {
