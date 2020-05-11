@@ -1,4 +1,9 @@
 const KoaRouter = require('koa-router');
+const Sequelize = require('sequelize');
+const bcrypt = require('bcrypt');
+
+const PASSWORD_SALT = 10;
+const { Op } = Sequelize;
 
 const fileStorage = require('../services/file-storage');
 const storage = require('../config/storage');
@@ -11,14 +16,18 @@ async function loadUser(ctx, next) {
 }
 
 router.get('users.list', '/', async (ctx) => {
-  const usersList = await ctx.orm.user.findAll();
+  const result = ctx.request.query;
+  const [term, type] = [result.search, result.type];
+  let usersList = await ctx.orm.user.findAll();
+  if (type === 'name') {
+    usersList = await ctx.orm.user.findAll({ where: { name: { [Op.like]: `%${term}%` } } });
+  } else if (type === 'email') {
+    usersList = await ctx.orm.user.findAll({ where: { email: { [Op.eq]: term } } });
+  }
   await ctx.render('users/index', {
     usersList,
     newUserPath: ctx.router.url('users.new'),
-    editUserPath: (user) => ctx.router.url('users.edit', { id: user.id }),
     showUserPath: (user) => ctx.router.url('users.show', { id: user.id }),
-    deleteUserPath: (user) => ctx.router.url('users.delete', { id: user.id }),
-    downloadCVPath: (user) => ctx.router.url('users.downloadCv', { id: user.id }),
   });
 });
 
@@ -33,8 +42,25 @@ router.get('users.new', '/new', async (ctx) => {
 router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
   try {
-    await user.save({ fields: ['name', 'email', 'cvPath', 'imagePath', 'occupation'] });
-    ctx.redirect(ctx.router.url('users.list'));
+    const {
+      name, email, password, cvPath, imagePath, occupation,
+    } = ctx.request.body;
+    const cryptPassword = bcrypt.hashSync(password, PASSWORD_SALT);
+    const emailRevisado = await ctx.orm.user.findOne({ where: { email } });
+    if (emailRevisado == null) {
+      await user.save({
+        name, email, cryptPassword, cvPath, imagePath, occupation,
+      });
+      ctx.session.userId = user.id;
+      ctx.redirect(ctx.router.url('index.landing'));
+    } else {
+      await ctx.render('users/new', {
+        user,
+        errors: { message: 'The email already exist.' },
+        submitUserPath: ctx.router.url('users.create'),
+      });
+      // throw new Error('This email already exist.');
+    }
   } catch (validationError) {
     await ctx.render('users/new', {
       user,
@@ -79,13 +105,13 @@ router.del('users.delete', '/:id', loadUser, async (ctx) => {
 
 router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
-  // const downloadCv = 'https://freelancercl.sfo2.digitaloceanspaces.com/' + user.cvPath;
   await ctx.render('users/show', {
     user,
     submitFilePath: ctx.router.url('users.uploadFile', { id: user.id }),
-    // downloadCv,
-    // downloadCvPath: ctx.router.url('users.downloadCv', { id: user.id }),
-    // downloadPicturePath: ctx.router.url('users.downloadPicture', { id: user.id }),
+    editUserPath: ctx.router.url('users.edit', { id: user.id }),
+    deleteUserPath: ctx.router.url('users.delete', { id: user.id }),
+    sendMessagePath: ctx.router.url('messages.new', { id: user.id }),
+
   });
 });
 
@@ -103,21 +129,5 @@ router.post('users.uploadFile', '/:id', loadUser, async (ctx) => {
   await user.save();
   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
 });
-
-// router.get('users.downloadPicture', '/:id', loadUser, async (ctx) => {
-//   const { user } = ctx.state;
-//   console.log('HOLAAA');
-//   console.log(user.imagePath);
-//   await fileStorage.download('/' + user.imagePath);
-//   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
-// });
-
-// router.get('users.downloadCv', '/:id', loadUser, async (ctx) => {
-//   const { user } = ctx.state;
-//   console.log('HOLAAA');
-//   console.log(user.cvPath);
-//   await fileStorage.download('/' + user.cvPath);
-//   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
-// });
 
 module.exports = router;

@@ -1,3 +1,14 @@
+<div class="search-container">
+  <form action="/users" class="search-form">
+    <p>Search by:</p>
+    <input type="radio" id="email" name="type" value="email" checked>
+    <label for="email">Email</label><br>
+    <input type="radio" id="name" name="type" value="name">
+    <label for="name">Name</label><br>
+    <input type="search" name="search" placeholder="Search...">
+    <button type="submit" value="Search"><i class="fa fa-search"></i></button>
+  </form>
+</div>
 <h2>Users</h2>
 <% if (!usersList.length) { %>
   <p>No results</p>
@@ -10,7 +21,7 @@
         <th>Rating</th>
         <th>Image</th>
         <th>Occupation</th>
-        <th colspan="2">Actions</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -21,15 +32,6 @@
           <td><%= user.rating %></td>
           <td><%= user.imagePath %></td>
           <td><%= user.occupation %></td>
-          <% if (currentUser) { %>
-            <td><a href="<%= editUserPath(user) %>">Edit</a></td>
-            <td>
-              <form action="<%= deleteUserPath(user) %>" method="POST">
-                <input type="hidden" name="_method" value="delete" />
-                <input type="submit" value="Delete" />
-              </form>
-            </td>
-          <% } %>
         </tr>
       <% }) %>
     </tbody>

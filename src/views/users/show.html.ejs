@@ -6,6 +6,9 @@
         <th>Rating</th>
         <th>CV</th>
         <th>Occupation</th>
+        <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
+        <th colspan="3">Actions</th>
+        <% } %>
       </tr>
     </thead>
     <tbody>
@@ -16,6 +19,18 @@
           <td><%= user.rating %></td>
           <td><a href="<%= user.cvPath %>">Download CV</a></td>
           <td><%= user.occupation %></td>
+          <% if (currentUser && currentUser.id != user.id ) { %>
+            <td><a href="<%= sendMessagePath %>">Send Message</a></td>
+          <% } %>
+          <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
+            <td><a href="<%= editUserPath %>">Edit</a></td>
+            <td>
+              <form action="<%= deleteUserPath %>" method="POST">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" value="Delete" />
+              </form>
+            </td>
+          <% } %>
         </tr>
     </tbody>
   </table>

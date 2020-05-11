@@ -1,5 +1,9 @@
 const KoaRouter = require('koa-router');
 
+const Sequelize = require('sequelize');
+
+const { Op } = Sequelize;
+
 const router = new KoaRouter();
 
 
@@ -8,9 +12,18 @@ async function loadSearchingPost(ctx, next) {
   return next();
 }
 router.get('searchingPosts.list', '/', async (ctx) => {
-  const searchingPostsList = await ctx.orm.searchingPost.findAll();
+  const result = ctx.request.query;
+  const [term, type] = [result.search, result.type];
+  let searchingPostsList = await ctx.orm.searchingPost.findAll();
+  if (type === 'name') {
+    searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { name: { [Op.like]: `%${term}%` } } });
+  } else if (type === 'category') {
+    searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { category: { [Op.like]: `%${term}%` } } });
+  }
+
   await ctx.render('searchingPosts/index', {
     searchingPostsList,
+    userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
     newSearchingPostPath: ctx.router.url('searchingPosts.new'),
     editSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.edit', { id: searchingPost.id }),
     showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
@@ -51,8 +64,12 @@ router.get('searchingPosts.edit', '/:id/edit', loadSearchingPost, async (ctx) =>
 router.patch('searchingPosts.update', '/:id', loadSearchingPost, async (ctx) => {
   const { searchingPost } = ctx.state;
   try {
-    const { name, img, category, description, userId } = ctx.request.body;
-    await searchingPost.update({ name, img, category, description, userId });
+    const {
+      name, img, category, description, userId,
+    } = ctx.request.body;
+    await searchingPost.update({
+      name, img, category, description, userId,
+    });
     ctx.redirect(ctx.router.url('searchingPosts.list'));
   } catch (validationError) {
     await ctx.render('searchingPosts/edit', {
@@ -71,8 +88,12 @@ router.del('searchingPosts.delete', '/:id', loadSearchingPost, async (ctx) => {
 
 router.get('searchingPosts.show', '/:id/', loadSearchingPost, async (ctx) => {
   const { searchingPost } = ctx.state;
+  searchingPost.username = (await ctx.orm.user.findByPk(searchingPost.userId)).name;
   await ctx.render('searchingPosts/show', {
     searchingPost,
+    userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
+    editSearchingPostPath: ctx.router.url('searchingPosts.edit', { id: searchingPost.id }),
+    deleteSearchingPostPath: ctx.router.url('searchingPosts.delete', { id: searchingPost.id }),
   });
 });
 

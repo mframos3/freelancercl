@@ -34,8 +34,7 @@
         <input type="date" name="endsAt"></input>
       </div>
       <div  class="field">
-        <label for="userId">User Owner</label>
-        <input type="number" name="userId"></input>
+        <input type="hidden" name="userId" value=<%= currentUser.id %>></input>
       </div>
       <div  class="field">
         <% if (offeringPost.isNewRecord) { %>

@@ -9,24 +9,18 @@
       </ul>
     </div>
   <% } %>
-  <form class="form-style-1" action="<%= submitPostulationPath %>" method="post">
-    <% if (!postulation.isNewRecord) { %>
+  <form class="form-style-1" action="<%= submitApplicationPath %>" method="post">
+    <% if (!application.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
     <div  class="field">
-      <label for="userId">User</label>
-      <input type="number" name="userId"><%= postulation.userId %></input>
-    </div>
-    <div  class="field">
-      <label for="offeringPostId">Offering Post</label>
-      <input type="number" name="offeringPostId"><%= postulation.offeringPostId %></input>
-    </div>
-    <div  class="field">
       <label for="content">Content</label>
-      <textarea type="text" name="content"><%= postulation.content %></textarea>
+      <textarea type="text" name="content"><%= application.content %></textarea>
     </div>
+    <input type="hidden" name="offeringPostId" value="<%=postId%>"></input>
+    <input type="hidden" name="userId" value="<%=currentUser.id%>"></input>
     <div  class="field">
-      <% if (postulation.isNewRecord) { %>
+      <% if (application.isNewRecord) { %>
         <input type="submit" name="create" value="Create" />
       <% } else { %>
         <input type="submit" name="update" value="Update" />

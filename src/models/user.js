@@ -14,20 +14,31 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
+        notEmpty: { args: true, msg: 'Please enter your name' },
       },
     },
     password: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
+        notEmpty: { args: true, msg: 'You must include a password' },
       },
     },
     email: {
       type: DataTypes.STRING,
+      // unique: {
+      //   args: true,
+      //   message: 'Username must be unique.',
+      //   fields: [sequelize.fn('lower', sequelize.col('email'))],
+      // },
       validate: {
-        isEmail: true,
-        notEmpty: true,
+        isEmail: { args: true, msg: 'You didn`t actually include an email' },
+        notEmpty: { args: true, msg: 'You must include an email' },
+        // isUnique(value) {
+        //   user.findOne({ where: { email: value } }).then(() => {
+        //     msg: 'This email already exists!',
+        //     // throw new Error('This email already exists!');
+        //   });
+        // },
       },
     },
     rating: {
@@ -54,8 +65,12 @@ module.exports = (sequelize, DataTypes) => {
     occupation: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
+        notEmpty: { args: true, msg: 'You must include an ocupation' },
       },
+    },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   }, {});
 
@@ -82,7 +97,7 @@ module.exports = (sequelize, DataTypes) => {
     user.hasMany(models.report, { as: 'reportingUser', foreignKey: 'reportingUserId' });
     user.hasMany(models.offeringPost);
     user.hasMany(models.searchingPost);
-    user.hasMany(models.postulation);
+    user.hasMany(models.application);
     user.hasMany(models.message, { as: 'sender', foreignKey: 'sender_id' });
     user.hasMany(models.message, { as: 'receiver', foreignKey: 'receiver_id' });
     user.hasMany(models.review, { foreignKey: 'id_worker' });

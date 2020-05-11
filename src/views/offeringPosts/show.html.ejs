@@ -8,6 +8,9 @@
         <th>User Owner</th>
         <th>Publication Date </th>
         <th>End Date </th>
+        <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+        <th colspan="2">Actions</th>
+        <% } %>
       </tr>
     </thead>
     <tbody>
@@ -15,9 +18,17 @@
           <td><%= offeringPost.name %></td>
           <td><%= offeringPost.category %></td>
           <td><%= offeringPost.description %></td>
-          <td><%= offeringPost.userId %></td>
+          <td><a href="<%= userProfilePath(offeringPost.userId)%>"><%= offeringPost.username %></a></td>
           <td><%= offeringPost.createdAt %></td>
           <td><%= offeringPost.endsAt %></td>
+          <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+          <td><a href="<%= editOfferingPostPath %>">Edit</a></td>
+          <td>
+          <form action="<%= deleteOfferingPostPath %>" method="POST">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" value="Delete" />
+          </form>
+          <% } %>
         </tr>
     </tbody>
   </table>
@@ -29,7 +40,6 @@
   <table id="reviews-list">
     <thead>
       <tr>
-        <th>PostID</th>
         <th>WorkerID</th>
         <th>Rating</th>
         <th>Comment</th>
@@ -39,13 +49,47 @@
     <tbody>
       <% reviewsList.forEach((review) => { %>
         <tr>
-          <td><%= review.id_post %></td>
-          <td><%= review.id_worker %></td>
+          <td><a href="<%= userProfilePath(review.id_worker)%>"><%= review.username %></a></td>
           <td><%= review.rating %></td>
           <td><%= review.comment %></td>
+          <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
           <td><a href="<%= editReviewPath(review) %>">Edit</a></td>
           <td>
             <form action="<%=deleteReviewPath(review) %>" method="POST">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="submit" value="Delete" />
+            </form>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<% if(currentUser) { %><a href="<%= newReviewPath %>">New Review</a> <% } %>
+<% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+<h2>Applications</h2>
+<% if (!applicationsList.length) { %>
+  <p>No results</p>
+<% } else { %>
+  <table id="applications-list">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Content</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% applicationsList.forEach((application) => { %>
+        <tr>
+
+          <td><a href="<%= userProfilePath(application.userId)%>"><%= application.username %></a></td>
+          <td><%= application.content %></td>
+          <td><a href="<%= editApplicationPath(application) %>">Edit</a></td>
+          <td>
+            <form action="<%= deleteApplicationPath(application) %>" method="POST">
               <input type="hidden" name="_method" value="delete" />
               <input type="submit" value="Delete" />
             </form>
@@ -55,5 +99,5 @@
     </tbody>
   </table>
 <% } %>
-
-<a href="<%= newReviewPath %>">New Review</a>
+<%} %>
+<% if (currentUser) { %> <a href="<%= newApplicationPath %>">New Application</a> <% }%>

@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
+        notEmpty: { args: true, msg: 'Include a name please' },
         isAlpha: true,
       },
     },
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
   offeringPost.associate = function associate(models) {
     // associations can be defined here. This method receives a models parameter.
     offeringPost.belongsTo(models.user, { as: 'user', foreignKey: 'userId' });
-    offeringPost.hasMany(models.postulation);
+    offeringPost.hasMany(models.application);
     offeringPost.hasMany(models.report, { foreignKey: 'reportedPost' });
     offeringPost.hasMany(models.review, { foreignKey: 'id_post' });
   };

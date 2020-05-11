@@ -11,9 +11,10 @@ router.get('reports.list', '/', async (ctx) => {
   const reportsList = await ctx.orm.report.findAll();
   await ctx.render('reports/index', {
     reportsList,
+    userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
+    postPath: (reportedPost) => ctx.router.url('offeringPosts.show', { id: reportedPost }),
     newReportPath: ctx.router.url('reports.new'),
-    editReportPath: (report) => ctx.router.url('reports.edit', { id: report.id }),
-    deleteReportPath: (report) => ctx.router.url('reports.delete', { id: report.id }),
+    showReportPath: (report) => ctx.router.url('reports.show', { id: report.id }),
   });
 });
 
@@ -71,4 +72,16 @@ router.del('reports.delete', '/:id', loadReport, async (ctx) => {
   await report.destroy();
   ctx.redirect(ctx.router.url('reports.list'));
 });
+
+router.get('reports.show', '/:id/', loadReport, async (ctx) => {
+  const { report } = ctx.state;
+  await ctx.render('reports/show', {
+    report,
+    userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
+    postPath: (reportedPost) => ctx.router.url('offeringPosts.show', { pid: reportedPost }),
+    editReportPath: ctx.router.url('reports.edit', { id: report.id }),
+    deleteReportPath: ctx.router.url('reports.delete', { id: report.id }),
+  });
+});
+
 module.exports = router;

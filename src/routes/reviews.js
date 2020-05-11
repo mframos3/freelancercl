@@ -13,6 +13,7 @@ router.get('reviews.new', '/new', async (ctx) => {
   await ctx.render('reviews/new', {
     review,
     postId,
+    currentUser: await ctx.state.currentUser,
     submitReviewPath: ctx.router.url('reviews.create', { pid: postId }),
   });
 });
@@ -26,14 +27,14 @@ router.post('reviews.create', '/', async (ctx) => {
     await ctx.render('reviews/new', {
       review,
       errors: validationError.errors,
-      submitReviewPath: ctx.router.url('reviews.create'),
+      submitReviewPath: ctx.router.url('reviews.create', { pid: ctx.state.offeringPost.id }),
     });
   }
 });
 
 router.get('reviews.edit', '/:rid/edit', loadReview, async (ctx) => {
   const { review } = ctx.state;
-  const postId = ctx.state.offeringPost.id;
+  const postId = ctx.params.pid;
   await ctx.render('reviews/edit', {
     review,
     postId,
