@@ -43,11 +43,21 @@ router.post('users.create', '/', async (ctx) => {
       name, email, password, cvPath, imagePath, occupation,
     } = ctx.request.body;
     const cryptPassword = bcrypt.hashSync(password, PASSWORD_SALT);
-    await user.save({
-      name, email, cryptPassword, cvPath, imagePath, occupation,
-    });
-    ctx.session.userId = user.id;
-    ctx.redirect(ctx.router.url('index.landing'));
+    const emailRevisado = await ctx.orm.user.findOne({ where: { email } });
+    if (emailRevisado == null) {
+      await user.save({
+        name, email, cryptPassword, cvPath, imagePath, occupation,
+      });
+      ctx.session.userId = user.id;
+      ctx.redirect(ctx.router.url('index.landing'));
+    } else {
+      await ctx.render('users/new', {
+        user,
+        errors: { message: 'The email already exist.' },
+        submitUserPath: ctx.router.url('users.create'),
+      });
+      // throw new Error('This email already exist.');
+    }
   } catch (validationError) {
     await ctx.render('users/new', {
       user,
