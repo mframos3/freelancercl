@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
       },
-      defaultValue: '/src/images/defaultavatar.png',
+      defaultValue: 'None',
     },
     occupation: {
       type: DataTypes.STRING,

@@ -5,6 +5,9 @@ const bcrypt = require('bcrypt');
 const PASSWORD_SALT = 10;
 const { Op } = Sequelize;
 
+const fileStorage = require('../services/file-storage');
+const storage = require('../config/storage');
+
 const router = new KoaRouter();
 
 async function loadUser(ctx, next) {
@@ -104,10 +107,27 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   await ctx.render('users/show', {
     user,
+    submitFilePath: ctx.router.url('users.uploadFile', { id: user.id }),
     editUserPath: ctx.router.url('users.edit', { id: user.id }),
     deleteUserPath: ctx.router.url('users.delete', { id: user.id }),
     sendMessagePath: ctx.router.url('messages.new', { id: user.id }),
+
   });
+});
+
+router.post('users.uploadFile', '/:id', loadUser, async (ctx) => {
+  const { user } = ctx.state;
+  const { img, CV } = ctx.request.files;
+  if (img.name) {
+    user.imagePath = 'https://freelancercl.sfo2.digitaloceanspaces.com/' + img.name;
+    await fileStorage.upload(img);
+  }
+  if (CV.name) {
+    user.cvPath = 'https://freelancercl.sfo2.digitaloceanspaces.com/' + CV.name;
+    await fileStorage.upload(CV);
+  }
+  await user.save();
+  ctx.redirect(ctx.router.url('users.show', { id: user.id }));
 });
 
 module.exports = router;
