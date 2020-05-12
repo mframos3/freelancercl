@@ -13,9 +13,9 @@
       <tr>
         <td><%= report.title %></td>
         <td><%= report.content %></td>
-        <td><a href="<%= userProfilePath(report.reportingUserId) %>"><%= report.reportingUserId %></a></td>
-        <td><a href="<%= userProfilePath(report.reportedUserId) %>"><%= report.reportedUserId %></a></td>
-        <td><a href="<%= postPath(report.reportedPost) %>"><%= report.reportedPost %></a></td>
+        <td><a href="<%= userProfilePath(report.reportingUserId) %>"><%= report.reportingUserName %></a></td>
+        <td><a href="<%= userProfilePath(report.reportedUserId) %>"><%= report.reportedUserName %></a></td>
+        <td><a href="<%= postPath(report.reportedPost) %>"><%= report.reportedPostName %></a></td>
         <td><a href="<%= editReportPath %>">Edit</a></td>
           <td>
             <form action="<%= deleteReportPath %>" method="POST">

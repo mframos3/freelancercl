@@ -123,6 +123,7 @@ router.get('offeringPosts.show', '/:pid', loadOfferingPost, async (ctx) => {
     editOfferingPostPath: ctx.router.url('offeringPosts.edit', { pid: offeringPost.id }),
     deleteOfferingPostPath: ctx.router.url('offeringPosts.delete', { pid: offeringPost.id }),
     submitFilePath: ctx.router.url('offeringPosts.uploadFile', { pid: offeringPost.id }),
+    reportPostPath: ctx.router.url('reports.new', { pid: offeringPost.id }),
     backPath: ctx.router.url('offeringPosts.list'),
   });
 });

@@ -7,49 +7,72 @@ async function loadReport(ctx, next) {
   return next();
 }
 
+// router.get('reviews.new', '/new', async (ctx) => {
+//   const review = ctx.orm.review.build();
+//   const postId = ctx.state.offeringPost.id;
+//   await ctx.render('reviews/new', {
+//     review,
+//     postId,
+//     currentUser: await ctx.state.currentUser,
+//     submitReviewPath: ctx.router.url('reviews.create', { pid: postId }),
+//   });
+// });
 router.get('reports.list', '/', async (ctx) => {
   const reportsList = await ctx.orm.report.findAll();
   await ctx.render('reports/index', {
     reportsList,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
     postPath: (reportedPost) => ctx.router.url('offeringPosts.show', { id: reportedPost }),
-    newReportPath: ctx.router.url('reports.new'),
     showReportPath: (report) => ctx.router.url('reports.show', { id: report.id }),
   });
 });
 
-router.get('reports.new', '/new', async (ctx) => {
+router.get('reports.new', '/new/:pid', async (ctx) => {
   const report = ctx.orm.report.build();
+  const postId = ctx.params.pid;
+  const postUserId = (await ctx.orm.offeringPost.findByPk(postId)).userId;
   await ctx.render('reports/new', {
     report,
-    submitReportPath: ctx.router.url('reports.create'),
+    postId,
+    postUserId,
+    submitReportPath: ctx.router.url('reports.create', { pid: ctx.params.pid }),
   });
 });
 
-router.post('reports.create', '/', async (ctx) => {
+router.post('reports.create', '/:pid', async (ctx) => {
   const report = ctx.orm.report.build(ctx.request.body);
+  const postId = ctx.params.pid;
+  const postUserId = (await ctx.orm.offeringPost.findByPk(postId)).userId;
   try {
     await report.save({ fields: ['title', 'content', 'reportingUserId', 'reportedUserId', 'reportedPost'] });
     ctx.redirect(ctx.router.url('reports.list'));
   } catch (validationError) {
     await ctx.render('reports/new', {
       report,
+      postId,
+      postUserId,
       errors: validationError.errors,
-      submitReportPath: ctx.router.url('reports.create'),
+      submitReportPath: ctx.router.url('reports.create', { pid: ctx.params.pid }),
     });
   }
 });
 
 router.get('reports.edit', '/:id/edit', loadReport, async (ctx) => {
   const { report } = ctx.state;
+  const postId = report.reportedPost;
+  const postUserId = (await ctx.orm.offeringPost.findByPk(postId)).userId;
   await ctx.render('reports/edit', {
     report,
+    postId,
+    postUserId,
     submitReportPath: ctx.router.url('reports.update', { id: report.id }),
   });
 });
 
 router.patch('reports.update', '/:id', loadReport, async (ctx) => {
   const { report } = ctx.state;
+  const postId = report.reportedPost;
+  const postUserId = (await ctx.orm.offeringPost.findByPk(postId)).userId;
   try {
     const {
       title, content, reportingUserId, reportedUserId, reportedPost,
@@ -61,6 +84,8 @@ router.patch('reports.update', '/:id', loadReport, async (ctx) => {
   } catch (validationError) {
     await ctx.render('reports/edit', {
       report,
+      postId,
+      postUserId,
       errors: validationError.errors,
       submitReportPath: ctx.router.url('reports.update', { id: report.id }),
     });
@@ -75,6 +100,9 @@ router.del('reports.delete', '/:id', loadReport, async (ctx) => {
 
 router.get('reports.show', '/:id/', loadReport, async (ctx) => {
   const { report } = ctx.state;
+  report.reportingUserName = (await ctx.orm.user.findByPk(report.reportingUserId)).name;
+  report.reportedUserName = (await ctx.orm.user.findByPk(report.reportedUserId)).name;
+  report.reportedPostName = (await ctx.orm.offeringPost.findByPk(report.reportedPost)).name;
   await ctx.render('reports/show', {
     report,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
