@@ -28,9 +28,9 @@ Consideraciones a tener:
 
 * Básicamente, está todo lo que se esperaba para esta entrega de la App, espero seas feliz navegando por ella!
 
-* El usuario administrador es:
-    email: user2@example.com
-    contraseña: qwerty 
+* El usuario administrador es:  
+    email: user2@example.com  
+    contraseña: qwerty  
 
 * Las barras de busqueda son sensibles a las mayúsculas.
 
