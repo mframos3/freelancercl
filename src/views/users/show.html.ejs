@@ -1,0 +1,51 @@
+
+<table id="users-list">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Rating</th>
+      <th>CV</th>
+      <th>Occupation</th>
+      <% if (currentUser) { %>
+      <th colspan="2">Actions</th>
+      <% } %>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><% if (user.imagePath) { %><img class="user" src="<%= user.imagePath %>" ><% } %></td>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.rating %></td>
+      <td><% if (user.cvPath) { %> <a href="<%= user.cvPath %>">Download CV</a> <% } %></td>
+        <td><%= user.occupation %></td>
+        <% if (currentUser && currentUser.id != user.id ) { %>
+          <td><a href="<%= sendMessagePath %>">Send Message</a></td>
+        <% } %>
+        <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
+          <td><a href="<%= editUserPath %>">Edit</a></td>
+        <% } %>
+      </tr>
+  </tbody>
+</table>
+
+<% if (currentUser && currentUser.id == user.id) { %>
+  <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
+    <div class="field">
+      <label for="CV">Select CV</label>
+      <input type="file" name="CV" />
+    </div>
+    <div class="field">
+      <label for="img">Select Profile Picture</label>
+      <input type="file" name="img" />
+    </div>
+    <div class="field">
+      <input type="submit" name="uploadFile" value="Upload" />
+    </div>
+    </form> 
+<% } %>
+<form action="<%= backPath %>" method="get">
+  <input type="submit" value="Back" />
+</form>

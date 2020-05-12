@@ -3,19 +3,17 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
-        isAlpha: true,
+        notEmpty: { args: true, msg: 'Include a name please' },
       },
     },
     img: {
       type: DataTypes.STRING,
-      defaultValue: '/src/images/defaultavatar.png',
     },
     category: {
       type: DataTypes.STRING,
       defaultValue: 'General',
       validate: {
-        isAlpha: true,
+        notEmpty: true,
       },
     },
     description: {
@@ -45,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
   offeringPost.associate = function associate(models) {
     // associations can be defined here. This method receives a models parameter.
     offeringPost.belongsTo(models.user, { as: 'user', foreignKey: 'userId' });
-    offeringPost.hasMany(models.postulation);
+    offeringPost.hasMany(models.application);
     offeringPost.hasMany(models.report, { foreignKey: 'reportedPost' });
     offeringPost.hasMany(models.review, { foreignKey: 'id_post' });
   };

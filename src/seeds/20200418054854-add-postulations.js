@@ -9,7 +9,7 @@ module.exports = {
         updatedAt: new Date(),
       },
     ];
-    return queryInterface.bulkInsert('postulations', postulationsData);
+    return queryInterface.bulkInsert('applications', postulationsData);
   },
-  down: (queryInterface) => queryInterface.bulkDelete('postulations', null, {}),
+  down: (queryInterface) => queryInterface.bulkDelete('applications', null, {}),
 };

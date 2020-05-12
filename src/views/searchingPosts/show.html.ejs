@@ -1,0 +1,34 @@
+  <table id="searchingPosts-list">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>User Owner</th>
+        <th>Publication Date </th>
+        <% if(currentUser && (currentUser.id == searchingPost.userId || currentUser.isAdmin)) { %>
+        <th colspan="2">Actions</th>
+        <% } %>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><%= searchingPost.name %></td>
+          <td><%= searchingPost.category %></td>
+          <td><%= searchingPost.description %></td>
+          <td><a href="<%= userProfilePath(searchingPost.userId) %>"><%= searchingPost.username %></a></td>
+          <td><%= searchingPost.createdAt %></td>
+          <td><% if(currentUser && (currentUser.id == searchingPost.userId || currentUser.isAdmin)) { %><a href="<%= editSearchingPostPath %>">Edit</a> <% } %></td>
+          <td>
+          <% if(currentUser && (currentUser.id == searchingPost.userId || currentUser.isAdmin)) { %>
+          <form action="<%= deleteSearchingPostPath %>" method="POST">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" value="Delete" />
+          </form>
+          <% } %>
+    </tbody>
+  </table>
+
+  <form action="<%= backPath %>" method="get">
+    <input type="submit" value="Back" />
+  </form>

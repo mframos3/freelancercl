@@ -18,10 +18,6 @@
         <input type="text" name="name" value="<%= searchingPost.name %>" />
       </div>
       <div  class="field">
-        <label for="img">Image</label>
-        <textarea type="text" name="img"><%= searchingPost.img %></textarea>
-      </div>
-      <div  class="field">
         <label for="category">Category</label>
         <textarea type="text" name="category"><%= searchingPost.category %></textarea>
       </div>
@@ -30,8 +26,7 @@
         <textarea type="text" name="description"><%= searchingPost.description %></textarea>
       </div>
       <div  class="field">
-        <label for="userId">User Owner</label>
-        <input type="number" name="userId"><%= searchingPost.userId %></input>
+        <input type="hidden" name="userId" value=<%= currentUser.id %>></input>
       </div>
       <div  class="field">
         <% if (searchingPost.isNewRecord) { %>
@@ -42,3 +37,7 @@
       </div>
     </form>
   </div>
+
+  <form action="<%= backPath %>" method="get">
+    <input type="submit" value="Back" />
+  </form>

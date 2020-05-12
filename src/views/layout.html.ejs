@@ -7,6 +7,7 @@
     <% if (env !== 'development') { %>
       <link rel="stylesheet" href="<%= assetPath('app.css') %>">
     <% } %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
 
   <body>
@@ -15,11 +16,37 @@
       <li><a href="/users">Users</a></li>
       <li><a href="/offeringPosts">Offering Jobs Posts</a></li>
       <li><a href="/searchingPosts">Searching Jobs Posts</a></li>
-      <li><a href="/postulations">Applications</a></li>
-      <li><a href="/messages">Messages</a></li>
-      <li><a href="/reviews">Reviews</a></li>
-      <li><a href="/reports">Reports</a></li>
-      <li class="right"><a href="/">About</a></li>
+      <% if (currentUser) { %>
+        <% if( currentUser.isAdmin) { %>
+          <li><a href="/reports">Reports</a></li>
+          <% } %>
+        <li><a href="/messages">Messages</a></li>
+        <!-- <span class="name">Hi <%= currentUser.name %></span> -->
+        
+      <% } else { %>
+        <!-- <span class="name">Hi!</span> -->
+      <% } %>
+      <% if (!currentUser) { %>
+        <li class="right"><a href="<%= newSessionPath %>">Login</a></li>
+        <li class="right"><a href="<%= newRegisterPath %>">Register</a></li>
+      <% } else { %>
+        <form action="<%= destroySessionPath %>" method="post">
+          <input type="hidden" name="_method" value="delete" />
+          <li class="right">
+            <input type="submit" value="Logout" />
+          </li>
+        </form> 
+      <% } %>
+      <!-- <div class="search-container">
+        <form action="/searchResults" class="search-form">
+          
+          <input type="checkbox" name="togBtn" id="togBtn">
+          <input type="search" name="search" placeholder="Search...">
+          <button type="submit" value="Search"><i class="fa fa-search"></i></button>
+        </form>
+      </div> -->
+
+
     </ul>
     <header>
       <div id="logo">
@@ -28,6 +55,7 @@
     </header>
     <%- body %>
     <script src="<%= assetPath('app.js') %>"></script>
+    <!-- <input type="button" value="Back" onclick="history.back()"/> -->
   </body>
 
 </html>

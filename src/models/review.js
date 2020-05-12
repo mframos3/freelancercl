@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     comment: {
       type: DataTypes.TEXT,
       validate: {
-        len: [0, 120],
+        len: [1, 120],
       },
     },
 
@@ -35,7 +35,6 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here. This method receives a models parameter.
     review.belongsTo(models.offeringPost, { foreignKey: 'id_post' });
     review.belongsTo(models.user, { foreignKey: 'id_worker' });
-
   };
 
   return review;

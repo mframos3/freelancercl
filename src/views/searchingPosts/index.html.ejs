@@ -1,3 +1,15 @@
+<div class="search-container">
+  <form action="/searchingPosts" class="search-form">
+    <p>Search by:</p>
+    <input type="radio" id="category" name="type" value="category" checked>
+    <label for="category">Category</label><br>
+    <input type="radio" id="name" name="type" value="name">
+    <label for="name">Name</label><br>
+    <input type="search" name="search" placeholder="Search...">
+    <button type="submit" value="Search"><i class="fa fa-search"></i></button>
+  </form>
+</div>
+
 <h2>Searching Posts</h2>
 <% if (!searchingPostsList.length) { %>
   <p>No results</p>
@@ -7,27 +19,16 @@
       <tr>
         <th>Name</th>
         <th>Category</th>
-        <th>Description</th>
-        <th>User Owner</th>
         <th>Publication Date </th>
-        <th colspan="2">Actions</th>
+        
       </tr>
     </thead>
     <tbody>
       <% searchingPostsList.forEach((searchingPost) => { %>
         <tr>
-          <td><%= searchingPost.name %></td>
+          <td><a href="<%= showSearchingPostPath(searchingPost) %>"><%= searchingPost.name %></a></td>
           <td><%= searchingPost.category %></td>
-          <td><%= searchingPost.description %></td>
-          <td><%= searchingPost.userId %></td>
           <td><%= searchingPost.createdAt %></td>
-          
-          <td><a href="<%= editSearchingPostPath(searchingPost) %>">Edit</a></td>
-          <td>
-          <form action="<%= deleteSearchingPostPath(searchingPost) %>" method="POST">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" value="Delete" />
-          </form>
           </td>
         </tr>
       <% }) %>
@@ -35,5 +36,7 @@
   </table>
 <% } %>
 
-<a href="<%= newSearchingPostPath %>">New Searching Post</a>
+<% if (currentUser) { %><a href="<%= newSearchingPostPath %>">New Searching Post</a> <% } %>
+
+<div> <a href="/">Back</a> </div>
 

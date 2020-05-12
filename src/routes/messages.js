@@ -8,33 +8,56 @@ async function loadMessage(ctx, next) {
 }
 
 router.get('messages.list', '/', async (ctx) => {
-  const messagesList = await ctx.orm.message.findAll();
+  const currentUser = await ctx.state.currentUser;
+  const auxmessagesReceived = await ctx.orm.message.findAll({
+    where: { receiver_id: currentUser.id },
+  });
+  const promisesReceived = auxmessagesReceived.map(async (element) => {
+    const newElement = element;
+    newElement.username = (await ctx.orm.user.findByPk(newElement.sender_id)).name;
+    return newElement;
+  });
+  const messagesReceived = await Promise.all(promisesReceived);
+  const auxmessagesSent = await ctx.orm.message.findAll({
+    where: { sender_id: currentUser.id },
+  });
+  const promisesSent = auxmessagesSent.map(async (element) => {
+    const newElement = element;
+    newElement.username = (await ctx.orm.user.findByPk(newElement.receiver_id)).name;
+    return newElement;
+  });
+  const messagesSent = await Promise.all(promisesSent);
   await ctx.render('messages/index', {
-    messagesList,
-    newMessagePath: ctx.router.url('messages.new'),
-    editMessagePath: (message) => ctx.router.url('messages.edit', { id: message.id }),
-    deleteMessagePath: (message) => ctx.router.url('messages.delete', { id: message.id }),
+    messagesReceived,
+    messagesSent,
+    backPath: ctx.router.url('index.landing'),
+    // newMessagePath: ctx.router.url('messages.new'),
+    // editMessagePath: (message) => ctx.router.url('messages.edit', { id: message.id }),
+    // deleteMessagePath: (message) => ctx.router.url('messages.delete', { id: message.id }),
   });
 });
 
-router.get('messages.new', '/new', async (ctx) => {
+router.get('messages.new', '/:id/new', async (ctx) => {
   const message = ctx.orm.message.build();
+  const receiverId = ctx.params.id;
   await ctx.render('messages/new', {
     message,
-    submitMessagePath: ctx.router.url('messages.create'),
+    receiverId,
+    submitMessagePath: ctx.router.url('messages.create', { id: receiverId }),
   });
 });
 
-router.post('messages.create', '/', async (ctx) => {
+router.post('messages.create', '/:id', async (ctx) => {
   const message = ctx.orm.message.build(ctx.request.body);
   try {
     await message.save({ fields: ['sender_id', 'receiver_id', 'content'] });
-    ctx.redirect(ctx.router.url('messages.list'));
+    ctx.redirect(ctx.router.url('users.show', { id: message.receiver_id }));
   } catch (validationError) {
     await ctx.render('messages/new', {
       message,
+      receiverId: ctx.params.id,
       errors: validationError.errors,
-      submitMessagePath: ctx.router.url('messages.create'),
+      submitMessagePath: ctx.router.url('messages.create', { id: ctx.params.id }),
     });
   }
 });
