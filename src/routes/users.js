@@ -6,7 +6,8 @@ const PASSWORD_SALT = 10;
 const { Op } = Sequelize;
 
 const fileStorage = require('../services/file-storage');
-const storage = require('../config/storage');
+const sgMail = require('../config/emailApi');
+const msg = require('../mailers/login-email-Api');
 
 const router = new KoaRouter();
 
@@ -43,14 +44,30 @@ router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
   try {
     const {
-      name, email, password, cvPath, imagePath, occupation,
+      name, email, password, occupation,
     } = ctx.request.body;
     const cryptPassword = bcrypt.hashSync(password, PASSWORD_SALT);
     const emailRevisado = await ctx.orm.user.findOne({ where: { email } });
     if (emailRevisado == null) {
       await user.save({
-        name, email, cryptPassword, cvPath, imagePath, occupation,
+        name, email, cryptPassword, occupation,
       });
+      msg.to = email;
+      sgMail.send(msg).then(() => {}, (error) => {
+        if (error.response) {
+          console.error(error.response.body);
+        }
+      });
+      (async () => {
+        try {
+          await sgMail.send(msg);
+        } catch (error) {
+          console.error(error);
+          if (error.response) {
+            console.error(error.response.body);
+          }
+        }
+      })();
       ctx.session.userId = user.id;
       ctx.redirect(ctx.router.url('index.landing'));
     } else {
@@ -59,7 +76,6 @@ router.post('users.create', '/', async (ctx) => {
         errors: { message: 'The email already exist.' },
         submitUserPath: ctx.router.url('users.create'),
       });
-      // throw new Error('This email already exist.');
     }
   } catch (validationError) {
     await ctx.render('users/new', {
@@ -82,10 +98,10 @@ router.patch('users.update', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   try {
     const {
-      name, email, cvPath, imagePath, occupation,
+      name, password, email, occupation,
     } = ctx.request.body;
     await user.update({
-      name, email, cvPath, imagePath, occupation,
+      name, password, email, occupation,
     });
     ctx.redirect(ctx.router.url('users.list'));
   } catch (validationError) {
@@ -119,11 +135,11 @@ router.post('users.uploadFile', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const { img, CV } = ctx.request.files;
   if (img.name) {
-    user.imagePath = 'https://freelancercl.sfo2.digitaloceanspaces.com/' + img.name;
+    user.imagePath = `https://freelancercl.sfo2.digitaloceanspaces.com/${img.name}`;
     await fileStorage.upload(img);
   }
   if (CV.name) {
-    user.cvPath = 'https://freelancercl.sfo2.digitaloceanspaces.com/' + CV.name;
+    user.cvPath = `https://freelancercl.sfo2.digitaloceanspaces.com/${CV.name}`;
     await fileStorage.upload(CV);
   }
   await user.save();

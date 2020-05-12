@@ -16,10 +16,10 @@
   <table id="users-list">
     <thead>
       <tr>
+        <th></th>
         <th>Name</th>
         <th>Email</th>
         <th>Rating</th>
-        <th>Image</th>
         <th>Occupation</th>
         
       </tr>
@@ -27,17 +27,13 @@
     <tbody>
       <% usersList.forEach((user) => { %>
         <tr>
+          <td><img class="user" src="<%= user.imagePath%>"></td>
           <td><a href="<%= showUserPath(user) %> "><%= user.name %></a></td>
           <td><%= user.email %></td>
           <td><%= user.rating %></td>
-          <td><%= user.imagePath %></td>
           <td><%= user.occupation %></td>
         </tr>
       <% }) %>
     </tbody>
   </table>
-<% } %>
-
-<% if (currentUser) { %>
-  <a href="<%= newUserPath %>">New User</a>
 <% } %>

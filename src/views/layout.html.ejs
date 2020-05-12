@@ -22,16 +22,21 @@
           <% } %>
         <li><a href="/messages">Messages</a></li>
         <!-- <span class="name">Hi <%= currentUser.name %></span> -->
-        <form action="<%= destroySessionPath %>" method="post">
-          <input type="hidden" name="_method" value="delete" />
-          <input type="submit" value="Logout" />
-        </form>
+        
       <% } else { %>
         <!-- <span class="name">Hi!</span> -->
       <% } %>
-      <li class="right"><a href="<%= newSessionPath %>">Login</a></li>
-      <li class="right"><a href="<%= newRegisterPath %>">Register</a></li>
-      
+      <% if (!currentUser) { %>
+        <li class="right"><a href="<%= newSessionPath %>">Login</a></li>
+        <li class="right"><a href="<%= newRegisterPath %>">Register</a></li>
+      <% } else { %>
+        <form action="<%= destroySessionPath %>" method="post">
+          <input type="hidden" name="_method" value="delete" />
+          <li class="right">
+            <input type="submit" value="Logout" />
+          </li>
+        </form> 
+      <% } %>
       <!-- <div class="search-container">
         <form action="/searchResults" class="search-form">
           
