@@ -75,6 +75,7 @@ router.get('users.edit', '/:id/edit', loadUser, async (ctx) => {
   await ctx.render('users/edit', {
     user,
     submitUserPath: ctx.router.url('users.update', { id: user.id }),
+    backPath: ctx.router.url('users.show', { id: user.id }),
   });
 });
 
@@ -111,7 +112,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
     editUserPath: ctx.router.url('users.edit', { id: user.id }),
     deleteUserPath: ctx.router.url('users.delete', { id: user.id }),
     sendMessagePath: ctx.router.url('messages.new', { id: user.id }),
-
+    backPath: ctx.router.url('users.list'),
   });
 });
 

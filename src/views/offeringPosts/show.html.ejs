@@ -101,3 +101,7 @@
 <% } %>
 <%} %>
 <% if (currentUser) { %> <a href="<%= newApplicationPath %>">New Application</a> <% }%>
+
+<form action="<%= backPath %>" method="get">
+  <input type="submit" value="Back" />
+</form>
