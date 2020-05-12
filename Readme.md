@@ -16,7 +16,7 @@ Quarantinos propone una aplicación tipo red social con bulletin board digital. 
 
 ### Ya Puedes dejar de esperar!
 
-La primera versión de freelancercl ya está disponible en tu navegador, solo debes hacer click en el siguiente link y listo!
+La segunda versión de freelancercl ya está disponible en tu navegador, solo debes hacer click en el siguiente link y listo!
 
 https://freelancercl.herokuapp.com
 
@@ -28,21 +28,13 @@ Consideraciones a tener:
 
 * Básicamente, está todo lo que se esperaba para esta entrega de la App, espero seas feliz navegando por ella!
 
-Puedes visitar cada una de ellas en las siguientes rutas (De todos modos, habilitamos una navbar para su facilidad):
+* El usuario administrador es:
+    email: user2@example.com
+    contraseña: qwerty 
 
-Usuarios: https://freelancercl.herokuapp.com/users
+* Las barras de busqueda son sensibles a las mayúsculas.
 
-Posts de Oferta: https://freelancercl.herokuapp.com/offeringPosts
-
-Posts de Búsqueda: https://freelancercl.herokuapp.com/searchingPosts
-
-Postulaciones a las Oferta: https://freelancercl.herokuapp.com/postulations
-
-Mensajes: https://freelancercl.herokuapp.com/messages
-
-Reviews de las Ofertas: https://freelancercl.herokuapp.com/reviews
-
-Denuncias a Usuarios o Publicaciones: https://freelancercl.herokuapp.com/reports
+* El mail se manda cuando uno se registra, esta la probabilidad de que se mande a spam.
 
 La tabla follows también fue creada, pero sin vista (ya que no tenía mucho sentido realizarle ahora independiente del usuario, pero están creadas sus partes necesarias para las siguientes entregas del proyecto)
 
