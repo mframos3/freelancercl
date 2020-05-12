@@ -98,10 +98,10 @@ router.patch('users.update', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   try {
     const {
-      name, email, occupation,
+      name, password, email, occupation,
     } = ctx.request.body;
     await user.update({
-      name, email, occupation,
+      name, password, email, occupation,
     });
     ctx.redirect(ctx.router.url('users.list'));
   } catch (validationError) {
