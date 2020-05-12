@@ -1,4 +1,3 @@
-
 <table id="users-list">
   <thead>
     <tr>
@@ -11,6 +10,9 @@
       <% if (currentUser) { %>
       <th colspan="2">Actions</th>
       <% } %>
+      <% if (currentUser && currentUser.isAdmin) { %>
+        <th>Actions</th>
+        <% } %>
     </tr>
   </thead>
   <tbody>
@@ -27,6 +29,13 @@
         <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
           <td><a href="<%= editUserPath %>">Edit</a></td>
         <% } %>
+        <% if (currentUser && currentUser.isAdmin) { %>
+        <td><form action="<%= deleteUserPath %>" method="POST">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" value="Delete" />
+        <% } %>
+        </form>
+      </td>
       </tr>
   </tbody>
 </table>

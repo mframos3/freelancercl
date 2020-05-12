@@ -127,8 +127,8 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
     user,
     submitFilePath: ctx.router.url('users.uploadFile', { id: user.id }),
     editUserPath: ctx.router.url('users.edit', { id: user.id }),
-    deleteUserPath: ctx.router.url('users.delete', { id: user.id }),
     sendMessagePath: ctx.router.url('messages.new', { id: user.id }),
+    deleteUserPath: ctx.router.url('users.delete', { id: user.id }),
     backPath: ctx.router.url('users.list'),
   });
 });
