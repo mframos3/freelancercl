@@ -30,6 +30,7 @@ router.get('messages.list', '/', async (ctx) => {
   await ctx.render('messages/index', {
     messagesReceived,
     messagesSent,
+    backPath: ctx.router.url('index.landing'),
     // newMessagePath: ctx.router.url('messages.new'),
     // editMessagePath: (message) => ctx.router.url('messages.edit', { id: message.id }),
     // deleteMessagePath: (message) => ctx.router.url('messages.delete', { id: message.id }),

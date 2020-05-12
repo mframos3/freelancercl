@@ -36,6 +36,7 @@ router.get('offeringPosts.new', '/new', async (ctx) => {
   await ctx.render('offeringPosts/new', {
     offeringPost,
     submitOfferingPostPath: ctx.router.url('offeringPosts.create'),
+    backPath: ctx.router.url('offeringPosts.list'),
   });
 });
 
@@ -49,6 +50,7 @@ router.post('offeringPosts.create', '/', async (ctx) => {
       offeringPost,
       errors: validationError.errors,
       submitOfferingPostPath: ctx.router.url('offeringPosts.create'),
+      backPath: ctx.router.url('offeringPosts.list'),
     });
   }
 });
@@ -58,6 +60,7 @@ router.get('offeringPosts.edit', '/:pid/edit', loadOfferingPost, async (ctx) => 
   await ctx.render('offeringPosts/edit', {
     offeringPost,
     submitOfferingPostPath: ctx.router.url('offeringPosts.update', { pid: offeringPost.id }),
+    backPath: ctx.router.url('offeringPosts.show', { pid: offeringPost.id }),
   });
 });
 
@@ -117,6 +120,7 @@ router.get('offeringPosts.show', '/:pid', loadOfferingPost, async (ctx) => {
     deleteApplicationPath: (application) => ctx.router.url('applications.delete', { aid: application.id, pid: offeringPost.id }),
     editOfferingPostPath: ctx.router.url('offeringPosts.edit', { pid: offeringPost.id }),
     deleteOfferingPostPath: ctx.router.url('offeringPosts.delete', { pid: offeringPost.id }),
+    backPath: ctx.router.url('offeringPosts.list'),
   });
 });
 

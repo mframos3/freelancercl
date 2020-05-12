@@ -36,6 +36,7 @@ router.get('searchingPosts.new', '/new', async (ctx) => {
   await ctx.render('searchingPosts/new', {
     searchingPost,
     submitSearchingPostPath: ctx.router.url('searchingPosts.create'),
+    backPath: ctx.router.url('searchingPosts.list'),
   });
 });
 
@@ -58,6 +59,7 @@ router.get('searchingPosts.edit', '/:id/edit', loadSearchingPost, async (ctx) =>
   await ctx.render('searchingPosts/edit', {
     searchingPost,
     submitSearchingPostPath: ctx.router.url('searchingPosts.update', { id: searchingPost.id }),
+    backPath: ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
   });
 });
 
@@ -94,6 +96,7 @@ router.get('searchingPosts.show', '/:id/', loadSearchingPost, async (ctx) => {
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
     editSearchingPostPath: ctx.router.url('searchingPosts.edit', { id: searchingPost.id }),
     deleteSearchingPostPath: ctx.router.url('searchingPosts.delete', { id: searchingPost.id }),
+    backPath: ctx.router.url('searchingPosts.list'),
   });
 });
 
