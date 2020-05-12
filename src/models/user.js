@@ -54,13 +54,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
       },
-      defaultValue: 'none',
     },
     imagePath: {
       type: DataTypes.STRING,
       validate: {
       },
-      defaultValue: 'None',
     },
     occupation: {
       type: DataTypes.STRING,
