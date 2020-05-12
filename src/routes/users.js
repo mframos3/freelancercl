@@ -110,6 +110,7 @@ router.patch('users.update', '/:id', loadUser, async (ctx) => {
       user,
       errors: validationError.errors,
       submitUserPath: ctx.router.url('users.update', { id: user.id }),
+      backPath: ctx.router.url('users.show', { id: user.id }),
     });
   }
 });

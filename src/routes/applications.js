@@ -18,7 +18,7 @@ router.get('applications.new', '/new', async (ctx) => {
   });
 });
 
-router.post('applications.create', '/', async (ctx) => {
+router.post('applications.create', '/:pid', async (ctx) => {
   const application = ctx.orm.application.build(ctx.request.body);
   try {
     await application.save({ fields: ['userId', 'offeringPostId', 'content'] });
@@ -26,6 +26,7 @@ router.post('applications.create', '/', async (ctx) => {
   } catch (validationError) {
     await ctx.render('applications/new', {
       application,
+      postId: ctx.params.pid,
       errors: validationError.errors,
       submitApplicationPath: ctx.router.url('applications.create', { pid: ctx.state.offeringPost.id }),
     });
@@ -38,7 +39,7 @@ router.get('applications.edit', '/:aid/edit', loadApplication, async (ctx) => {
   await ctx.render('applications/edit', {
     application,
     postId,
-    submitApplicationPath: ctx.router.url('applications.update', { aid: application.aid, pid: postId }),
+    submitApplicationPath: ctx.router.url('applications.update', { aid: application.id, pid: postId }),
   });
 });
 
@@ -55,8 +56,9 @@ router.patch('applications.update', '/:aid', loadApplication, async (ctx) => {
   } catch (validationError) {
     await ctx.render('applications/edit', {
       application,
+      postId: ctx.state.offeringPost.id,
       errors: validationError.errors,
-      submitApplicationPath: ctx.router.url('applications.update', { aid: application.aid }),
+      submitApplicationPath: ctx.router.url('applications.update', { aid: application.id, pid: ctx.state.offeringPost.id }),
     });
   }
 });

@@ -43,13 +43,14 @@ router.get('searchingPosts.new', '/new', async (ctx) => {
 router.post('searchingPosts.create', '/', async (ctx) => {
   const searchingPost = ctx.orm.searchingPost.build(ctx.request.body);
   try {
-    await searchingPost.save({ fields: ['name', 'img', 'category', 'description', 'userId'] });
+    await searchingPost.save({ fields: ['name', 'category', 'description', 'userId'] });
     ctx.redirect(ctx.router.url('searchingPosts.list'));
   } catch (validationError) {
     await ctx.render('searchingPosts/new', {
       searchingPost,
       errors: validationError.errors,
       submitSearchingPostPath: ctx.router.url('searchingPosts.create'),
+      backPath: ctx.router.url('searchingPosts.list'),
     });
   }
 });
@@ -67,10 +68,10 @@ router.patch('searchingPosts.update', '/:id', loadSearchingPost, async (ctx) => 
   const { searchingPost } = ctx.state;
   try {
     const {
-      name, img, category, description, userId,
+      name, category, description, userId,
     } = ctx.request.body;
     await searchingPost.update({
-      name, img, category, description, userId,
+      name, category, description, userId,
     });
     ctx.redirect(ctx.router.url('searchingPosts.list'));
   } catch (validationError) {
@@ -78,6 +79,7 @@ router.patch('searchingPosts.update', '/:id', loadSearchingPost, async (ctx) => 
       searchingPost,
       errors: validationError.errors,
       submitSearchingPostPath: ctx.router.url('searchingPosts.update', { id: searchingPost.id }),
+      backPath: ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
     });
   }
 });

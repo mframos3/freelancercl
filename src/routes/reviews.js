@@ -18,7 +18,7 @@ router.get('reviews.new', '/new', async (ctx) => {
   });
 });
 
-router.post('reviews.create', '/', async (ctx) => {
+router.post('reviews.create', '/:pid', async (ctx) => {
   const review = ctx.orm.review.build(ctx.request.body);
   try {
     await review.save({ fields: ['id_post', 'id_worker', 'rating', 'comment'] });
@@ -26,6 +26,7 @@ router.post('reviews.create', '/', async (ctx) => {
   } catch (validationError) {
     await ctx.render('reviews/new', {
       review,
+      postId: ctx.params.pid,
       errors: validationError.errors,
       submitReviewPath: ctx.router.url('reviews.create', { pid: ctx.state.offeringPost.id }),
     });
@@ -55,8 +56,9 @@ router.patch('reviews.update', '/:rid', loadReview, async (ctx) => {
   } catch (validationError) {
     await ctx.render('reviews/edit', {
       review,
+      postId: ctx.state.offeringPost.id,
       errors: validationError.errors,
-      submitReviewPath: ctx.router.url('reviews.update', { rid: review.id }),
+      submitReviewPath: ctx.router.url('reviews.update', { rid: review.id, pid: ctx.state.offeringPost.id }),
     });
   }
 });

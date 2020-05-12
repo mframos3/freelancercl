@@ -37,21 +37,15 @@
       <label for="CV">Select CV</label>
       <input type="file" name="CV" />
     </div>
-      <div class="field">
-        <label for="img">Select Profile Picture</label>
-        <input type="file" name="img" />
-      </div>
-      <div class="field">
-        <input type="submit" name="uploadFile" value="Upload" />
-      </div>
-        <div class="field">
-          <label for="img">Select Profile Picture</label>
-          <input type="file" name="img" />
-        </div>
-        <div class="field">
-          <input type="submit" name="uploadFile" value="Upload" />
-        </div>
-    </form>  <% } %>
-    <form action="<%= backPath %>" method="get">
-      <input type="submit" value="Back" />
-    </form>
+    <div class="field">
+      <label for="img">Select Profile Picture</label>
+      <input type="file" name="img" />
+    </div>
+    <div class="field">
+      <input type="submit" name="uploadFile" value="Upload" />
+    </div>
+    </form> 
+<% } %>
+<form action="<%= backPath %>" method="get">
+  <input type="submit" value="Back" />
+</form>

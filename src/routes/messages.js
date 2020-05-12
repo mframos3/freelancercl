@@ -43,11 +43,11 @@ router.get('messages.new', '/:id/new', async (ctx) => {
   await ctx.render('messages/new', {
     message,
     receiverId,
-    submitMessagePath: ctx.router.url('messages.create'),
+    submitMessagePath: ctx.router.url('messages.create', { id: receiverId }),
   });
 });
 
-router.post('messages.create', '/', async (ctx) => {
+router.post('messages.create', '/:id', async (ctx) => {
   const message = ctx.orm.message.build(ctx.request.body);
   try {
     await message.save({ fields: ['sender_id', 'receiver_id', 'content'] });
@@ -55,8 +55,9 @@ router.post('messages.create', '/', async (ctx) => {
   } catch (validationError) {
     await ctx.render('messages/new', {
       message,
+      receiverId: ctx.params.id,
       errors: validationError.errors,
-      submitMessagePath: ctx.router.url('messages.create'),
+      submitMessagePath: ctx.router.url('messages.create', { id: ctx.params.id }),
     });
   }
 });

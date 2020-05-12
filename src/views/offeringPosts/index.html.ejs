@@ -17,6 +17,7 @@
   <table id="offeringPosts-list">
     <thead>
       <tr>
+        <th></th>
         <th>Name</th>
         <th>Category</th>
         <th>End Date </th>
@@ -25,6 +26,7 @@
     <tbody>
       <% offeringPostsList.forEach((offeringPost) => { %>
         <tr>
+        <td><% if (offeringPost.img) { %> <img class="user" src="<%= offeringPost.img%>"> <% } %></td>
           <td><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.name %></a></td>
           <td><%= offeringPost.category %></td>
           <td><%= offeringPost.endsAt %></td>
