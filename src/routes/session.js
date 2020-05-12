@@ -1,8 +1,5 @@
 const KoaRouter = require('koa-router');
 
-const sgMail = require('../config/emailApi');
-const msg = require('../mailers/login-email-Api');
-
 const router = new KoaRouter();
 
 
@@ -17,23 +14,6 @@ router.put('session.create', '/', async (ctx) => {
   const user = await ctx.orm.user.findOne({ where: { email } });
   const isPasswordCorrect = user && await user.checkPassword(password);
   if (isPasswordCorrect) {
-    msg.to = email;
-    sgMail.send(msg).then(() => {}, (error) => {
-      console.error(error);
-      if (error.response) {
-        console.error(error.response.body);
-      }
-    });
-    (async () => {
-      try {
-        await sgMail.send(msg);
-      } catch (error) {
-        console.error(error);
-        if (error.response) {
-          console.error(error.response.body);
-        }
-      }
-    })();
     ctx.session.userId = user.id;
     return ctx.redirect(ctx.router.url('messages.list'));
   }

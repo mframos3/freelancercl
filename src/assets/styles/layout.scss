@@ -37,7 +37,7 @@ ul.topnav li a:hover:not(.active) {background-color: #111;}
 
 ul.topnav li a.active {background-color: #4CAF50;}
 
-ul.topnav li.right {float: right;}
+ul.topnav li.right {float: right; background-color: #4CAF50;}
 
 
 
@@ -86,3 +86,28 @@ ul.topnav li.right {float: right;}
     border: 1px solid #ccc;  
   }
 }
+
+.topnav input[type=submit], .form-style-1 input[type=button]{
+	background: #4CAF50;
+	padding: 8px 15px 8px 15px;
+	border: none;
+	color: #fff;
+}
+.topnav input[type=submit]:hover, .form-style-1 input[type=button]:hover{
+	background: #4CAF50;
+	box-shadow:none;
+	-moz-box-shadow:none;
+	-webkit-box-shadow:none;
+}
+
+.user {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
