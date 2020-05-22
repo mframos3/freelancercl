@@ -9,9 +9,10 @@
         <th>User Owner</th>
         <th>Publication Date </th>
         <th>End Date </th>
-        <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-        <th colspan="4">Actions</th>
+        <% if(currentUser) { %>
+          <th colspan="4">Actions</th>
         <% } %>
+
       </tr>
     </thead>
     <tbody>
@@ -23,7 +24,9 @@
           <td><a href="<%= userProfilePath(offeringPost.userId)%>"><%= offeringPost.username %></a></td>
           <td><%= offeringPost.createdAt %></td>
           <td><%= offeringPost.endsAt %></td>
+          <% if(currentUser) { %>
           <td><a href="<%= reportPostPath %>">Report Post</a></td>
+          <% } %>
           <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
           <td><a href="<%= editOfferingPostPath %>">Edit</a></td>
           <td>
