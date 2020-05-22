@@ -7,6 +7,7 @@
         <th>Category</th>
         <th>Description</th>
         <th>User Owner</th>
+        <th>Precio</th>
         <th>Publication Date </th>
         <th>End Date </th>
         <% if(currentUser) { %>
@@ -22,6 +23,7 @@
           <td><%= offeringPost.category %></td>
           <td><%= offeringPost.description %></td>
           <td><a href="<%= userProfilePath(offeringPost.userId)%>"><%= offeringPost.username %></a></td>
+          <td><%= offeringPost.price%></td>
           <td><%= offeringPost.createdAt %></td>
           <td><%= offeringPost.endsAt %></td>
           <% if(currentUser) { %>

@@ -44,7 +44,7 @@ router.get('offeringPosts.new', '/new', async (ctx) => {
 router.post('offeringPosts.create', '/', async (ctx) => {
   const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
   try {
-    await offeringPost.save({ fields: ['name', 'category', 'description', 'userId', 'endsAt'] });
+    await offeringPost.save({ fields: ['name', 'category', 'description', 'price', 'userId', 'endsAt'] });
     ctx.redirect(ctx.router.url('offeringPosts.list'));
   } catch (validationError) {
     await ctx.render('offeringPosts/new', {
@@ -69,10 +69,10 @@ router.patch('offeringPosts.update', '/:pid', loadOfferingPost, async (ctx) => {
   const { offeringPost } = ctx.state;
   try {
     const {
-      name, category, description, userId, endsAt,
+      name, category, description, price, userId, endsAt,
     } = ctx.request.body;
     await offeringPost.update({
-      name, category, description, userId, endsAt,
+      name, category, description, price, userId, endsAt,
     });
     ctx.redirect(ctx.router.url('offeringPosts.list'));
   } catch (validationError) {

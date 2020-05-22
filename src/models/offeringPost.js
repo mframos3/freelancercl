@@ -30,6 +30,13 @@ module.exports = (sequelize, DataTypes) => {
         isInt: true,
       },
     },
+    price: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: true,
+        isInt: true,
+      },
+    },
     endsAt: {
       type: DataTypes.DATE,
       validate: {
