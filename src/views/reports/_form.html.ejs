@@ -1,7 +1,7 @@
 <div>
   <% if (locals.errors) { %>
     <div class="errors">
-      You need to fix the following errors:
+      TIenes que solucionar los siguientes errores:
       <ul>
         <% errors.forEach(error => { %>
           <li><%= error.message %></li>
@@ -14,11 +14,11 @@
       <input type="hidden" name="_method" value="patch" />
     <% } %>
     <div  class="field">
-      <label for="title">Title</label>
+      <label for="title">Título</label>
       <input type="text" name="title" value="<%= report.title %>" />
     </div>
     <div  class="field">
-      <label for="content">Content</label>
+      <label for="content">Contenido</label>
       <input type="text" name="content" value="<%= report.content %>" />
     </div>
     <div  class="field">

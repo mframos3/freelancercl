@@ -9,6 +9,7 @@ const reviews = require('./reviews');
 const applications = require('./applications');
 const fileStorage = require('../services/file-storage');
 
+
 async function loadOfferingPost(ctx, next) {
   ctx.state.offeringPost = await ctx.orm.offeringPost.findByPk(ctx.params.pid);
   return next();
