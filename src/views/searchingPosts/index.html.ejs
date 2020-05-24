@@ -1,17 +1,19 @@
 <div class="search-container">
   <form action="/searchingPosts" class="search-form">
-    <p>Search by:</p>
-    <input type="radio" id="category" name="type" value="category" checked>
-    <label for="category">Category</label><br>
-    <input type="radio" id="name" name="type" value="name">
-    <label for="name">Name</label><br>
+      <label for="category">Escoge una categoría:</label>
+      <select name="category" id="category">
+        <option value="Todo">Todo</option>
+        <option value="General">General</option>
+        <option value="Tecnología">Tecnología</option>
+      </select>
+      <br><br>
     <input type="search" name="search" placeholder="Search...">
     <button type="submit" value="Search"><i class="fa fa-search"></i></button>
   </form>
 </div>
 
 <h2>Searching Posts</h2>
-<% if (!searchingPostsList.length) { %>
+<% if (!searchResult.length) { %>
   <p>No results</p>
 <% } else { %>
   <table id="searchingPosts-list">
@@ -24,11 +26,11 @@
       </tr>
     </thead>
     <tbody>
-      <% searchingPostsList.forEach((searchingPost) => { %>
+      <% searchResult.forEach((searchingPost) => { %>
         <tr>
-          <td><a href="<%= showSearchingPostPath(searchingPost) %>"><%= searchingPost.name %></a></td>
-          <td><%= searchingPost.category %></td>
-          <td><%= searchingPost.createdAt %></td>
+          <td><a href="<%= showSearchingPostPath(searchingPost) %>"><%= searchingPost.item.name %></a></td>
+          <td><%= searchingPost.item.category %></td>
+          <td><%= searchingPost.item.createdAt %></td>
           </td>
         </tr>
       <% }) %>
