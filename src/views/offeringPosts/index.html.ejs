@@ -1,17 +1,19 @@
 <div class="search-container">
   <form action="/offeringPosts" class="search-form">
-    <p>Search by:</p>
-    <input type="radio" id="category" name="type" value="category" checked>
-    <label for="category">Category</label><br>
-    <input type="radio" id="name" name="type" value="name">
-    <label for="name">Name</label><br>
+      <label for="category">Escoge una categoría:</label>
+      <select name="category" id="category">
+        <option value="Todo">Todo</option>
+        <option value="General">General</option>
+        <option value="Tecnología">Tecnología</option>
+      </select>
+      <br><br>
     <input type="search" name="search" placeholder="Search...">
     <button type="submit" value="Search"><i class="fa fa-search"></i></button>
   </form>
 </div>
 
 <h2>Offering Posts</h2>
-<% if (!offeringPostsList.length) { %>
+<% if (!searchResult.length) { %>
   <p>No results</p>
 <% } else { %>
   <table id="offeringPosts-list">
@@ -24,12 +26,13 @@
       </tr>
     </thead>
     <tbody>
-      <% offeringPostsList.forEach((offeringPost) => { %>
+      <% searchResult.forEach((offeringPost) => { %>
         <tr>
-        <td><% if (offeringPost.img) { %> <img class="user" src="<%= offeringPost.img%>"> <% } %></td>
-          <td><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.name %></a></td>
-          <td><%= offeringPost.category %></td>
-          <td><%= offeringPost.endsAt %></td>
+        <td><% if (offeringPost.item.img) { %> <img class="user" src="<%= offeringPost.item.img%>"> <% } %></td>
+          <td><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a></td>
+          <td><%= offeringPost.item.category %></td>
+          <td><%= offeringPost.item.endsAt %></td>
+          
           </td>
         </tr>
       <% }) %>
