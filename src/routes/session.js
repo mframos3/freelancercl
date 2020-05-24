@@ -15,7 +15,7 @@ router.put('session.create', '/', async (ctx) => {
   const isPasswordCorrect = user && await user.checkPassword(password);
   if (isPasswordCorrect) {
     ctx.session.userId = user.id;
-    return ctx.redirect(ctx.router.url('messages.list'));
+    return ctx.redirect(ctx.router.url('users.show', { id: user.id }));
   }
   return ctx.render('session/new', {
     email,

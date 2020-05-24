@@ -1,2 +1,55 @@
 <h1>Bienvenido a freelancerCL</h1>
 <!-- <div id="react-app">Here a React app will be rendered</div> -->
+
+
+<% if (currentUser) { %>
+<% if (!offeringPostsList.length) { %>
+    <h2>No tienes Posts de Oferta</h2>
+    <td><a href="<%= newOfferingPostPath %> "> Haz tu primer post de Oferta!</a></td>
+<% }; %>
+
+<% if (!searchingPostsList.length) { %>
+    <h2>No tienes Posts de Búsqueda</h2>
+    <td><a href="<%= newSearchingPostPath %> "> Haz tu primer post de Búsqueda!</a></td>
+<% }; %>
+<% } %>
+<% if (!currentUser) { %>
+    <h2>Únete a la Mejor página de Empleos Freelance!</h2>
+    <h4>Estás solo a un click de expandir tu mundo laboral, ¡Qué esperas!</h4>
+    <td><a href="<%= newRegisterPath %>">Register</a></td>
+    <h4>Si ya tienes una cuenta, inicia sesión!</h4>
+    <td><a href="<%= newSessionPath %>">Login</a></td>
+
+<% } %>
+
+
+<h2>Algunos de los usuarios que utilizan freelancerCl</h2>
+<% if (!bestUsers.length) { %>
+  <p>No results</p>
+<% } else { %>
+  <table id="users-list">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Rating</th>
+        <th>Occupation</th>
+
+        
+      </tr>
+    </thead>
+    <tbody>
+      <% bestUsers.forEach((user) => { %>
+        <tr>
+          <td><img class="user" src="<%= user.imagePath%>"></td>
+          <td><a href="<%= showUserPath(user) %> "><%= user.name %></a></td>
+          <td><%= user.email %></td>
+          <td><%= user.rating %></td>
+          <td><%= user.occupation %></td>
+
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>

@@ -20,6 +20,9 @@ router.use(async (ctx, next) => {
     destroySessionPath: ctx.router.url('session.destroy'),
     landingPath: ctx.router.url('index.landing'),
     messagesPath: ctx.router.url('messages.list'),
+    newSearchingPostPath: ctx.router.url('searchingPosts.new'),
+    newOfferingPostPath: ctx.router.url('offeringPosts.new'),
+    showUserPath: (user) => ctx.router.url('users.show', { id: user.id }),
   });
   return next();
 });

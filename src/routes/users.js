@@ -123,13 +123,22 @@ router.del('users.delete', '/:id', loadUser, async (ctx) => {
 
 router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
+  const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: { [Op.eq]: user.id } } });
+  const searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.eq]: user.id } } });
   await ctx.render('users/show', {
     user,
+    offeringPostsList,
+    searchingPostsList,
     submitFilePath: ctx.router.url('users.uploadFile', { id: user.id }),
     editUserPath: ctx.router.url('users.edit', { id: user.id }),
     sendMessagePath: ctx.router.url('messages.new', { id: user.id }),
     deleteUserPath: ctx.router.url('users.delete', { id: user.id }),
     backPath: ctx.router.url('users.list'),
+    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.id }),
+    showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
+    newSearchingPostPath: ctx.router.url('searchingPosts.new'),
+    newOfferingPostPath: ctx.router.url('offeringPosts.new'),
+
   });
 });
 
