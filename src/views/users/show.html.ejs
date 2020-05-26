@@ -26,6 +26,19 @@
         <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
           <td><a href="<%= editUserPath %>">Edit</a></td>
         <% } %>
+        <% if (currentUser && currentUser.id != user.id && follow) { %>
+          <td>
+            <form action="<%= followPath %>" method="post">
+                <input type="submit" value="Seguir" />
+            </form>
+          </td>
+        <% } else if (currentUser && currentUser.id != user.id && !follow) { %>
+          <td>
+            <form action="<%= followPath %>" method="post">
+                <input type="submit" value="Dejar de Seguir" />
+            </form>
+          </td>
+        <% } %>
         <% if (currentUser && currentUser.isAdmin) { %>
         <td><form action="<%= deleteUserPath %>" method="POST">
             <input type="hidden" name="_method" value="delete" />
