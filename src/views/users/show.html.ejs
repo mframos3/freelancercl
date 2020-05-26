@@ -26,6 +26,19 @@
         <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
           <td><a href="<%= editUserPath %>">Editar</a></td>
         <% } %>
+        <% if (currentUser && currentUser.id != user.id && follow) { %>
+          <td>
+            <form action="<%= followPath %>" method="post">
+                <input type="submit" value="Seguir" />
+            </form>
+          </td>
+        <% } else if (currentUser && currentUser.id != user.id && !follow) { %>
+          <td>
+            <form action="<%= followPath %>" method="post">
+                <input type="submit" value="Dejar de Seguir" />
+            </form>
+          </td>
+        <% } %>
         <% if (currentUser && currentUser.isAdmin) { %>
         <td><form action="<%= deleteUserPath %>" method="POST">
             <input type="hidden" name="_method" value="delete" />
@@ -52,6 +65,65 @@
     </div>
     </form> 
 <% } %>
+
+
+<% if (!offeringPostsList.length) { %>
+  <h2>No tienes Posts de Oferta</h2>
+  <td><a href="<%= newOfferingPostPath %> "> Haz tu primer post de Oferta!</a></td>
+  <% } else { %>
+<h2>Mis Publicaciones de Oferta</h2>
+  <table id="offeringPosts-list">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Fecha de Término </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% offeringPostsList.forEach((offeringPost) => { %>
+        <tr>
+        <td><% if (offeringPost.img) { %> <img class="user" src="<%= offeringPost.img%>"> <% } %></td>
+          <td><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.name %></a></td>
+          <td><%= offeringPost.category %></td>
+          <td><%= offeringPost.endsAt %></td>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+
+
+<% if (!searchingPostsList.length) { %>
+  <h2>No tienes Posts de Búsqueda</h2>
+  <td><a href="<%= newSearchingPostPath %> "> Haz tu primer post de Búsqueda!</a></td>
+  <% } else { %>
+<h2>Mis Publicaciones de Búsqueda</h2>
+  <table id="searchingPosts-list">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Publication Date </th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <% searchingPostsList.forEach((searchingPost) => { %>
+        <tr>
+          <td><a href="<%= showSearchingPostPath(searchingPost) %>"><%= searchingPost.name %></a></td>
+          <td><%= searchingPost.category %></td>
+          <td><%= searchingPost.createdAt %></td>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
 <form action="<%= backPath %>" method="get">
   <input type="submit" value="Back" />
 </form>

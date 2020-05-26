@@ -21,11 +21,8 @@
           <li><a href="/reports">Denuncias</a></li>
           <% } %>
         <li><a href="/messages">Mensajes</a></li>
-        <!-- <span class="name">Hi <%= currentUser.name %></span> -->
-        
-      <% } else { %>
-        <!-- <span class="name">Hi!</span> -->
-      <% } %>
+        <li><a href="<%='/users/'+  currentUser.id %>">Mi Perfil</a></li>        
+      <% }%>
       <% if (!currentUser) { %>
         <li class="right"><a href="<%= newSessionPath %>">Login</a></li>
         <li class="right"><a href="<%= newRegisterPath %>">Registro</a></li>
