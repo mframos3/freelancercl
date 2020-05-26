@@ -13,9 +13,9 @@
   </form>
 </div>
 
-<h2>Offering Posts</h2>
+<h2>Posts de Ofertas</h2>
 <% if (!searchResult.length) { %>
-  <p>No results</p>
+  <p>No hay resultados</p>
 <% } else { %>
   <br>
   <% searchResult.forEach((offeringPost) => { %>
@@ -30,6 +30,6 @@
   <% }) %>
 <% } %>
 
-<% if(currentUser) {%><a href="<%= newOfferingPostPath %>">New Offering Post</a><% } %>
-<div> <a href="/">Back</a> </div>
+<% if(currentUser) {%><a href="<%= newOfferingPostPath %>">Nuevo post de oferta</a><% } %>
+<div> <a href="/">Atrás</a> </div>
 
