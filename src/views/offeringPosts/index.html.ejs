@@ -1,14 +1,15 @@
 <div class="search-container">
   <form action="/offeringPosts" class="search-form">
-      <label for="category">Escoge una categoría:</label>
-      <select name="category" id="category">
-        <option value="Todo">Todo</option>
+    <div class="dropdown">
+      <select class="dropbtn" name="category" id="category" class="custom-select sources" placeholder="Categoría">
+        <option value="Todo">Todas las categorías</option>
         <option value="General">General</option>
         <option value="Tecnología">Tecnología</option>
       </select>
+    </div>
       <br><br>
-    <input type="search" name="search" placeholder="Buscar Post...">
-    <button type="submit" value="Search"><i class="fa fa-search"></i></button>
+    <input type="text" name="search" placeholder="Buscar Post...">
+    <div type="submit" value="Search" class="search"></div>
   </form>
 </div>
 
@@ -16,28 +17,17 @@
 <% if (!searchResult.length) { %>
   <p>No hay resultados</p>
 <% } else { %>
-  <table id="offeringPosts-list">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Nombre</th>
-        <th>Categoría</th>
-        <th>Fecha de término </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% searchResult.forEach((offeringPost) => { %>
-        <tr>
-        <td><% if (offeringPost.item.img) { %> <img class="user" src="<%= offeringPost.item.img%>"> <% } %></td>
-          <td><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a></td>
-          <td><%= offeringPost.item.category %></td>
-          <td><%= offeringPost.item.endsAt %></td>
-          
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
+  <br>
+  <% searchResult.forEach((offeringPost) => { %>
+    <div id="offeringPosts-list"></div>
+      <ol class="listHorizontal">
+        <li><% if (offeringPost.item.img) { %> <img class="user" src="<%= offeringPost.item.img%>"> <% } %></li>
+        <li><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a></li>
+        <li>Fecha publicación: <%= offeringPost.item.createdAt %></li>
+      </ol>
+    </div>
+    <br>
+  <% }) %>
 <% } %>
 
 <% if(currentUser) {%><a href="<%= newOfferingPostPath %>">Nuevo post de oferta</a><% } %>

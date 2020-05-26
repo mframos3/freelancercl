@@ -10,4 +10,3 @@ import '../styles/reviews.scss';
 import '../styles/forms.scss';
 
 // eslint-disable-next-line no-console
-console.log('App is running on the browser too!');

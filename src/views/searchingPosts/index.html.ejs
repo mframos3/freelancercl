@@ -1,14 +1,15 @@
 <div class="search-container">
-  <form action="/searchingPosts" class="search-form">
-      <label for="category">Escoge una categoría:</label>
-      <select name="category" id="category">
-        <option value="Todo">Todo</option>
+  <form action="/offeringPosts" class="search-form">
+    <div class="dropdown">
+      <select class="dropbtn" name="category" id="category" class="custom-select sources" placeholder="Categoría">
+        <option value="Todo">Todas las categorías</option>
         <option value="General">General</option>
         <option value="Tecnología">Tecnología</option>
       </select>
+    </div>
       <br><br>
-    <input type="search" name="search" placeholder="Buscar Post...">
-    <button type="submit" value="Search"><i class="fa fa-search"></i></button>
+    <input type="text" name="search" placeholder="Buscar Post...">
+    <div type="submit" value="Search" class="search"></div>
   </form>
 </div>
 
@@ -16,26 +17,17 @@
 <% if (!searchResult.length) { %>
   <p>No hay resultados</p>
 <% } else { %>
-  <table id="searchingPosts-list">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Categoría</th>
-        <th>Fecha de publicación</th>
-        
-      </tr>
-    </thead>
-    <tbody>
-      <% searchResult.forEach((searchingPost) => { %>
-        <tr>
-          <td><a href="<%= showSearchingPostPath(searchingPost) %>"><%= searchingPost.item.name %></a></td>
-          <td><%= searchingPost.item.category %></td>
-          <td><%= searchingPost.item.createdAt %></td>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
+  <br>
+  <% searchResult.forEach((searchingPost) => { %>
+    <div id="searchingPosts-list"></div>
+      <ol class="listHorizontal">
+        <li><% if (searchingPost.item.img) { %> <img class="user" src="<%= searchingPost.item.img%>"> <% } %></li>
+        <li><a href="<%= showSearchingPostPath(searchingPost) %> "><%= searchingPost.item.name %></a></li>
+        <li>Fecha publicación: <%= searchingPost.item.createdAt %></li>
+      </ol>
+    </div>
+    <br>
+  <% }) %>
 <% } %>
 
 <% if (currentUser) { %><a href="<%= newSearchingPostPath %>">Nuevo post de búsqueda</a> <% } %>

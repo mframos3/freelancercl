@@ -7,14 +7,15 @@ const { Op } = Sequelize;
 const router = new KoaRouter();
 
 router.get('index.landing', '/', async (ctx) => {
-  const user = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
+  const isUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   let offeringPostsList = [];
   let searchingPostsList = [];
-  if (user) {
-    offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: { [Op.eq]: user.id } } });
-    searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.eq]: user.id } } });
+  if (isUser) {
+    offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: { [Op.eq]: isUser.id } } });
+    searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.eq]: isUser.id } } });
   }
   const bestUsers = await ctx.orm.user.findAll({ where: { rating: { [Op.gte]: 4 } } });
+  const user = ctx.orm.user.build();
   await ctx.render('index', {
     appVersion: pkg.version,
     offeringPostsList,
@@ -22,6 +23,11 @@ router.get('index.landing', '/', async (ctx) => {
     bestUsers,
     newSearchingPostPath: ctx.router.url('searchingPosts.new'),
     newOfferingPostPath: ctx.router.url('offeringPosts.new'),
+    createSessionPath: ctx.router.url('session.create'),
+    newRegisterPath: ctx.router.url('users.new'),
+    notice: ctx.flashMessage.notice,
+    submitUserPath: ctx.router.url('users.create'),
+    user,
   });
 });
 
