@@ -1,7 +1,7 @@
 <div>
     <% if (locals.errors) { %>
       <div class="errors">
-        You need to fix the following errors:
+        Tienes que solucionar los siguientes errores:
         <ul>
           <% errors.forEach(error => { %>
             <li><%= error.message %></li>
@@ -14,7 +14,7 @@
         <input type="hidden" name="_method" value="patch" />
       <% } %>
       <div  class="field">
-        <label for="name">Name</label>
+        <label for="name">Nombre</label>
         <input type="text" name="name" value="<%= offeringPost.name %>" />
       </div>
       <div  class="field">
@@ -26,7 +26,7 @@
         </select>
       </div>
       <div  class="field">
-        <label for="description">Description</label>
+        <label for="description">Descripción</label>
         <textarea type="text" name="description"><%= offeringPost.description %></textarea>
       </div>
       <div  class="field">
@@ -34,7 +34,7 @@
         <textarea type="number" name="price"><%= offeringPost.price %></textarea>
       </div>
       <div  class="field">
-        <label for="endsAt">End Date</label>
+        <label for="endsAt">Fecha de Término</label>
         <input type="date" name="endsAt"></input>
       </div>
       <div  class="field">

@@ -1,17 +1,17 @@
-<h2>Offering Posts</h2>
+<h2>Posts de Oferta</h2>
   <table id="offeringPosts-list">
     <thead>
       <tr>
         <th></th>
-        <th>Name</th>
-        <th>Category</th>
-        <th>Description</th>
-        <th>User Owner</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Descripción</th>
+        <th>Creador del Post</th>
         <th>Precio</th>
-        <th>Publication Date </th>
-        <th>End Date </th>
+        <th>Fecha de publicación</th>
+        <th>Fecha de término</th>
         <% if(currentUser) { %>
-          <th colspan="4">Actions</th>
+          <th colspan="4">Acciones</th>
         <% } %>
 
       </tr>
@@ -27,7 +27,7 @@
           <td><%= offeringPost.createdAt %></td>
           <td><%= offeringPost.endsAt %></td>
           <% if(currentUser) { %>
-          <td><a href="<%= reportPostPath %>">Report Post</a></td>
+          <td><a href="<%= reportPostPath %>">Denunciar</a></td>
           <% } %>
           <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
           <td><a href="<%= editOfferingPostPath %>">Edit</a></td>
@@ -39,11 +39,11 @@
           <td>
             <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
                   <div class="field">
-                    <label for="img">Select Picture</label>
+                    <label for="img">Selecciona imagen</label>
                     <input type="file" name="img" />
                   </div>
                   <div class="field">
-                    <input type="submit" name="uploadFile" value="Upload" />
+                    <input type="submit" name="uploadFile" value="Enviar" />
                   </div>
               </form>
           </td>
@@ -52,17 +52,17 @@
     </tbody>
   </table>
 
-  <h2>Reviews</h2>
+  <h2>Reseñas</h2>
 <% if (!reviewsList.length) { %>
-  <p>No results</p>
+  <p>No hay resultados</p>
 <% } else { %>
   <table id="reviews-list">
     <thead>
       <tr>
-        <th>WorkerID</th>
-        <th>Rating</th>
-        <th>Comment</th>
-        <th colspan="2">Actions</th>
+        <th>Nombre de usuario</th>
+        <th>Valoración</th>
+        <th>Comentario</th>
+        <th colspan="2">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -86,18 +86,18 @@
   </table>
 <% } %>
 
-<% if(currentUser) { %><a href="<%= newReviewPath %>">New Review</a> <% } %>
+<% if(currentUser) { %><a href="<%= newReviewPath %>">Nueva Reseña</a> <% } %>
 <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-<h2>Applications</h2>
+<h2>Postulaciones</h2>
 <% if (!applicationsList.length) { %>
-  <p>No results</p>
+  <p>No hay resultados</p>
 <% } else { %>
   <table id="applications-list">
     <thead>
       <tr>
-        <th>User</th>
-        <th>Content</th>
-        <th colspan="2">Actions</th>
+        <th>Nombre de Usuario</th>
+        <th>Contenido</th>
+        <th colspan="2">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -106,7 +106,7 @@
 
           <td><a href="<%= userProfilePath(application.userId)%>"><%= application.username %></a></td>
           <td><%= application.content %></td>
-          <td><a href="<%= editApplicationPath(application) %>">Edit</a></td>
+          <td><a href="<%= editApplicationPath(application) %>">Editar</a></td>
           <td>
             <form action="<%= deleteApplicationPath(application) %>" method="POST">
               <input type="hidden" name="_method" value="delete" />
@@ -119,8 +119,8 @@
   </table>
 <% } %>
 <%} %>
-<% if (currentUser) { %> <a href="<%= newApplicationPath %>">New Application</a> <% }%>
+<% if (currentUser) { %> <a href="<%= newApplicationPath %>">Nueva postulación</a> <% }%>
 
 <form action="<%= backPath %>" method="get">
-  <input type="submit" value="Back" />
+  <input type="submit" value="Atrás" />
 </form>

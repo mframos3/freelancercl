@@ -12,16 +12,16 @@
   </form>
 </div>
 
-<h2>Searching Posts</h2>
+<h2>Posts de Búsqueda</h2>
 <% if (!searchResult.length) { %>
-  <p>No results</p>
+  <p>No hay resultados</p>
 <% } else { %>
   <table id="searchingPosts-list">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Category</th>
-        <th>Publication Date </th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Fecha de publicación</th>
         
       </tr>
     </thead>
@@ -38,7 +38,7 @@
   </table>
 <% } %>
 
-<% if (currentUser) { %><a href="<%= newSearchingPostPath %>">New Searching Post</a> <% } %>
+<% if (currentUser) { %><a href="<%= newSearchingPostPath %>">Nuevo post de búsqueda</a> <% } %>
 
-<div> <a href="/">Back</a> </div>
+<div> <a href="/">Atrás</a> </div>
 
