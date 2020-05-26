@@ -1,3 +1,5 @@
+$freelancer-color: rgb(63, 152, 211);
+
 html, body {
   margin: 0;
   padding: 0;
@@ -35,9 +37,9 @@ ul.topnav li a {
 
 ul.topnav li a:hover:not(.active) {background-color: #111;}
 
-ul.topnav li a.active {background-color: #4CAF50;}
+ul.topnav li a.active {background-color: $freelancer-color;}
 
-ul.topnav li.right {float: right; background-color: #4CAF50;}
+ul.topnav li.right {float: right; background-color: $freelancer-color;}
 
 
 
@@ -88,19 +90,20 @@ ul.topnav li.right {float: right; background-color: #4CAF50;}
 }
 
 .topnav input[type=submit], .form-style-1 input[type=button]{
-	background: #4CAF50;
+	background: $freelancer-color;
 	padding: 8px 15px 8px 15px;
 	border: none;
 	color: #fff;
 }
 .topnav input[type=submit]:hover, .form-style-1 input[type=button]:hover{
-	background: #4CAF50;
+	background: $freelancer-color;
 	box-shadow:none;
 	-moz-box-shadow:none;
 	-webkit-box-shadow:none;
 }
 
 .user {
+  // position: static;
   display: inline-block;
   width: 100px;
   height: 100px;

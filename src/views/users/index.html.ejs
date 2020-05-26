@@ -1,38 +1,30 @@
 <div class="search-container">
   <form action="/users" class="search-form">
-    <input type="search" name="search" placeholder="Buscar Usuario...">
-    <button type="submit" value="Search"><i class="fa fa-search"></i></button>
+    <input type="text" name="search" placeholder="Buscar Usuario...">
+    <div type="submit" value="Search" class="search"></div>
   </form>
 </div>
+
+
 <h2>Users</h2>
 <% if (!searchResult.length) { %>
   <p>No results</p>
 <% } else { %>
-  <table id="users-list">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Rating</th>
-        <th>Occupation</th>
 
-        
-      </tr>
-    </thead>
-    <tbody>
-      <% searchResult.forEach((user) => { %>
-        <tr>
-          <td><img class="user" src="<%= user.item.imagePath%>"></td>
-          <td><a href="<%= showUserPath(user) %> "><%= user.item.name %></a></td>
-          <td><%= user.item.email %></td>
-          <td><%= user.item.rating %></td>
-          <td><%= user.item.occupation %></td>
+  <br>
+  <% searchResult.forEach((user) => { %>
+    <div id="users-list"></div>
+      <ol class="listHorizontal">
+        <li><img class="user" src="<%= user.imagePath%>"></li>
+        <li><a href="<%= showUserPath(user) %> "><%= user.name %></a></li>
+        <li><%= user.email %></li>
+        <li>Rating: <%= user.rating %></li>
+        <li>Ocupación: <%= user.occupation %></li>
+      </ol>
+    </div>
+    <br>
+  <% }) %>
 
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
 <% } %>
 
 <div> <a href="/">Back</a> </div>
