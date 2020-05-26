@@ -148,13 +148,15 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const follow = await ctx.orm.follow.findOne({
     where: { followedId: user.id, followerId: currentUser.id },
   });
+  const offeringPostsList = await ctx.orm.offeringPost.findAll({
+    where: { userId: { [Op.eq]: user.id } },
+  });
+  const searchingPostsList = await ctx.orm.searchingPost.findAll({
+    where: { userId: { [Op.eq]: user.id } },
+  });
   await ctx.render('users/show', {
     user,
     follow,
-  const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: { [Op.eq]: user.id } } });
-  const searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.eq]: user.id } } });
-  await ctx.render('users/show', {
-    user,
     offeringPostsList,
     searchingPostsList,
     submitFilePath: ctx.router.url('users.uploadFile', { id: user.id }),
@@ -167,7 +169,6 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
     showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
     newSearchingPostPath: ctx.router.url('searchingPosts.new'),
     newOfferingPostPath: ctx.router.url('offeringPosts.new'),
-
   });
 });
 
