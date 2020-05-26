@@ -4,6 +4,8 @@ const Sequelize = require('sequelize');
 
 const { Op } = Sequelize;
 
+const Fuse = require('fuse.js');
+
 const router = new KoaRouter();
 
 
@@ -13,21 +15,45 @@ async function loadSearchingPost(ctx, next) {
 }
 router.get('searchingPosts.list', '/', async (ctx) => {
   const result = ctx.request.query;
-  const [term, type] = [result.search, result.type];
-  let searchingPostsList = await ctx.orm.searchingPost.findAll();
-  if (type === 'name') {
-    searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { name: { [Op.like]: `%${term}%` } } });
-  } else if (type === 'category') {
-    searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { category: { [Op.like]: `%${term}%` } } });
+  let [term, category] = [result.search, result.category];
+  if (category === 'Todo') {
+    category = '';
   }
-
+  if (!category) {
+    category = '';
+  }
+  if (!term) {
+    term = '';
+  }
+  const options = {
+    isCaseSensitive: false,
+    // includeScore: false,
+    shouldSort: true,
+    // includeMatches: false,
+    findAllMatches: true,
+    // minMatchCharLength: 1,
+    // location: 0,
+    // threshold: 0.6,
+    // distance: 100,
+    // useExtendedSearch: true,
+    keys: ['dataValues.name'],
+  };
+  const searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { category: { [Op.like]: `%${category}%` } } });
+  const fuse = new Fuse(searchingPostsList, options);
+  let searchResult = fuse.search(term);
+  if (!term) {
+    searchingPostsList.forEach((e) => {
+      e.item = e.dataValues;
+    });
+    searchResult = searchingPostsList;
+  }
   await ctx.render('searchingPosts/index', {
-    searchingPostsList,
+    searchResult,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
     newSearchingPostPath: ctx.router.url('searchingPosts.new'),
-    editSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.edit', { id: searchingPost.id }),
-    showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
-    deleteSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.delete', { id: searchingPost.id }),
+    editSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.edit', { id: searchingPost.item.id }),
+    showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.item.id }),
+    deleteSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.delete', { id: searchingPost.item.id }),
   });
 });
 
@@ -43,13 +69,14 @@ router.get('searchingPosts.new', '/new', async (ctx) => {
 router.post('searchingPosts.create', '/', async (ctx) => {
   const searchingPost = ctx.orm.searchingPost.build(ctx.request.body);
   try {
-    await searchingPost.save({ fields: ['name', 'img', 'category', 'description', 'userId'] });
+    await searchingPost.save({ fields: ['name', 'category', 'description', 'userId'] });
     ctx.redirect(ctx.router.url('searchingPosts.list'));
   } catch (validationError) {
     await ctx.render('searchingPosts/new', {
       searchingPost,
       errors: validationError.errors,
       submitSearchingPostPath: ctx.router.url('searchingPosts.create'),
+      backPath: ctx.router.url('searchingPosts.list'),
     });
   }
 });
@@ -67,10 +94,10 @@ router.patch('searchingPosts.update', '/:id', loadSearchingPost, async (ctx) => 
   const { searchingPost } = ctx.state;
   try {
     const {
-      name, img, category, description, userId,
+      name, category, description, userId,
     } = ctx.request.body;
     await searchingPost.update({
-      name, img, category, description, userId,
+      name, category, description, userId,
     });
     ctx.redirect(ctx.router.url('searchingPosts.list'));
   } catch (validationError) {
@@ -78,6 +105,7 @@ router.patch('searchingPosts.update', '/:id', loadSearchingPost, async (ctx) => 
       searchingPost,
       errors: validationError.errors,
       submitSearchingPostPath: ctx.router.url('searchingPosts.update', { id: searchingPost.id }),
+      backPath: ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
     });
   }
 });

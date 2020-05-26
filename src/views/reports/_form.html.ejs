@@ -22,16 +22,13 @@
       <input type="text" name="content" value="<%= report.content %>" />
     </div>
     <div  class="field">
-      <label for="reportingUserId">Reporting User</label>
-      <input type="number" name="reportingUserId"><%= report.reportingUserId %></input>
+      <input type="hidden" name="reportingUserId" value="<%=currentUser.id%>"></input>
     </div>
     <div  class="field">
-      <label for="reportedUserId">Reported User</label>
-      <input type="number" name="reportedUserId"><%= report.reportedUserId %></input>
+      <input type="hidden" name="reportedUserId" value="<%= postUserId %>"></input>
     </div>
     <div  class="field">
-      <label for="reportedPost">Reported Post</label>
-      <input type="number" name="reportedPost"><%= report.reportedPost %></input>
+      <input type="hidden" name="reportedPost" value="<%= postId %>"></input>
     </div>
     <div  class="field">
       <% if (report.isNewRecord) { %>

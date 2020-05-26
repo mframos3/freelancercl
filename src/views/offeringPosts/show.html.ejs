@@ -2,25 +2,33 @@
   <table id="offeringPosts-list">
     <thead>
       <tr>
+        <th></th>
         <th>Name</th>
         <th>Category</th>
         <th>Description</th>
         <th>User Owner</th>
+        <th>Precio</th>
         <th>Publication Date </th>
         <th>End Date </th>
-        <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-        <th colspan="2">Actions</th>
+        <% if(currentUser) { %>
+          <th colspan="4">Actions</th>
         <% } %>
+
       </tr>
     </thead>
     <tbody>
         <tr>
+          <td><% if (offeringPost.img) { %> <img class="user" src="<%= offeringPost.img%>"> <% } %></td>
           <td><%= offeringPost.name %></td>
           <td><%= offeringPost.category %></td>
           <td><%= offeringPost.description %></td>
           <td><a href="<%= userProfilePath(offeringPost.userId)%>"><%= offeringPost.username %></a></td>
+          <td><%= offeringPost.price%></td>
           <td><%= offeringPost.createdAt %></td>
           <td><%= offeringPost.endsAt %></td>
+          <% if(currentUser) { %>
+          <td><a href="<%= reportPostPath %>">Report Post</a></td>
+          <% } %>
           <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
           <td><a href="<%= editOfferingPostPath %>">Edit</a></td>
           <td>
@@ -28,6 +36,17 @@
             <input type="hidden" name="_method" value="delete" />
             <input type="submit" value="Delete" />
           </form>
+          <td>
+            <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
+                  <div class="field">
+                    <label for="img">Select Picture</label>
+                    <input type="file" name="img" />
+                  </div>
+                  <div class="field">
+                    <input type="submit" name="uploadFile" value="Upload" />
+                  </div>
+              </form>
+          </td>
           <% } %>
         </tr>
     </tbody>

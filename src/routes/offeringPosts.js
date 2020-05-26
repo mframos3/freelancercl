@@ -4,9 +4,14 @@ const Sequelize = require('sequelize');
 
 const { Op } = Sequelize;
 
+const Fuse = require('fuse.js');
+
+
 const router = new KoaRouter();
 const reviews = require('./reviews');
 const applications = require('./applications');
+const fileStorage = require('../services/file-storage');
+
 
 async function loadOfferingPost(ctx, next) {
   ctx.state.offeringPost = await ctx.orm.offeringPost.findByPk(ctx.params.pid);
@@ -15,18 +20,43 @@ async function loadOfferingPost(ctx, next) {
 
 router.get('offeringPosts.list', '/', async (ctx) => {
   const result = ctx.request.query;
-  const [term, type] = [result.search, result.type];
-  let offeringPostsList = await ctx.orm.offeringPost.findAll();
-  if (type === 'name') {
-    offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { name: { [Op.like]: `%${term}%` } } });
-  } else if (type === 'category') {
-    offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { category: { [Op.like]: `%${term}%` } } });
+  let [term, category] = [result.search, result.category];
+  if (category === 'Todo') {
+    category = '';
+  }
+  if (!category) {
+    category = '';
+  }
+  if (!term) {
+    term = '';
+  }
+  const options = {
+    isCaseSensitive: false,
+    // includeScore: false,
+    shouldSort: true,
+    // includeMatches: false,
+    findAllMatches: true,
+    // minMatchCharLength: 1,
+    // location: 0,
+    // threshold: 0.6,
+    // distance: 100,
+    // useExtendedSearch: true,
+    keys: ['dataValues.name'],
+  };
+  const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { category: { [Op.like]: `%${category}%` } } });
+  const fuse = new Fuse(offeringPostsList, options);
+  let searchResult = fuse.search(term);
+  if (!term) {
+    offeringPostsList.forEach((e) => {
+      e.item = e.dataValues;
+    });
+    searchResult = offeringPostsList;
   }
   await ctx.render('offeringPosts/index', {
-    offeringPostsList,
+    searchResult,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
     newOfferingPostPath: ctx.router.url('offeringPosts.new'),
-    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.id }),
+    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.item.id }),
   });
 });
 
@@ -43,7 +73,7 @@ router.get('offeringPosts.new', '/new', async (ctx) => {
 router.post('offeringPosts.create', '/', async (ctx) => {
   const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
   try {
-    await offeringPost.save({ fields: ['name', 'img', 'category', 'description', 'userId', 'endsAt'] });
+    await offeringPost.save({ fields: ['name', 'category', 'description', 'price', 'userId', 'endsAt'] });
     ctx.redirect(ctx.router.url('offeringPosts.list'));
   } catch (validationError) {
     await ctx.render('offeringPosts/new', {
@@ -68,10 +98,10 @@ router.patch('offeringPosts.update', '/:pid', loadOfferingPost, async (ctx) => {
   const { offeringPost } = ctx.state;
   try {
     const {
-      name, img, category, description, userId, endsAt,
+      name, category, description, price, userId, endsAt,
     } = ctx.request.body;
     await offeringPost.update({
-      name, img, category, description, userId, endsAt,
+      name, category, description, price, userId, endsAt,
     });
     ctx.redirect(ctx.router.url('offeringPosts.list'));
   } catch (validationError) {
@@ -79,6 +109,7 @@ router.patch('offeringPosts.update', '/:pid', loadOfferingPost, async (ctx) => {
       offeringPost,
       errors: validationError.errors,
       submitOfferingPostPath: ctx.router.url('offeringPosts.update', { pid: offeringPost.id }),
+      backPath: ctx.router.url('offeringPosts.show', { pid: offeringPost.id }),
     });
   }
 });
@@ -120,10 +151,20 @@ router.get('offeringPosts.show', '/:pid', loadOfferingPost, async (ctx) => {
     deleteApplicationPath: (application) => ctx.router.url('applications.delete', { aid: application.id, pid: offeringPost.id }),
     editOfferingPostPath: ctx.router.url('offeringPosts.edit', { pid: offeringPost.id }),
     deleteOfferingPostPath: ctx.router.url('offeringPosts.delete', { pid: offeringPost.id }),
+    submitFilePath: ctx.router.url('offeringPosts.uploadFile', { pid: offeringPost.id }),
+    reportPostPath: ctx.router.url('reports.new', { pid: offeringPost.id }),
     backPath: ctx.router.url('offeringPosts.list'),
   });
 });
 
+router.post('offeringPosts.uploadFile', '/:pid', loadOfferingPost, async (ctx) => {
+  const { offeringPost } = ctx.state;
+  const { img } = ctx.request.files;
+  offeringPost.img = `https://freelancercl.sfo2.digitaloceanspaces.com/${img.name}`;
+  await fileStorage.upload(img);
+  await offeringPost.save();
+  ctx.redirect(ctx.router.url('offeringPosts.show', { pid: offeringPost.id }));
+});
 
 router.use('/:pid/reviews', loadOfferingPost, reviews.routes());
 router.use('/:pid/applications', loadOfferingPost, applications.routes());

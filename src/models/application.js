@@ -16,9 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     content: {
       type: DataTypes.STRING,
-      Validate: {
-        notEmpty: false,
-        isAlpha: true,
+      validate: {
+        notEmpty: true,
       },
     },
   }, {});

@@ -18,16 +18,20 @@
         <input type="text" name="name" value="<%= offeringPost.name %>" />
       </div>
       <div  class="field">
-        <label for="img">Image</label>
-        <textarea type="text" name="img"><%= offeringPost.img %></textarea>
-      </div>
-      <div  class="field">
-        <label for="category">Category</label>
-        <textarea type="text" name="category"><%= offeringPost.category %></textarea>
+        <label for="category">Categoría</label>
+        <select name="category" id="category">
+          <option value="General">General</option>
+          <option value="Tecnología">Tecnología</option>
+          <option value="Otros">Otros</option>
+        </select>
       </div>
       <div  class="field">
         <label for="description">Description</label>
         <textarea type="text" name="description"><%= offeringPost.description %></textarea>
+      </div>
+      <div  class="field">
+        <label for="price">Precio</label>
+        <textarea type="number" name="price"><%= offeringPost.price %></textarea>
       </div>
       <div  class="field">
         <label for="endsAt">End Date</label>

@@ -18,12 +18,12 @@
         <input type="text" name="name" value="<%= searchingPost.name %>" />
       </div>
       <div  class="field">
-        <label for="img">Image</label>
-        <textarea type="text" name="img"><%= searchingPost.img %></textarea>
-      </div>
-      <div  class="field">
-        <label for="category">Category</label>
-        <textarea type="text" name="category"><%= searchingPost.category %></textarea>
+        <label for="category">Categoría</label>
+        <select name="category" id="category">
+          <option value="General">General</option>
+          <option value="Tecnología">Tecnología</option>
+          <option value="Otros">Otros</option>
+        </select>
       </div>
       <div  class="field">
         <label for="description">Description</label>

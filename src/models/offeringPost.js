@@ -4,18 +4,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         notEmpty: { args: true, msg: 'Include a name please' },
-        isAlpha: true,
       },
     },
     img: {
       type: DataTypes.STRING,
-      defaultValue: '/src/images/defaultavatar.png',
     },
     category: {
       type: DataTypes.STRING,
       defaultValue: 'General',
       validate: {
-        isAlpha: true,
+        notEmpty: true,
       },
     },
     description: {
@@ -26,6 +24,13 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     userId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: true,
+        isInt: true,
+      },
+    },
+    price: {
       type: DataTypes.INTEGER,
       validate: {
         notEmpty: true,

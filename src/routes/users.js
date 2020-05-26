@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const PASSWORD_SALT = 10;
 const { Op } = Sequelize;
 
+const Fuse = require('fuse.js');
+
 const fileStorage = require('../services/file-storage');
 const sgMail = require('../config/emailApi');
 const msg = require('../mailers/login-email-Api');
@@ -18,17 +20,36 @@ async function loadUser(ctx, next) {
 
 router.get('users.list', '/', async (ctx) => {
   const result = ctx.request.query;
-  const [term, type] = [result.search, result.type];
-  let usersList = await ctx.orm.user.findAll();
-  if (type === 'name') {
-    usersList = await ctx.orm.user.findAll({ where: { name: { [Op.like]: `%${term}%` } } });
-  } else if (type === 'email') {
-    usersList = await ctx.orm.user.findAll({ where: { email: { [Op.eq]: term } } });
+  let term = result.search;
+  const options = {
+    isCaseSensitive: false,
+    includeScore: false,
+    shouldSort: true,
+    // includeMatches: false,
+    // findAllMatches: true,
+    // minMatchCharLength: 1,
+    // location: 0,
+    // threshold: 0.6,
+    // distance: 100,
+    useExtendedSearch: true,
+    keys: [{ name: 'dataValues.email', weight: 2 }, { name: 'dataValues.name', weight: 1.5 }, { name: 'dataValues.occupation', weight: 0.3 }],
+  };
+  if (!term) {
+    term = '';
+  }
+  const usersList = await ctx.orm.user.findAll();
+  const fuse = new Fuse(usersList, options);
+  let searchResult = fuse.search("'" + term);
+  if (!term) {
+    usersList.forEach((e) => {
+      e.item = e.dataValues;
+    });
+    searchResult = usersList;
   }
   await ctx.render('users/index', {
-    usersList,
+    searchResult,
     newUserPath: ctx.router.url('users.new'),
-    showUserPath: (user) => ctx.router.url('users.show', { id: user.id }),
+    showUserPath: (user) => ctx.router.url('users.show', { id: user.item.id }),
   });
 });
 
@@ -110,6 +131,7 @@ router.patch('users.update', '/:id', loadUser, async (ctx) => {
       user,
       errors: validationError.errors,
       submitUserPath: ctx.router.url('users.update', { id: user.id }),
+      backPath: ctx.router.url('users.show', { id: user.id }),
     });
   }
 });
@@ -129,12 +151,23 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   await ctx.render('users/show', {
     user,
     follow,
+  const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: { [Op.eq]: user.id } } });
+  const searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.eq]: user.id } } });
+  await ctx.render('users/show', {
+    user,
+    offeringPostsList,
+    searchingPostsList,
     submitFilePath: ctx.router.url('users.uploadFile', { id: user.id }),
     editUserPath: ctx.router.url('users.edit', { id: user.id }),
-    deleteUserPath: ctx.router.url('users.delete', { id: user.id }),
     sendMessagePath: ctx.router.url('messages.new', { id: user.id }),
     followPath: ctx.router.url('users.follow', { id: user.id }),
+    deleteUserPath: ctx.router.url('users.delete', { id: user.id }),
     backPath: ctx.router.url('users.list'),
+    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.id }),
+    showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
+    newSearchingPostPath: ctx.router.url('searchingPosts.new'),
+    newOfferingPostPath: ctx.router.url('offeringPosts.new'),
+
   });
 });
 

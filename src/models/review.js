@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     comment: {
       type: DataTypes.TEXT,
       validate: {
-        len: [0, 120],
+        len: [1, 120],
       },
     },
 
