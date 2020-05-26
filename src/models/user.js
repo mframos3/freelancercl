@@ -105,5 +105,9 @@ module.exports = (sequelize, DataTypes) => {
     return bcrypt.compare(password, this.password);
   };
 
+  // user.prototype.actionFollower = function actionFollower(otherUser) {
+
+  // }
+
   return user;
 };
