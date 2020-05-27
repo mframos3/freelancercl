@@ -13,7 +13,9 @@
   <body>
     <ul class="topnav">
       <li><a class="active" href="/">Home</a></li>
+      <% if (currentUser)  { %>
       <li><a href="/users/<%= currentUser.id %> ">Mi Perfil</a></li>
+      <% } %>
       <li><a href="/offeringPosts">Posts de Ofertas</a></li>
       <li><a href="/searchingPosts">Posts de Búsqueda</a></li>
       <% if (currentUser) { %>
@@ -48,11 +50,6 @@
 
 
     </ul>
-    <header>
-      <div id="logo">
-        <img id="freelancer-logo" src="<%= assetPath('logo.png') %>" alt="Logo" />
-      </div>
-    </header>
     <%- body %>
     <script src="<%= assetPath('app.js') %>"></script>
     <!-- <input type="button" value="Back" onclick="history.back()"/> -->

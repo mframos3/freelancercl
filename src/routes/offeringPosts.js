@@ -24,6 +24,10 @@ router.get('offeringPosts.list', '/', async (ctx) => {
   } else if (type === 'category') {
     offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { category: { [Op.like]: `%${term}%` } } });
   }
+  for (let i = 0; i < offeringPostsList.length; i += 1) {
+    offeringPostsList[i].endsAt = offeringPostsList[i].endsAt.toString().slice(0, 24);
+    offeringPostsList[i].createdAt = offeringPostsList[i].createdAt.toString().slice(0, 24);
+  }
   await ctx.render('offeringPosts/index', {
     offeringPostsList,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
@@ -108,6 +112,8 @@ router.get('offeringPosts.show', '/:pid', loadOfferingPost, async (ctx) => {
     newElement.username = (await ctx.orm.user.findByPk(newElement.userId)).name;
     return newElement;
   });
+  offeringPost.endsAt = offeringPost.endsAt.toString().slice(0, 24);
+  offeringPost.createdAt = offeringPost.createdAt.toString().slice(0, 24);
   const applicationsList = await Promise.all(promisesApplications);
   await ctx.render('offeringPosts/show', {
     offeringPost,
