@@ -8,13 +8,13 @@
   
 </head>
   <header>
-      <div id="logo">
+      <!-- <div id="logo">
         <img id="freelancer-logo" src="<%= assetPath('logo.png') %>" alt="Logo" />
-      </div>
+      </div> -->
+      <img id="freelancer-fondo" src="https://images.assetsdelivery.com/compings_v2/ruangwit/ruangwit1608/ruangwit160800047.jpg" width="1440" height="400"/>
   </header>
-<body>
-  <h1>Bienvenido a freelancerCL</h1>     
-  <p id="jquery-test">jQuery text will be rendered</p> 
+<body class="cover">
+  <h1 id="welcome">Bienvenido a freelancerCL</h1>     
 
   <% if (currentUser) { %>
   <% if (!offeringPostsList.length) { %>
@@ -73,7 +73,6 @@
             <ol class="listHorizontal">
               <li><img class="user" src="<%= user.imagePath%>"></li>
               <li><a href="<%= showUserPath(user) %> "><%= user.name %></a></li>
-              <li><%= user.email %></li>
               <li>Rating: <%= user.rating %></li>
               <li>Ocupación: <%= user.occupation %></li>
             </ol>
