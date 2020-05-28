@@ -6,6 +6,12 @@ $freelancer-color: rgb(63, 152, 211);
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
   text-decoration: none;
+  text-align: center;
+}
+h2{
+    color: #4a4a4a;
+    font-weight: bolder;
+
 }
 
 // body{
@@ -25,7 +31,7 @@ $freelancer-color: rgb(63, 152, 211);
   }
 }
 
-// Para las listas
+/////////// listas
 .listHorizontal {
   // position: static;
   display: flex;
@@ -35,7 +41,7 @@ $freelancer-color: rgb(63, 152, 211);
   list-style: none;
 }
 
-//Para la search bar
+///////////search bar
 @import url('https://fonts.googleapis.com/css?family=Inconsolata:700');
 
 html, body {
@@ -52,7 +58,6 @@ html, body {
   bottom: 0;
   width: 300px;
   height: 100px;
-  margin-top: 30px;
 
 
   .dropdown {
@@ -173,4 +178,26 @@ html, body {
   font-size: 10px;
   border: none;
   cursor: pointer;
+}
+
+
+////////// href
+
+
+.enlaceboton{
+  text-decoration: none;
+  padding: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-family: helvetica;
+  font-weight: 300;
+  font-style: italic;
+  color: #ffffff;
+  background-color: $freelancer-color;
+  border-radius: 15px;
+  border: 3px double  #4a4a4a;
+}
+.enlaceboton:hover{
+  opacity: 0.6;
+  text-decoration: none;
 }

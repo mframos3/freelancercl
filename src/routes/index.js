@@ -15,7 +15,10 @@ router.get('index.landing', '/', async (ctx) => {
     searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.eq]: isUser.id } } });
   }
   const bestUsers = await ctx.orm.user.findAll({ where: { rating: { [Op.gte]: 4 } } });
+  //Para popUp
   const user = ctx.orm.user.build();
+  const searchingPost = ctx.orm.searchingPost.build(ctx.request.body);
+  const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
   await ctx.render('index', {
     appVersion: pkg.version,
     offeringPostsList,
@@ -27,7 +30,13 @@ router.get('index.landing', '/', async (ctx) => {
     newRegisterPath: ctx.router.url('users.new'),
     notice: ctx.flashMessage.notice,
     submitUserPath: ctx.router.url('users.create'),
+    //Para popUp
     user,
+    searchingPost,
+    offeringPost,
+    submitSearchingPostPath: ctx.router.url('searchingPosts.create'),
+    submitOfferingPostPath: ctx.router.url('offeringPosts.create'),
+    backPath: ctx.router.url('searchingPosts.list'),
   });
 });
 
