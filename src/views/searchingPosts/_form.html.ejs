@@ -19,7 +19,11 @@
       </div>
       <div  class="field">
         <label for="category">Categoría</label>
-        <textarea type="text" name="category"><%= searchingPost.category %></textarea>
+        <select name="category" id="category">
+          <option value="General">General</option>
+          <option value="Tecnología">Tecnología</option>
+          <option value="Otros">Otros</option>
+        </select>
       </div>
       <div  class="field">
         <label for="description">Descripción</label>

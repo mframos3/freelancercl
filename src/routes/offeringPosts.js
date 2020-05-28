@@ -4,6 +4,9 @@ const Sequelize = require('sequelize');
 
 const { Op } = Sequelize;
 
+const Fuse = require('fuse.js');
+
+
 const router = new KoaRouter();
 const reviews = require('./reviews');
 const applications = require('./applications');
@@ -17,22 +20,47 @@ async function loadOfferingPost(ctx, next) {
 
 router.get('offeringPosts.list', '/', async (ctx) => {
   const result = ctx.request.query;
-  const [term, type] = [result.search, result.type];
-  let offeringPostsList = await ctx.orm.offeringPost.findAll();
-  if (type === 'name') {
-    offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { name: { [Op.like]: `%${term}%` } } });
-  } else if (type === 'category') {
-    offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { category: { [Op.like]: `%${term}%` } } });
+  let [term, category] = [result.search, result.category];
+  if (category === 'Todo') {
+    category = '';
+  }
+  if (!category) {
+    category = '';
+  }
+  if (!term) {
+    term = '';
+  }
+  const options = {
+    isCaseSensitive: false,
+    // includeScore: false,
+    shouldSort: true,
+    // includeMatches: false,
+    findAllMatches: true,
+    // minMatchCharLength: 1,
+    // location: 0,
+    // threshold: 0.6,
+    // distance: 100,
+    // useExtendedSearch: true,
+    keys: ['dataValues.name'],
+  };
+  const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { category: { [Op.like]: `%${category}%` } } });
+  const fuse = new Fuse(offeringPostsList, options);
+  let searchResult = fuse.search(term);
+  if (!term) {
+    offeringPostsList.forEach((e) => {
+      e.item = e.dataValues;
+    });
+    searchResult = offeringPostsList;
   }
   for (let i = 0; i < offeringPostsList.length; i += 1) {
     offeringPostsList[i].endsAt = offeringPostsList[i].endsAt.toString().slice(0, 24);
     offeringPostsList[i].createdAt = offeringPostsList[i].createdAt.toString().slice(0, 24);
   }
   await ctx.render('offeringPosts/index', {
-    offeringPostsList,
+    searchResult,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
     newOfferingPostPath: ctx.router.url('offeringPosts.new'),
-    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.id }),
+    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.item.id }),
   });
 });
 

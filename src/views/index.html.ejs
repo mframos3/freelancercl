@@ -1,2 +1,84 @@
-<h1>Bienvenido a freelancerCL</h1>
-<!-- <div id="react-app">Here a React app will be rendered</div> -->
+<head>
+  <meta charset="utf-8">
+  <title>freelancerCL</title>
+  <% if (env !== 'development') { %>
+    <link rel="stylesheet" href="<%= assetPath('app.css') %>">
+  <% } %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+</head>
+  <header>
+      <!-- <div id="logo">
+        <img id="freelancer-logo" src="<%= assetPath('logo.png') %>" alt="Logo" />
+      </div> -->
+      <img id="freelancer-fondo" src="https://images.assetsdelivery.com/compings_v2/ruangwit/ruangwit1608/ruangwit160800047.jpg" width="1440" height="400"/>
+  </header>
+<body class="cover">
+  <h1 id="welcome">Bienvenido a freelancerCL</h1>     
+
+  <% if (currentUser) { %>
+  <% if (!offeringPostsList.length) { %>
+      <h2>No tienes Posts de Oferta</h2>
+      <td><a href="<%= newOfferingPostPath %> "> Haz tu primer post de Oferta!</a></td>
+  <% }; %>
+
+  <% if (!searchingPostsList.length) { %>
+      <h2>No tienes Posts de Búsqueda</h2>
+      <td><a href="<%= newSearchingPostPath %> "> Haz tu primer post de Búsqueda!</a></td>
+  <% }; %>
+  <% } %>
+  <% if (!currentUser) { %>
+      <h2>Únete a la Mejor página de Empleos Freelance!</h2>
+      <h4>Estás solo a un click de expandir tu mundo laboral, ¡Qué esperas!</h4>
+      <td><a href="#popupRegister">Register</a></td>
+
+      <div class="container-all" id="popupRegister"> 
+        <div class="popup">
+            <div class="img"></div>
+            <div class="container-text">
+              <%- include('users/new') %>
+            </div>
+            <a href="#" class="btn-close-popup">X</a>
+        </div>
+      </div>
+
+
+      <h4>Si ya tienes una cuenta, inicia sesión!</h4>
+      <td><a href="#popupUser">Login</a></td>
+
+
+      <div class="container-all" id="popupUser"> 
+        <div class="popup">
+            <div class="img"></div>
+            <div class="container-text">
+              <%- include('session/new') %>
+            </div>
+            <a href="#" class="btn-close-popup">X</a>
+        </div>
+        
+    </div>
+
+
+  <% } %>
+
+
+  <h2>Algunos de los usuarios que utilizan freelancerCl</h2>
+  <% if (!bestUsers.length) { %>
+    <p>No results</p>
+  <% } else { %>
+
+        <br>
+        <% bestUsers.forEach((user) => { %>
+          <div id="users-list"></div>
+            <ol class="listHorizontal">
+              <li><img class="user" src="<%= user.imagePath%>"></li>
+              <li><a href="<%= showUserPath(user) %> "><%= user.name %></a></li>
+              <li>Rating: <%= user.rating %></li>
+              <li>Ocupación: <%= user.occupation %></li>
+            </ol>
+          </div>
+          <br>
+        <% }) %>
+    
+  <% } %>
+</body>
