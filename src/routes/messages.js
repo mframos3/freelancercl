@@ -1,94 +1,174 @@
 const KoaRouter = require('koa-router');
+const { Op } = require('sequelize');
 
 const router = new KoaRouter();
 
-async function loadMessage(ctx, next) {
-  ctx.state.message = await ctx.orm.message.findByPk(ctx.params.id);
-  return next();
-}
-
-router.get('messages.list', '/', async (ctx) => {
-  const currentUser = await ctx.state.currentUser;
-  const auxmessagesReceived = await ctx.orm.message.findAll({
-    where: { receiver_id: currentUser.id },
+router.get('messages.users', '/api', async (ctx) => {
+  const auxChatUsers = await ctx.orm.message.findAll({
+    where: {
+      [Op.or]: [
+        { sender_id: ctx.session.userId },
+        { receiver_id: ctx.session.userId },
+      ],
+    },
   });
-  const promisesReceived = auxmessagesReceived.map(async (element) => {
+  const promisesChatUsers = auxChatUsers.map(async (element) => {
     const newElement = element;
-    newElement.username = (await ctx.orm.user.findByPk(newElement.sender_id)).name;
+    if (element.sender_id === ctx.session.userId) {
+      const user = await ctx.orm.user.findByPk(newElement.receiver_id);
+      newElement.username = user.name;
+      newElement.userImg = user.imagePath;
+      newElement.userId = user.id;
+    } else {
+      const user = await ctx.orm.user.findByPk(newElement.sender_id);
+      newElement.username = user.name;
+      newElement.userImg = user.imagePath;
+      newElement.userId = user.id;
+    }
     return newElement;
   });
-  const messagesReceived = await Promise.all(promisesReceived);
-  const auxmessagesSent = await ctx.orm.message.findAll({
-    where: { sender_id: currentUser.id },
+  const chatUsers = await Promise.all(promisesChatUsers);
+  const auxData = {};
+  chatUsers.forEach((element) => {
+    if (!auxData[element.userId]) {
+      auxData[element.userId] = {
+        userid: element.userId,
+        username: element.username,
+        img: element.userImg,
+      };
+    }
   });
-  const promisesSent = auxmessagesSent.map(async (element) => {
+  const users = [];
+  Object.keys(auxData).forEach((key) => {
+    users.push(auxData[key]);
+  });
+  ctx.body = {
+    status: 'success',
+    data: { myuserid: ctx.session.userId, users },
+  };
+});
+
+router.get('messages.history', '/api/history/:id', async (ctx) => {
+  const auxActiveChatList = await ctx.orm.message.findAll({
+    where: {
+      [Op.or]: [
+        {
+          [Op.and]: [
+            { sender_id: ctx.params.id },
+            { receiver_id: ctx.session.userId },
+          ],
+        },
+
+        {
+          [Op.and]: [
+            { sender_id: ctx.session.userId },
+            { receiver_id: ctx.params.id },
+          ],
+        },
+      ],
+
+    },
+  });
+  const promisesActiveChatList = auxActiveChatList.map(async (element) => {
     const newElement = element;
-    newElement.username = (await ctx.orm.user.findByPk(newElement.receiver_id)).name;
+    if (element.sender_id === ctx.session.userId) {
+      const user = await ctx.orm.user.findByPk(newElement.receiver_id);
+      newElement.username = user.name;
+      newElement.userImg = user.imagePath;
+      newElement.userId = user.id;
+    } else {
+      const user = await ctx.orm.user.findByPk(newElement.sender_id);
+      newElement.username = user.name;
+      newElement.userImg = user.imagePath;
+      newElement.userId = user.id;
+    }
     return newElement;
   });
-  const messagesSent = await Promise.all(promisesSent);
-  await ctx.render('messages/index', {
-    messagesReceived,
-    messagesSent,
-    backPath: ctx.router.url('index.landing'),
-    // newMessagePath: ctx.router.url('messages.new'),
-    // editMessagePath: (message) => ctx.router.url('messages.edit', { id: message.id }),
-    // deleteMessagePath: (message) => ctx.router.url('messages.delete', { id: message.id }),
-  });
+  const activeChatList = await Promise.all(promisesActiveChatList);
+  if (activeChatList.length > 0) {
+    const auxData = {};
+    activeChatList.forEach((element) => {
+      if (auxData[element.userId]) {
+        auxData[element.userId].history.push({
+          content: element.content,
+          createdAt: element.createdAt,
+          sender_id: element.sender_id,
+        });
+      } else {
+        auxData[element.userId] = {
+          userid: element.userId,
+          myuserid: ctx.session.userId,
+          username: element.username,
+          img: element.userImg,
+          history: [],
+        };
+        auxData[element.userId].history.push({
+          content: element.content,
+          createdAt: element.createdAt,
+          sender_id: element.sender_id,
+        });
+      }
+    });
+    const data = [];
+    Object.keys(auxData).forEach((key) => {
+      data.push(auxData[key]);
+    });
+    data.forEach((element) => {
+      element.history.sort((a, b) => b.createdAt - a.createdAt);
+    });
+    ctx.body = {
+      status: 'success',
+      data: data[0].history,
+    };
+  } else {
+    ctx.body = {
+      status: 'success',
+      data: [],
+    };
+  }
 });
 
-router.get('messages.new', '/:id/new', async (ctx) => {
-  const message = ctx.orm.message.build();
-  const receiverId = ctx.params.id;
-  await ctx.render('messages/new', {
-    message,
-    receiverId,
-    submitMessagePath: ctx.router.url('messages.create', { id: receiverId }),
-  });
-});
-
-router.post('messages.create', '/:id', async (ctx) => {
-  const message = ctx.orm.message.build(ctx.request.body);
+router.post('messages.save', '/api/save', async (ctx) => {
+  const req = ctx.request.body.data;
+  const message = ctx.orm.message.build(
+    {
+      sender_id: req.sender,
+      receiver_id: req.receiver,
+      content: req.content,
+    },
+  );
   try {
     await message.save({ fields: ['sender_id', 'receiver_id', 'content'] });
-    ctx.redirect(ctx.router.url('users.show', { id: message.receiver_id }));
+    ctx.body = {
+      status: 'success',
+    };
   } catch (validationError) {
-    await ctx.render('messages/new', {
-      message,
-      receiverId: ctx.params.id,
-      errors: validationError.errors,
-      submitMessagePath: ctx.router.url('messages.create', { id: ctx.params.id }),
-    });
+    ctx.body = {
+      status: 'error',
+    };
   }
 });
 
-router.get('messages.edit', '/:id/edit', loadMessage, async (ctx) => {
-  const { message } = ctx.state;
-  await ctx.render('messages/edit', {
-    message,
-    submitMessagePath: ctx.router.url('messages.update', { id: message.id }),
+router.get('messages.userdirectory', '/api/directory', async (ctx) => {
+  const aux = await ctx.orm.user.findAll();
+  const usersList = aux.map((element) => ({
+    userid: element.id,
+    username: element.name,
+    img: element.imagePath,
+  }));
+  ctx.body = {
+    status: 'sucess',
+    data: usersList,
+  };
+});
+
+
+router.get('messages.list', '/', async (ctx) => {
+  await ctx.render('messages/index', {
+
+    backPath: ctx.router.url('index.landing'),
+
   });
-});
-
-router.patch('messages.update', '/:id', loadMessage, async (ctx) => {
-  const { message } = ctx.state;
-  try {
-    const { senderId, receiverId, content } = ctx.request.body;
-    await message.update({ senderId, receiverId, content });
-    ctx.redirect(ctx.router.url('messages.list'));
-  } catch (validationError) {
-    await ctx.render('messages/edit', {
-      message,
-      errors: validationError.errors,
-      submitMessagePath: ctx.router.url('messages.update', { id: message.id }),
-    });
-  }
-});
-
-router.del('messages.delete', '/:id', loadMessage, async (ctx) => {
-  const { message } = ctx.state;
-  await message.destroy();
-  ctx.redirect(ctx.router.url('messages.list'));
 });
 
 module.exports = router;

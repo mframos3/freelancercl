@@ -1,52 +1,5 @@
-<h2>Mensajes Recibidos</h2>
-<% if (!messagesReceived.length) { %>
-  <p>No tienes Mensajes</p>
+<div id="react-chat" ></div>
 
-<% } else { %>
-    <table id="messages-list">
-        <thead>
-            <tr>
-                <th>De</th>
-                <th>Contenido</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% messagesReceived.forEach((message) => { %>
-                <tr>
-                    <td><%= message.username %> </td>
-                    <td><%= message.content %></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
-<% } %>
-
-<h2>Mensajes Enviados</h2>
-<% if (!messagesSent.length) { %>
-  <p>No hay mensajes</p>
-<% } else { %>
-    <table id="messages-list">
-        <thead>
-            <tr>
-                <th>Para</th>
-
-                <th>Contenido</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% messagesSent.forEach((message) => { %>
-                <tr>
-                    <td><%= message.username %> </td>
-                    <td><%= message.content %></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
-<% } %>
-<a href="/">Atrás</a>
-<!-- <form action="<%= backPath %>" method="get">
-  <input type="submit" value="Back" />
-</form> -->
-<!-- <input type="button" value="Back" onclick="history.back()"/> -->
-
-<!-- <a href="<%= //newMessagePath %>">New Message</a> -->
+<form action="<%= backPath %>" method="get">
+  <input type="submit" value="Volver" />
+</form>

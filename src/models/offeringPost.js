@@ -45,6 +45,13 @@ module.exports = (sequelize, DataTypes) => {
         isAfter: new Date().toString(),
       },
     },
+    createdAt: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        notEmpty: false,
+        isDate: true,
+      },
+    },
   }, {});
 
   offeringPost.associate = function associate(models) {

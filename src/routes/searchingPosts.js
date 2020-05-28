@@ -47,6 +47,10 @@ router.get('searchingPosts.list', '/', async (ctx) => {
     });
     searchResult = searchingPostsList;
   }
+  for (let i = 0; i < searchingPostsList.length; i += 1) {
+    searchingPostsList[i].createdAt = searchingPostsList[i].createdAt.toString().slice(0, 24);
+  }
+  
   await ctx.render('searchingPosts/index', {
     searchResult,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
@@ -119,6 +123,7 @@ router.del('searchingPosts.delete', '/:id', loadSearchingPost, async (ctx) => {
 router.get('searchingPosts.show', '/:id/', loadSearchingPost, async (ctx) => {
   const { searchingPost } = ctx.state;
   searchingPost.username = (await ctx.orm.user.findByPk(searchingPost.userId)).name;
+  searchingPost.createdAt = searchingPost.createdAt.toString().slice(0, 24);
   await ctx.render('searchingPosts/show', {
     searchingPost,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
