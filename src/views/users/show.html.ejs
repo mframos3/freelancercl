@@ -18,31 +18,31 @@
         <td><%= user.name %></td>
         <td><%= user.email %></td>
         <td><%= user.rating %></td>
-      <td><% if (user.cvPath) { %> <a href="<%= user.cvPath %>">Descargar CV</a> <% } %></td>
+      <td><% if (user.cvPath) { %> <a href="<%= user.cvPath %> " class="enlaceboton">Descargar CV</a> <% } %></td>
         <td><%= user.occupation %></td>
         <% if (currentUser && currentUser.id != user.id ) { %>
           <td><a href="<%= sendMessagePath %>">Enviar Mensaje</a></td>
         <% } %>
         <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
-          <td><a href="<%= editUserPath %>">Editar</a></td>
+          <td><a href="<%= editUserPath %>" class="enlaceboton">Editar</a></td>
         <% } %>
         <% if (currentUser && currentUser.id != user.id && follow) { %>
           <td>
             <form action="<%= followPath %>" method="post">
-                <input type="submit" value="Seguir" />
+                <input type="submit" value="Seguir" class="enlaceboton"/>
             </form>
           </td>
         <% } else if (currentUser && currentUser.id != user.id && !follow) { %>
           <td>
             <form action="<%= followPath %>" method="post">
-                <input type="submit" value="Dejar de Seguir" />
+                <input type="submit" value="Dejar de Seguir" class="enlaceboton"/>
             </form>
           </td>
         <% } %>
         <% if (currentUser && currentUser.isAdmin) { %>
         <td><form action="<%= deleteUserPath %>" method="POST">
             <input type="hidden" name="_method" value="delete" />
-            <input type="submit" value="Delete" />
+            <input type="submit" value="Delete" class="enlaceboton"/>
         <% } %>
         </form>
       </td>
@@ -53,7 +53,7 @@
 <% if (currentUser && currentUser.id == user.id) { %>
   <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
     <div class="field">
-      <label for="CV">Selecciona CV</label>
+      <label  for="CV">Selecciona CV</label>
       <input type="file" name="CV" />
     </div>
     <div class="field">
@@ -61,17 +61,17 @@
       <input type="file" name="img" />
     </div>
     <div class="field">
-      <input type="submit" name="uploadFile" value="Upload" />
+      <input class="enlaceboton" type="submit" name="uploadFile" value="Upload" />
     </div>
     </form> 
 <% } %>
 
 
-<% if (!offeringPostsList.length) { %>
+<% if (!offeringPostsList.length && currentUser && currentUser.id == user.id) { %>
   <h2>No tienes Posts de Oferta</h2>
-  <td><a href="<%= newOfferingPostPath %> "> Haz tu primer post de Oferta!</a></td>
+  <td><a href="<%= newOfferingPostPath %> " class="enlaceboton"> Haz tu primer post de Oferta!</a></td>
   <% } else { %>
-<h2>Mis Publicaciones de Oferta</h2>
+<h2>Publicaciones de Oferta</h2>
   <table id="offeringPosts-list">
     <thead>
       <tr>
@@ -97,11 +97,11 @@
 
 
 
-<% if (!searchingPostsList.length) { %>
+<% if (!searchingPostsList.length && currentUser && currentUser.id == user.id) { %>
   <h2>No tienes Posts de Búsqueda</h2>
-  <td><a href="<%= newSearchingPostPath %> "> Haz tu primer post de Búsqueda!</a></td>
+  <td><a href="<%= newSearchingPostPath %> " class="enlaceboton"> Haz tu primer post de Búsqueda!</a></td>
   <% } else { %>
-<h2>Mis Publicaciones de Búsqueda</h2>
+<h2>Publicaciones de Búsqueda</h2>
   <table id="searchingPosts-list">
     <thead>
       <tr>
@@ -124,6 +124,6 @@
   </table>
 <% } %>
 
-<form action="<%= backPath %>" method="get">
-  <input type="submit" value="Back" />
+<form class="back" action="<%= backPath %>" method="get">
+  <input type="submit" value="Volver" />
 </form>

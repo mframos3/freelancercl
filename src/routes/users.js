@@ -145,9 +145,11 @@ router.del('users.delete', '/:id', loadUser, async (ctx) => {
 router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
-  const follow = await ctx.orm.follow.findOne({
-    where: { followedId: user.id, followerId: currentUser.id },
-  });
+  let followerPreviousId = -1;
+  if (currentUser) {
+    followerPreviousId = currentUser.id;
+  }
+  const follow = await ctx.orm.follow.findOne({ where: { followedId: user.id, followerId: followerPreviousId } });
   const offeringPostsList = await ctx.orm.offeringPost.findAll({
     where: { userId: { [Op.eq]: user.id } },
   });
@@ -171,20 +173,6 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
     newOfferingPostPath: ctx.router.url('offeringPosts.new'),
   });
 });
-
-// router.post('users.unfollow', '/:id', loadUser, async (ctx) => {
-//   const { user } = ctx.state;
-//   // const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
-//   // // const follow = ctx.orm.follow.build({ followedId: user.id, followerId: currentUser.id });
-//   // const follow = await ctx.orm.follow.findOne({
-//   //   where: { followedId: user.id, followerId: currentUser.id },
-//   // });
-//   // await follow.delete();
-//   const a = await ctx.orm.follow.findAll();
-//   console.log(a);
-//   console.log('hola');
-//   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
-// });
 
 router.post('users.follow', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;

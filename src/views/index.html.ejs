@@ -18,23 +18,43 @@
 
   <% if (currentUser) { %>
   <% if (!offeringPostsList.length) { %>
-      <h2>No tienes Posts de Oferta</h2>
-      <td><a href="<%= newOfferingPostPath %> "> Haz tu primer post de Oferta!</a></td>
+      <h2>No tienes Publicaciones de Oferta</h2>
+      <td><a href="#popupOffer" class="enlaceboton">Haz tu primera publicación de Oferta</a></td>
+      <div class="container-all" id="popupOffer"> 
+        <div class="popup">
+            <div class="container-text">
+              <%- include('offeringPosts/new') %>
+            </div>
+            <a href="#" class="btn-close-popup">X</a>
+        </div>
+        
+      </div>
   <% }; %>
 
   <% if (!searchingPostsList.length) { %>
-      <h2>No tienes Posts de Búsqueda</h2>
-      <td><a href="<%= newSearchingPostPath %> "> Haz tu primer post de Búsqueda!</a></td>
+      <h2>No tienes Publicaciones de Búsqueda</h2>      
+      <td><a href="#popupSearch" class="enlaceboton">Haz tu primera publicación de Búsqueda</a></td>
+      <div class="container-all" id="popupSearch"> 
+        <div class="popup">
+            <div class="container-text">
+              <%- include('searchingPosts/new') %>
+            </div>
+            <a href="#" class="btn-close-popup">X</a>
+        </div>
+        
+      </div>
+
+
+
   <% }; %>
   <% } %>
-  <% if (!currentUser) { %>
-      <h2>Únete a la Mejor página de Empleos Freelance!</h2>
-      <h4>Estás solo a un click de expandir tu mundo laboral, ¡Qué esperas!</h4>
-      <td><a href="#popupRegister">Register</a></td>
 
+
+  <% if (!currentUser) { %>
+      <h4>Estás solo a un click de expandir tu mundo laboral, ¡Qué esperas!</h4>
+      <td><a href="#popupRegister" class="enlaceboton">Registrarse</a></td>
       <div class="container-all" id="popupRegister"> 
         <div class="popup">
-            <div class="img"></div>
             <div class="container-text">
               <%- include('users/new') %>
             </div>
@@ -42,14 +62,11 @@
         </div>
       </div>
 
-
+      <br>
       <h4>Si ya tienes una cuenta, inicia sesión!</h4>
-      <td><a href="#popupUser">Login</a></td>
-
-
+      <td><a href="#popupUser" class="enlaceboton">Iniciar Sesión</a></td>
       <div class="container-all" id="popupUser"> 
         <div class="popup">
-            <div class="img"></div>
             <div class="container-text">
               <%- include('session/new') %>
             </div>
@@ -61,12 +78,9 @@
 
   <% } %>
 
-
-  <h2>Algunos de los usuarios que utilizan freelancerCl</h2>
-  <% if (!bestUsers.length) { %>
-    <p>No results</p>
-  <% } else { %>
-
+  <br><br>
+  <% if (bestUsers.length) { %>
+  <h2>Algunos de los usuarios destacados en freelancerCl</h2>
         <br>
         <% bestUsers.forEach((user) => { %>
           <div id="users-list"></div>
