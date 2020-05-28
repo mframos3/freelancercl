@@ -1,12 +1,12 @@
 <h2>Mensajes Recibidos</h2>
 <% if (!messagesReceived.length) { %>
-  <p>No messages</p>
+  <p>No tienes Mensajes</p>
 <% } else { %>
     <table id="messages-list">
         <thead>
             <tr>
-                <th>Sent by</th>
-                <th>Content</th>
+                <th>De</th>
+                <th>Contenido</th>
             </tr>
         </thead>
         <tbody>
@@ -22,13 +22,13 @@
 
 <h2>Mensajes Enviados</h2>
 <% if (!messagesSent.length) { %>
-  <p>No messages</p>
+  <p>No haz enviado Mensajes</p>
 <% } else { %>
     <table id="messages-list">
         <thead>
             <tr>
-                <th>Sent to</th>
-                <th>Content</th>
+                <th>Para</th>
+                <th>Contenido</th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +41,7 @@
         </tbody>
     </table>
 <% } %>
-<a href="/">Back</a>
+<a href="/">Atrás</a>
 <!-- <form action="<%= backPath %>" method="get">
   <input type="submit" value="Back" />
 </form> -->
