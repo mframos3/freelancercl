@@ -1,6 +1,7 @@
 <h2>Mensajes Recibidos</h2>
 <% if (!messagesReceived.length) { %>
   <p>No tienes Mensajes</p>
+
 <% } else { %>
     <table id="messages-list">
         <thead>
@@ -22,12 +23,13 @@
 
 <h2>Mensajes Enviados</h2>
 <% if (!messagesSent.length) { %>
-  <p>No haz enviado Mensajes</p>
+  <p>No hay mensajes</p>
 <% } else { %>
     <table id="messages-list">
         <thead>
             <tr>
                 <th>Para</th>
+
                 <th>Contenido</th>
             </tr>
         </thead>

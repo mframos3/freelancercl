@@ -16,6 +16,7 @@
 <h2>Publicaciones de Oferta</h2>
 <% if (!searchResult.length) { %>
   <p>No existen Resultados</p>
+
 <% } else { %>
   <br>
   <% searchResult.forEach((offeringPost) => { %>
@@ -32,4 +33,5 @@
 
 <% if(currentUser) {%><a href="<%= newOfferingPostPath %>">Nueva Oferta</a><% } %>
 <div> <a href="/">Volver</a> </div>
+
 

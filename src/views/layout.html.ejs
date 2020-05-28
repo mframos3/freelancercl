@@ -16,6 +16,7 @@
       <li><a href="/users">Usuarios</a></li>
       <li><a href="/offeringPosts">Publicaciones de Oferta</a></li>
       <li><a href="/searchingPosts">Publicaciones de Búsqueda</a></li>
+
       <% if (currentUser) { %>
         <% if( currentUser.isAdmin) { %>
           <li><a href="/reports">Denuncias</a></li>
@@ -26,6 +27,7 @@
       <% if (!currentUser) { %>
         <li class="right"><a href="<%= newSessionPath %>">Iniciar sesión</a></li>
         <li class="right"><a href="<%= newRegisterPath %>">Registrarse</a></li>
+
       <% } else { %>
         <form action="<%= destroySessionPath %>" method="post">
           <input type="hidden" name="_method" value="delete" />
