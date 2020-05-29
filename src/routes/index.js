@@ -4,6 +4,7 @@ const pkg = require('../../package.json');
 const Sequelize = require('sequelize');
 const { Op } = Sequelize;
 const router = new KoaRouter();
+const onSignIn = require('../config/google');
 
 router.get('index.landing', '/', async (ctx) => {
   const isUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));

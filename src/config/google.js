@@ -1,7 +1,5 @@
-console.log("HOLAAAA");
-const aa = 'AQUIIIII';
 function onSignIn(googleUser) {
-  console.log("aaaaaaaa");
+  console.log("Estoy en google");
   // Useful data for your client-side scripts:
   var profile = googleUser.getBasicProfile();
   console.log('Full Name: ' + profile.getName());
@@ -13,3 +11,4 @@ function onSignIn(googleUser) {
   module.exports(id_token);
   console.log("ID Token: " + id_token);
 };
+module.exports = onSignIn;

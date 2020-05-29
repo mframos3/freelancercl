@@ -61,6 +61,7 @@ router.get('users.new', '/new', async (ctx) => {
     user,
     submitUserPath: ctx.router.url('users.create'),
     // onSignIn,
+    aa,
   });
 });
 
@@ -119,6 +120,7 @@ router.get('users.edit', '/:id/edit', loadUser, async (ctx) => {
     submitUserPath: ctx.router.url('users.update', { id: user.id }),
     backPath: ctx.router.url('users.show', { id: user.id }),
     // onSignIn,
+    aa,
   });
 });
 
