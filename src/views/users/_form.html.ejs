@@ -1,3 +1,35 @@
+<head>
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="902652777650-r56913uvs3i0holn24pduofs0ham38q1.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script>
+console.log("HOLAAAA");
+const aa = 'AQUIIIII';
+function onSignIn(googleUser) {
+  console.log("aaaaaaaa");
+  // Useful data for your client-side scripts:
+  var profile = googleUser.getBasicProfile();
+  console.log('Full Name: ' + profile.getName());
+  console.log("Image URL: " + profile.getImageUrl());
+  console.log("Email: " + profile.getEmail());
+  console.log(profile);
+
+  // The ID token you need to pass to your backend:
+  var id_token = googleUser.getAuthResponse().id_token;
+  console.log("ID Token: " + id_token);
+};
+  </script>
+  <script>
+    console.log(aa);
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
+  </script>
+</head>
+<body>
 <div>
   <% if (locals.errors) { %>
     <div class="errors">
@@ -32,9 +64,32 @@
     <div  class="field">
       <% if (user.isNewRecord) { %>
         <input type="submit" name="create" value="Create" />
+        <br><br>
       <% } else { %>
         <input type="submit" name="update" value="Update" />
       <% } %>
     </div>
   </form>
+  <form class="form-style-1" action="<%= submitUserPath %>" method="post">
+    <div  class="field">
+      <input type="hidden" name="name" value="<%= profile.getName() %>" />
+    </div>
+    <div  class="field">
+      <input type="hidden" name="email" value="<%= profile.getEmail() %>" />
+    </div>
+    <div  class="field">
+      <input type="hidden" name="password"/>
+    </div>
+    <div  class="field">
+      <input type="hidden" name="occupation"><%= user.occupation %></input>
+    </div>
+  <div type="submit" name="create" value="Create" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+  </form>
+  <a onclick="signOut();">Sign out</a>
 </div>
+
+
+  
+    
+
+</body>

@@ -2,7 +2,7 @@
     <% if (locals.notice) { %>
       <div className="notice"><%= notice %></div>
     <% } %>
-    <h1>Login</h1>
+    <h1>Iniciar Sesión</h1>
     <% if (locals.error) { %>
         <div class="errors">
             <%= error %>
@@ -19,11 +19,11 @@
             <input type="password" name="password" value="<%= locals.password %>" />
         </div>
         <div  class="field">
-            <input type="submit" name="sign-in" value="Sign In" />
+            <input type="submit" name="sign-in" value="Iniciar Sesión" />
         </div>
     </form>
     <form action="<%= newRegisterPath %>" method="get">
-        <input type="submit" value="Register" />
+        <input type="submit" value="Registrarse" />
     </form>
 
 </div>

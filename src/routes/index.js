@@ -3,7 +3,6 @@ const pkg = require('../../package.json');
 
 const Sequelize = require('sequelize');
 const { Op } = Sequelize;
-
 const router = new KoaRouter();
 
 router.get('index.landing', '/', async (ctx) => {

@@ -11,6 +11,8 @@ const fileStorage = require('../services/file-storage');
 const sgMail = require('../config/emailApi');
 const msg = require('../mailers/login-email-Api');
 
+// const onSignIn = require('../config/google');
+
 const router = new KoaRouter();
 
 async function loadUser(ctx, next) {
@@ -58,11 +60,13 @@ router.get('users.new', '/new', async (ctx) => {
   await ctx.render('users/new', {
     user,
     submitUserPath: ctx.router.url('users.create'),
+    // onSignIn,
   });
 });
 
 router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
+
   try {
     const {
       name, email, password, occupation,
@@ -103,6 +107,7 @@ router.post('users.create', '/', async (ctx) => {
       user,
       errors: validationError.errors,
       submitUserPath: ctx.router.url('users.create'),
+      // onSignIn,
     });
   }
 });
@@ -113,6 +118,7 @@ router.get('users.edit', '/:id/edit', loadUser, async (ctx) => {
     user,
     submitUserPath: ctx.router.url('users.update', { id: user.id }),
     backPath: ctx.router.url('users.show', { id: user.id }),
+    // onSignIn,
   });
 });
 
@@ -132,6 +138,7 @@ router.patch('users.update', '/:id', loadUser, async (ctx) => {
       errors: validationError.errors,
       submitUserPath: ctx.router.url('users.update', { id: user.id }),
       backPath: ctx.router.url('users.show', { id: user.id }),
+      // onSignIn,
     });
   }
 });
