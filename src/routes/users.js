@@ -18,6 +18,36 @@ async function loadUser(ctx, next) {
   return next();
 }
 
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    await callback(array[index], index, array);
+  }
+}
+
+async function computeRating(ctx) {
+  let countReview = 0;
+  let sumValues = 0;
+  let reviewsList = [];
+  const { user } = ctx.state;
+  const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: user.id } });
+  asyncForEach(offeringPostsList, async (post) => {
+    reviewsList = await ctx.orm.review.findAll({ where: { id_post: post.id } });
+    console.log('Lista de reviwes');
+    console.log(reviewsList);
+    reviewsList.forEach((review) => {
+      sumValues += review.rating;
+      countReview += 1;
+    });
+  }).then(() => {
+    // console.log(`Suma de ratings: ${sumValues}`);
+    // console.log(`Cantidad de reviws: ${countReview}`);
+    const mean = sumValues / countReview;
+    // console.log(`Promedio: ${mean.toFixed(1)}`);
+    user.rating = mean.toFixed(1);
+  });
+}
+
 router.get('users.list', '/', async (ctx) => {
   const result = ctx.request.query;
   let term = result.search;
@@ -39,7 +69,7 @@ router.get('users.list', '/', async (ctx) => {
   }
   const usersList = await ctx.orm.user.findAll();
   const fuse = new Fuse(usersList, options);
-  let searchResult = fuse.search("'" + term);
+  let searchResult = fuse.search(`'${term}`);
   if (!term) {
     usersList.forEach((e) => {
       e.item = e.dataValues;
@@ -146,10 +176,13 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   let followerPreviousId = -1;
+  user.rating = computeRating(ctx);
   if (currentUser) {
     followerPreviousId = currentUser.id;
   }
-  const follow = await ctx.orm.follow.findOne({ where: { followedId: user.id, followerId: followerPreviousId } });
+  const follow = await ctx.orm.follow.findOne({
+    where: { followedId: user.id, followerId: followerPreviousId },
+  });
   const offeringPostsList = await ctx.orm.offeringPost.findAll({
     where: { userId: { [Op.eq]: user.id } },
   });
