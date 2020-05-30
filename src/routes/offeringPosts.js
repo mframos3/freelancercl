@@ -12,10 +12,24 @@ const reviews = require('./reviews');
 const applications = require('./applications');
 const fileStorage = require('../services/file-storage');
 
-
 async function loadOfferingPost(ctx, next) {
   ctx.state.offeringPost = await ctx.orm.offeringPost.findByPk(ctx.params.pid);
   return next();
+}
+
+async function computeRating(ctx) {
+  let sumValues = 0;
+  const { offeringPost } = ctx.state;
+  const reviewsList = await ctx.orm.review.findAll({ where: { id_post: offeringPost.id } });
+  reviewsList.forEach((review) => {
+    sumValues += review.rating;
+  });
+  const countReview = reviewsList.length;
+  // console.log(`Cantidad de reviews: ${countReview}`);
+  // console.log(`Suma de rating: ${sumValues}`);
+  const mean = sumValues / countReview;
+  // console.log(`Promedio: ${mean.toFixed(1)}`);
+  offeringPost.rating = mean.toFixed(1);
 }
 
 router.get('offeringPosts.list', '/', async (ctx) => {
@@ -126,6 +140,7 @@ router.del('offeringPosts.delete', '/:pid', loadOfferingPost, async (ctx) => {
 
 router.get('offeringPosts.show', '/:pid', loadOfferingPost, async (ctx) => {
   const { offeringPost } = ctx.state;
+  computeRating(ctx);
   offeringPost.username = (await ctx.orm.user.findByPk(offeringPost.userId)).name;
   const auxReviews = await offeringPost.getReviews();
   const promisesReviews = auxReviews.map(async (element) => {

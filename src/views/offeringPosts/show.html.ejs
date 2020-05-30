@@ -8,6 +8,7 @@
         <th>Descripción</th>
         <th>Creador del Post</th>
         <th>Precio</th>
+        <th>Rating</th>
         <th>Fecha de publicación</th>
         <th>Fecha de término</th>
         <% if(currentUser) { %>
@@ -24,6 +25,7 @@
           <td><%= offeringPost.description %></td>
           <td><a href="<%= userProfilePath(offeringPost.userId)%>"><%= offeringPost.username %></a></td>
           <td><%= offeringPost.price%></td>
+          <td><%= offeringPost.rating%></td>
           <td><%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></td>
           <td><%= offeringPost.endsAt.getDate() + '-' + offeringPost.endsAt.getMonth() + '-' + offeringPost.endsAt.getFullYear() %></td>
           <% if(currentUser) { %>
