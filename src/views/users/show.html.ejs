@@ -26,13 +26,13 @@
         <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
           <td><a href="<%= editUserPath %>" class="enlaceboton">Editar</a></td>
         <% } %>
-        <% if (currentUser && currentUser.id != user.id && follow) { %>
+        <% if (currentUser && currentUser.id != user.id && !follow) { %>
           <td>
             <form action="<%= followPath %>" method="post">
                 <input type="submit" value="Seguir" class="enlaceboton"/>
             </form>
           </td>
-        <% } else if (currentUser && currentUser.id != user.id && !follow) { %>
+        <% } else if (currentUser && currentUser.id != user.id && follow) { %>
           <td>
             <form action="<%= followPath %>" method="post">
                 <input type="submit" value="Dejar de Seguir" class="enlaceboton"/>
@@ -87,7 +87,7 @@
         <td><% if (offeringPost.img) { %> <img class="user" src="<%= offeringPost.img%>"> <% } %></td>
           <td><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.name %></a></td>
           <td><%= offeringPost.category %></td>
-          <td><%= offeringPost.endsAt %></td>
+          <td><%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></td>
           </td>
         </tr>
       <% }) %>
@@ -105,9 +105,9 @@
   <table id="searchingPosts-list">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Category</th>
-        <th>Publication Date </th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Fecha de Publicación </th>
         
       </tr>
     </thead>
@@ -116,7 +116,7 @@
         <tr>
           <td><a href="<%= showSearchingPostPath(searchingPost) %>"><%= searchingPost.name %></a></td>
           <td><%= searchingPost.category %></td>
-          <td><%= searchingPost.createdAt %></td>
+          <td><%= searchingPost.createdAt.getDate() + '-' + searchingPost.createdAt.getMonth() + '-' + searchingPost.createdAt.getFullYear() %></td>
           </td>
         </tr>
       <% }) %>

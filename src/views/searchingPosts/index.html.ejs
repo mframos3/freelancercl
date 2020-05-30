@@ -24,14 +24,14 @@
       <ol class="listHorizontal">
         <li><% if (searchingPost.item.img) { %> <img class="user" src="<%= searchingPost.item.img%>"> <% } %></li>
         <li><a href="<%= showSearchingPostPath(searchingPost) %> "><%= searchingPost.item.name %></a></li>
-        <li>Fecha publicación: <%= searchingPost.item.createdAt %></li>
+        <li>Fecha publicación: <%= searchingPost.item.createdAt.getDate() + '-' + searchingPost.item.createdAt.getMonth() + '-' + searchingPost.item.createdAt.getFullYear() %></li>
       </ol>
     </div>
     <br>
   <% }) %>
 <% } %>
 
-<% if (currentUser) { %><a href="<%= newSearchingPostPath %>">Nuevo post de búsqueda</a> <% } %>
+<% if (currentUser) { %><a href="<%= newSearchingPostPath %>" class="enlaceboton">Nuevo post de búsqueda</a> <% } %>
 
 <div> <a href="/">Atrás</a> </div>
 

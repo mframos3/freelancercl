@@ -1,13 +1,14 @@
 <div>
   <% if (locals.errors) { %>
     <div class="errors">
-      Tienes que solucionar los siguientes errores:
-      <ul>
         <% errors.forEach(error => { %>
-          <li><%= error.message %></li>
+          <li class="validationError"><%= error.message %></li>
         <% }); %>
-      </ul>
     </div>
+  <% } %>
+  <% if (passwordError) { %>
+    <img src="../../../assets/images/error.png" width="100" height="100"/>
+    <li class="validationError"><%= passwordError %></li>
   <% } %>
   <form class="form-style-1" action="<%= submitUserPath %>" method="post">
     <% if (!user.isNewRecord) { %>
