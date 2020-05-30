@@ -1,5 +1,4 @@
 @import './layout';
-@import './hello';
 
 @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
 
@@ -16,18 +15,7 @@
     font-weight: bold;
 }
 
-
-*{
-    margin: auto;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    text-decoration: none;
-}
-
-.user{
-    position: fixed;
-}
-
+//Popup
 .btn-open-popup{
     position: absolute;
     top: 50%;
@@ -81,20 +69,11 @@
     transition: all 600ms;
 }
 
-
-// .img{
-//     width: 40%;
-//     background-image: url(../image/img4.jpg);
-//     background-size: cover;
-//     background-position: center;
-// }
-
 .container-text{
     width: 60%;
     padding: 50px;
     overflow-y: auto;
 }
-
 
 .container-text h1{
     font-size: 30px;

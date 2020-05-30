@@ -93,6 +93,10 @@ router.get('users.new', '/new', async (ctx) => {
 
 router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
+  const passwordErrors = {};
+  if (ctx.request.body.password1 !== ctx.request.body.password2) {
+    passwordErrors.isError = 'No coinciden las contraseñas';
+  }
   try {
     const {
       name, email, password, occupation,
