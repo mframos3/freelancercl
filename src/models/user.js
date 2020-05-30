@@ -70,6 +70,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    cFollowers: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      notEmpty: true,
+    },
+    cFollowed: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      notEmpty: true,
+    },
   }, {});
 
   user.beforeCreate(buildPasswordHash);

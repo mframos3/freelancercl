@@ -5,6 +5,8 @@
       <th>Nombre</th>
       <th>Email</th>
       <th>Valoración</th>
+      <th>Followers</th>
+      <th>Following</th>
       <th>CV</th>
       <th>Ocupación</th>
       <% if (currentUser) { %>
@@ -18,6 +20,8 @@
         <td><%= user.name %></td>
         <td><%= user.email %></td>
         <td><%= user.rating %></td>
+        <td><%= user.cFollowers %></td>
+        <td><%= user.cFollowed %></td>
       <td><% if (user.cvPath) { %> <a href="<%= user.cvPath %> " class="enlaceboton">Descargar CV</a> <% } %></td>
         <td><%= user.occupation %></td>
         <% if (currentUser && currentUser.id != user.id ) { %>

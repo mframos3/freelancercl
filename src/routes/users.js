@@ -25,6 +25,7 @@ async function asyncForEach(array, callback) {
   }
 }
 
+// Función que calcula el rating del usuario
 async function computeRating(ctx) {
   let countReview = 0;
   let sumValues = 0;
@@ -33,8 +34,8 @@ async function computeRating(ctx) {
   const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: user.id } });
   asyncForEach(offeringPostsList, async (post) => {
     reviewsList = await ctx.orm.review.findAll({ where: { id_post: post.id } });
-    console.log('Lista de reviwes');
-    console.log(reviewsList);
+    // console.log('Lista de reviwes');
+    // console.log(reviewsList);
     reviewsList.forEach((review) => {
       sumValues += review.rating;
       countReview += 1;
@@ -46,6 +47,17 @@ async function computeRating(ctx) {
     // console.log(`Promedio: ${mean.toFixed(1)}`);
     user.rating = mean.toFixed(1);
   });
+}
+
+// Función que calcula la cantidad de followers y de followed
+async function computeFollowers(ctx) {
+  const { user } = ctx.state;
+  const followersList = await ctx.orm.follow.findAll({ where: { followedId: user.id } });
+  const followedList = await ctx.orm.follow.findAll({ where: { followerId: user.id } });
+  // console.log(typeof (followersList));
+  // console.log(followedList.length);
+  user.cFollowers = followersList.length;
+  user.cFollowed = followedList.length;
 }
 
 router.get('users.list', '/', async (ctx) => {
@@ -98,7 +110,7 @@ router.post('users.create', '/', async (ctx) => {
   let passwordError = '';
   try {
     const password1 = ctx.request.body.password;
-    const password2 = ctx.request.body.password2;
+    const { password2 } = ctx.request.body;
     if (password1 !== password2) {
       passwordError = 'Las contraseñas ingresadas NO coindicen.';
       throw new Error(passwordError);
@@ -186,7 +198,8 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   let followerPreviousId = -1;
-  user.rating = computeRating(ctx);
+  computeRating(ctx);
+  computeFollowers(ctx);
   if (currentUser) {
     followerPreviousId = currentUser.id;
   }
