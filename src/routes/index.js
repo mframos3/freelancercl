@@ -14,7 +14,7 @@ router.get('index.landing', '/', async (ctx) => {
     offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: { [Op.eq]: isUser.id } } });
     searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.eq]: isUser.id } } });
   }
-  const bestUsers = await ctx.orm.user.findAll({ where: { rating: { [Op.gte]: 4 } } });
+  const bestUsers = await ctx.orm.user.findAll({ where: { rating: { [Op.gte]: 4 } }, order: [['rating', 'DESC']] });
   //Para popUp
   const user = ctx.orm.user.build();
   const searchingPost = ctx.orm.searchingPost.build(ctx.request.body);

@@ -17,7 +17,7 @@
           <td><%= searchingPost.category %></td>
           <td><%= searchingPost.description %></td>
           <td><a href="<%= userProfilePath(searchingPost.userId) %>"><%= searchingPost.username %></a></td>
-          <td><%= searchingPost.createdAt %></td>
+          <td><%= searchingPost.createdAt.getDate() + '-' + searchingPost.createdAt.getMonth() + '-' + searchingPost.createdAt.getFullYear() %></td>
           <td><% if(currentUser && (currentUser.id == searchingPost.userId || currentUser.isAdmin)) { %><a href="<%= editSearchingPostPath %>">Editar</a> <% } %></td>
           <td>
           <% if(currentUser && (currentUser.id == searchingPost.userId || currentUser.isAdmin)) { %>

@@ -67,7 +67,7 @@ router.get('users.list', '/', async (ctx) => {
   if (!term) {
     term = '';
   }
-  const usersList = await ctx.orm.user.findAll();
+  const usersList = await ctx.orm.user.findAll({ order: [['rating', 'DESC']] });
   const fuse = new Fuse(usersList, options);
   let searchResult = fuse.search(`'${term}`);
   if (!term) {
@@ -85,15 +85,24 @@ router.get('users.list', '/', async (ctx) => {
 
 router.get('users.new', '/new', async (ctx) => {
   const user = ctx.orm.user.build();
+  const passwordError = '';
   await ctx.render('users/new', {
     user,
+    passwordError,
     submitUserPath: ctx.router.url('users.create'),
   });
 });
 
 router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
+  let passwordError = '';
   try {
+    const password1 = ctx.request.body.password;
+    const password2 = ctx.request.body.confirmPassword;
+    if (password1 !== password2) {
+      passwordError = 'Las contraseñas ingresadas NO coindicen.';
+      throw new Error(passwordError);
+    }
     const {
       name, email, password, occupation,
     } = ctx.request.body;
@@ -133,6 +142,7 @@ router.post('users.create', '/', async (ctx) => {
       user,
       errors: validationError.errors,
       submitUserPath: ctx.router.url('users.create'),
+      passwordError,
     });
   }
 });
@@ -219,8 +229,6 @@ router.post('users.follow', '/:id', loadUser, async (ctx) => {
     const newFollow = ctx.orm.follow.build({ followedId: user.id, followerId: currentUser.id });
     await newFollow.save();
   }
-  const a = await ctx.orm.follow.findAll();
-  console.log(a);
   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
 });
 
