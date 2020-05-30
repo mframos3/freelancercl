@@ -52,7 +52,6 @@ export default class Validation extends Component {
           <p htmlFor="password2">Confirmar contraseña</p>
           <input type="password" name="password2" onChange={this.handleError} />
         </div>
-        <br></br>
         <span className="errorMessage" style={{ color: 'red' }}>{currentError}</span>
         <br></br>
       </div>

@@ -98,7 +98,7 @@ router.post('users.create', '/', async (ctx) => {
   let passwordError = '';
   try {
     const password1 = ctx.request.body.password;
-    const password2 = ctx.request.body.confirmPassword;
+    const password2 = ctx.request.body.password2;
     if (password1 !== password2) {
       passwordError = 'Las contraseñas ingresadas NO coindicen.';
       throw new Error(passwordError);
