@@ -24,8 +24,8 @@
           <td><%= offeringPost.description %></td>
           <td><a href="<%= userProfilePath(offeringPost.userId)%>"><%= offeringPost.username %></a></td>
           <td><%= offeringPost.price%></td>
-          <td><%= offeringPost.createdAt %></td>
-          <td><%= offeringPost.endsAt %></td>
+          <td><%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></td>
+          <td><%= offeringPost.endsAt.getDate() + '-' + offeringPost.endsAt.getMonth() + '-' + offeringPost.endsAt.getFullYear() %></td>
           <% if(currentUser) { %>
           <td><a href="<%= reportPostPath %>">Denunciar</a></td>
           <% } %>

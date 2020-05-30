@@ -201,3 +201,11 @@ html, body {
   opacity: 0.6;
   text-decoration: none;
 }
+
+
+//errores
+.validationError {
+  color: #D8000C;
+  background-color: #FFBABA;
+  background-image: url('../images/error.png');
+}

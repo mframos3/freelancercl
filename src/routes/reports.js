@@ -45,7 +45,7 @@ router.post('reports.create', '/:pid', async (ctx) => {
   const postUserId = (await ctx.orm.offeringPost.findByPk(postId)).userId;
   try {
     await report.save({ fields: ['title', 'content', 'reportingUserId', 'reportedUserId', 'reportedPost'] });
-    ctx.redirect(ctx.router.url('reports.list'));
+    ctx.redirect(ctx.router.url('offeringPosts.list'));
   } catch (validationError) {
     await ctx.render('reports/new', {
       report,
