@@ -39,10 +39,12 @@
       <div class="owner-actions">
         <div class="post-price">
           <% if(currentUser && (currentUser.id == searchingPost.userId || currentUser.isAdmin)) { %>
-          <a href="<%= editSearchingPostPath %>" class="action-btn">Editar Post</a>
+          <a href="<%= editSearchingPostPath %>" class="action-btn"><img src="https://img.icons8.com/material-sharp/24/000000/edit.png"/>Editar</a>
           <form action="<%= deleteSearchingPostPath %>" method="POST" id="delete-post">
             <input type="hidden" name="_method" value="delete" />
-            <input type="submit" value="Delete" />
+            <button type="submit">
+              <img src="https://img.icons8.com/android/24/000000/trash.png"/>Eliminar
+            </button>
           </form>
           <% } %>
         </div>

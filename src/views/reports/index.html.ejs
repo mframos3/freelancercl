@@ -1,20 +1,15 @@
-<h2>Denuncias</h2>
-<% if (!reportsList.length) { %>
-  <p>No existen Denuncias</p>
-
-<% } else { %>
-  <table id="reports-list">
-    <thead>
-      <tr>
-        <th>Título</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% reportsList.forEach((report) => { %>
-        <tr>
-          <td><a href="<%= showReportPath(report)%>"><%= report.title %></a></td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
-<% } %>
+<div class="list">
+  <span>Denuncias</span>
+  <% if (!reportsList.length) { %>
+  <p>No hay resultados</p>
+  <% } else { %>
+  <% reportsList.forEach((report) => { %>
+  <div class="list-element">
+    <div id="center">
+      <div class="element-user">
+        <a href="<%= showReportPath(report)%>"><%= report.title %></a>
+      </div>
+    </div>
+  </div>
+  <% })} %>
+</div>
