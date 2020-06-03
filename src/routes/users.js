@@ -13,6 +13,8 @@ const msg = require('../mailers/login-email-Api');
 
 const router = new KoaRouter();
 
+let passwordError = '';
+
 async function loadUser(ctx, next) {
   ctx.state.user = await ctx.orm.user.findByPk(ctx.params.id);
   return next();
@@ -97,7 +99,6 @@ router.get('users.list', '/', async (ctx) => {
 
 router.get('users.new', '/new', async (ctx) => {
   const user = ctx.orm.user.build();
-  const passwordError = '';
   await ctx.render('users/new', {
     user,
     passwordError,
@@ -107,7 +108,6 @@ router.get('users.new', '/new', async (ctx) => {
 
 router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
-  let passwordError = '';
   try {
     const password1 = ctx.request.body.password;
     const { password2 } = ctx.request.body;
@@ -165,6 +165,7 @@ router.get('users.edit', '/:id/edit', loadUser, async (ctx) => {
     user,
     submitUserPath: ctx.router.url('users.update', { id: user.id }),
     backPath: ctx.router.url('users.show', { id: user.id }),
+    passwordError,
   });
 });
 
@@ -230,21 +231,6 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   });
 });
 
-router.post('users.follow', '/:id', loadUser, async (ctx) => {
-  const { user } = ctx.state;
-  const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
-  const follow = await ctx.orm.follow.findOne({
-    where: { followedId: user.id, followerId: currentUser.id },
-  });
-  if (follow) {
-    await follow.destroy();
-  } else {
-    const newFollow = ctx.orm.follow.build({ followedId: user.id, followerId: currentUser.id });
-    await newFollow.save();
-  }
-  ctx.redirect(ctx.router.url('users.show', { id: user.id }));
-});
-
 router.post('users.uploadFile', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const { img, CV } = ctx.request.files;
@@ -260,4 +246,18 @@ router.post('users.uploadFile', '/:id', loadUser, async (ctx) => {
   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
 });
 
+router.post('users.follow', '/:id/follow', loadUser, async (ctx) => {
+  const { user } = ctx.state;
+  const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
+  const follow = await ctx.orm.follow.findOne({
+    where: { followedId: user.id, followerId: currentUser.id },
+  });
+  if (follow) {
+    await follow.destroy();
+  } else {
+    const newFollow = ctx.orm.follow.build({ followedId: user.id, followerId: currentUser.id });
+    await newFollow.save();
+  }
+  ctx.redirect(ctx.router.url('users.show', { id: user.id }));
+});
 module.exports = router;

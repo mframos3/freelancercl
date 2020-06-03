@@ -8,5 +8,6 @@ import '../styles/users.scss';
 import '../styles/reviews.scss';
 import '../styles/forms.scss';
 import '../styles/messages.scss';
+import '../styles/profile.scss';
 
 // eslint-disable-next-line no-console

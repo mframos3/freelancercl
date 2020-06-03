@@ -19,7 +19,7 @@ router.get('index.landing', '/', async (ctx) => {
   const user = ctx.orm.user.build();
   const searchingPost = ctx.orm.searchingPost.build(ctx.request.body);
   const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
-  let passwordError = '';
+  const passwordError = '';
   await ctx.render('index', {
     appVersion: pkg.version,
     offeringPostsList,
