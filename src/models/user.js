@@ -43,12 +43,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     rating: {
       type: DataTypes.FLOAT,
+      defaultValue: 0,
       validate: {
         isFloat: true,
         min: 0,
         max: 5,
       },
-      defaultValue: 0,
     },
     cvPath: {
       type: DataTypes.STRING,
@@ -59,6 +59,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
       },
+      defaultValue: 'https://freelancercl.sfo2.digitaloceanspaces.com/avatar.png',
     },
     occupation: {
       type: DataTypes.STRING,
@@ -69,6 +70,16 @@ module.exports = (sequelize, DataTypes) => {
     isAdmin: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
+    },
+    cFollowers: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      notEmpty: true,
+    },
+    cFollowed: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      notEmpty: true,
     },
   }, {});
 
@@ -104,6 +115,10 @@ module.exports = (sequelize, DataTypes) => {
   user.prototype.checkPassword = function checkPassword(password) {
     return bcrypt.compare(password, this.password);
   };
+
+  // user.prototype.actionFollower = function actionFollower(otherUser) {
+
+  // }
 
   return user;
 };

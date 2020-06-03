@@ -1,42 +1,63 @@
-<div class="search-container">
+<h2>Publicaciones de Oferta</h2>
+<div class="search-container">  
   <form action="/offeringPosts" class="search-form">
-    <p>Search by:</p>
-    <input type="radio" id="category" name="type" value="category" checked>
-    <label for="category">Category</label><br>
-    <input type="radio" id="name" name="type" value="name">
-    <label for="name">Name</label><br>
-    <input type="search" name="search" placeholder="Search...">
-    <button type="submit" value="Search"><i class="fa fa-search"></i></button>
+    <div class="dropdown">
+      <select class="dropbtn" name="category" id="category" class="custom-select sources" placeholder="Categoría">
+        <option value="Todo">Todas las categorías</option>
+        <option value="General">General</option>
+        <option value="Hogar">Hogar</option>
+        <option value="Educación">Educación</option>
+        <option value="Música">Música</option>
+        <option value="Entretenimiento">Entretenimiento</option>
+        <option value="Deportes">Deportes</option>
+        <option value="Artes">Artes</option>
+        <option value="Tele Trabajo">Tele Trabajo</option>
+        <option value="Emprendimiento">Emprendimiento</option>
+        <option value="Investigación">Investigación</option>
+        <option value="Salud">Salud</option>
+        <option value="Asesoría">Asesoría</option>
+        <option value="Otros">Otros</option>
+
+      </select>
+    </div>
+      <br><br>
+
+    <input type="text" name="search" placeholder="Buscar Post...">
+    <div type="submit" value="Search" class="search"></div>
   </form>
 </div>
 
-<h2>Offering Posts</h2>
-<% if (!offeringPostsList.length) { %>
-  <p>No results</p>
+<% if (!searchResult.length) { %>
+  <p>No existen Resultados</p>
+
 <% } else { %>
-  <table id="offeringPosts-list">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Category</th>
-        <th>End Date </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% offeringPostsList.forEach((offeringPost) => { %>
-        <tr>
-        <td><% if (offeringPost.img) { %> <img class="user" src="<%= offeringPost.img%>"> <% } %></td>
-          <td><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.name %></a></td>
-          <td><%= offeringPost.category %></td>
-          <td><%= offeringPost.endsAt %></td>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
+ 
+  <br>
+  <div class="offeringPosts-list">
+    <% searchResult.forEach((offeringPost) => { %>
+      <div class="offeringPost">
+        <% if (offeringPost.item.img) { %> <img class="offeringPost__image" src="<%= offeringPost.item.img%>"> <% } %>
+        <div class="offeringPost__name">
+            <a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a>
+        </div>
+        <div class="offeringPost__content">
+          <%= offeringPost.item.description %>
+        </div>
+        <div class="offeringPost__extras">
+          <%= offeringPost.item.category %>
+        </div>
+      </div>
+    <!-- <ol class="listHorizontal">
+      <li><% if (offeringPost.item.img) { %> <img class="user" src="<%= offeringPost.item.img%>"> <% } %></li>
+      <li><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a></li>
+      <li>Fecha publicación: <%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></li>
+    </ol> -->
+    <% }) %>
+  </div>
+  <br>
 <% } %>
 
-<% if(currentUser) {%><a href="<%= newOfferingPostPath %>">New Offering Post</a><% } %>
-<div> <a href="/">Back</a> </div>
+<% if(currentUser) {%><a href="<%= newOfferingPostPath %>" class="enlaceboton">Nueva Oferta</a><% } %>
+<div> <a href="/">Volver</a> </div>
+
 

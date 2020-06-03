@@ -1,7 +1,7 @@
 <div>
     <% if (locals.errors) { %>
       <div class="errors">
-        You need to fix the following errors:
+        Tienes que solucionar los siguientes errores:
         <ul>
           <% errors.forEach(error => { %>
             <li><%= error.message %></li>
@@ -18,11 +18,17 @@
         <input type="number" name="id_worker"><%= review.id_worker %></input>
       </div> -->
       <div  class="field">
-        <label for="rating">Rating</label>
-        <input type="number" name="rating"><%= review.rating %></input>
+        <label for="rating">Valoración</label>
+        <select name="rating" id="category">
+          <option value=1>1</option>
+          <option value=2>2</option>
+          <option value=3>3</option>
+          <option value=4>4</option>
+          <option value=5>5</option>
+        </select>
       </div>
       <div  class="field">
-        <label for="comment">Comment</label>
+        <label for="comment">Comentario</label>
         <textarea type="text" name="comment"><%= review.comment %></textarea>
       </div>
       <input type="hidden" name="id_post" value="<%= postId %>"></input>

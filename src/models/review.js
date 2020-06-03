@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     rating: {
+      defaultValue: 0,
       type: DataTypes.INTEGER,
       validate: {
         isFloat: true,

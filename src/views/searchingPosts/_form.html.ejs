@@ -1,7 +1,7 @@
 <div>
     <% if (locals.errors) { %>
       <div class="errors">
-        You need to fix the following errors:
+        Tienes que solucionar los siguientes errores:
         <ul>
           <% errors.forEach(error => { %>
             <li><%= error.message %></li>
@@ -14,15 +14,30 @@
         <input type="hidden" name="_method" value="patch" />
       <% } %>
       <div  class="field">
-        <label for="name">Name</label>
+        <label for="name">Nombre</label>
         <input type="text" name="name" value="<%= searchingPost.name %>" />
       </div>
       <div  class="field">
-        <label for="category">Category</label>
-        <textarea type="text" name="category"><%= searchingPost.category %></textarea>
+        <label for="category">Categoría</label>
+        <select name="category" id="category">
+          <option value="General">General</option>
+          <option value="Hogar">Hogar</option>
+          <option value="Educación">Educación</option>
+          <option value="Música">Música</option>
+          <option value="Entretenimiento">Entretenimiento</option>
+          <option value="Deportes">Deportes</option>
+          <option value="Artes">Artes</option>
+          <option value="Tele Trabajo">Tele Trabajo</option>
+          <option value="Emprendimiento">Emprendimiento</option>
+          <option value="Investigación">Investigación</option>
+          <option value="Salud">Salud</option>
+          <option value="Asesoría">Asesoría</option>
+          <option value="Otros">Otros</option>
+
+        </select>
       </div>
       <div  class="field">
-        <label for="description">Description</label>
+        <label for="description">Descripción</label>
         <textarea type="text" name="description"><%= searchingPost.description %></textarea>
       </div>
       <div  class="field">

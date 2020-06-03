@@ -1,6 +1,110 @@
-<h1>Bienvenido a freelancerCL</h1>
-<p>
-  App web version
-  <%= appVersion %>
-</p>
-<div id="react-app">Here a React app will be rendered</div>
+<head>
+  <meta charset="utf-8">
+  <title>freelancerCL</title>
+  <% if (env !== 'development') { %>
+    <link rel="stylesheet" href="<%= assetPath('app.css') %>">
+  <% } %>
+  
+</head>
+  <header>
+      <!-- <div id="logo">
+        <img id="freelancer-logo" src="<%= assetPath('logo.png') %>" alt="Logo" />
+      </div> -->
+      <img id="freelancer-fondo" src=https://freelancercl.sfo2.digitaloceanspaces.com/banner.png />
+  </header>
+<body class="cover">
+  <h1 id="welcome">Bienvenido a freelancerCL</h1>     
+
+  <% if (currentUser) { %>
+  <% if (!offeringPostsList.length) { %>
+      <h2>No tienes Publicaciones de Oferta</h2>
+      <td><a href="#popupOffer" class="enlaceboton">Haz tu primera publicación de Oferta</a></td>
+      <div class="container-all" id="popupOffer"> 
+        <div class="popup">
+            <div class="container-text">
+              <%- include('offeringPosts/new') %>
+            </div>
+            <a href="#" class="btn-close-popup">X</a>
+        </div>
+        
+      </div>
+  <% }; %>
+
+  <% if (!searchingPostsList.length) { %>
+      <h2>No tienes Publicaciones de Búsqueda</h2>      
+      <td><a href="#popupSearch" class="enlaceboton">Haz tu primera publicación de Búsqueda</a></td>
+      <div class="container-all" id="popupSearch"> 
+        <div class="popup">
+            <div class="container-text">
+              <%- include('searchingPosts/new') %>
+            </div>
+            <a href="#" class="btn-close-popup">X</a>
+        </div>
+        
+      </div>
+
+
+
+  <% }; %>
+  <% } %>
+
+
+  <% if (!currentUser) { %>
+      <h4>Estás solo a un click de expandir tu mundo laboral, ¡Qué esperas!</h4>
+      <td><a href="#popupRegister" class="enlaceboton">Registrarse</a></td>
+      <div class="container-all" id="popupRegister"> 
+        <div class="popup">
+            <div class="container-text">
+              <%- include('users/new') %>
+            </div>
+            <a href="#" class="btn-close-popup">X</a>
+        </div>
+      </div>
+
+      <br>
+      <h4>Si ya tienes una cuenta, inicia sesión!</h4>
+      <td><a href="#popupUser" class="enlaceboton">Iniciar Sesión</a></td>
+      <div class="container-all" id="popupUser"> 
+        <div class="popup">
+            <div class="container-text">
+              <%- include('session/new') %>
+            </div>
+            <a href="#" class="btn-close-popup">X</a>
+        </div>
+        
+    </div>
+
+
+  <% } else {%>
+  <br><br>
+
+  <% if (offeringPostsFollowing.length) { %>
+    <h2>Ofertas de quienes sigues:</h2>
+          <% offeringPostsFollowing.forEach((post) => { %>
+            <div id="users-list"></div>
+              <ol class="listHorizontal">
+                <li><% if (post.img) { %> <img class="user" src="<%= post.img%>"> <% } %></li>
+                <li><a href="<%= showOfferingPostPath(post) %> "><%= post.name %></a></li>
+                <li>Rating: <%= post.rating %></li>
+                <li>Categoría: <%= post.category %></li>
+              </ol>
+            </div>
+          <% }) %>
+    <% } %>
+    <% if (searchingPostsFollowing.length) { %>
+      <h2>Búsquedas de empleo de quienes sigues:</h2>
+            <% searchingPostsFollowing.forEach((post) => { %>
+              <div id="users-list"></div>
+                <ol class="listHorizontal">
+                  <li><% if (post.img) { %> <img class="user" src="<%= post.img%>"> <% } %></li>
+                  <li><a href="<%= showSearchingPostPath(post) %> "><%= post.name %></a></li>
+                  <li>Categoría: <%= post.category %></li>
+                </ol>
+              </div>
+              <br>
+            <% }) %>
+        
+      <% } %>
+<% } %>
+
+</body>

@@ -5,30 +5,95 @@ const bcrypt = require('bcrypt');
 const PASSWORD_SALT = 10;
 const { Op } = Sequelize;
 
+const Fuse = require('fuse.js');
+
 const fileStorage = require('../services/file-storage');
 const sgMail = require('../config/emailApi');
 const msg = require('../mailers/login-email-Api');
 
 const router = new KoaRouter();
 
+let passwordError = '';
+
 async function loadUser(ctx, next) {
   ctx.state.user = await ctx.orm.user.findByPk(ctx.params.id);
   return next();
 }
 
+// async function asyncForEach(array, callback) {
+//   for (let index = 0; index < array.length; index += 1) {
+//     // eslint-disable-next-line no-await-in-loop
+//     await callback(array[index], index, array);
+//   }
+// }
+
+// // Función que calcula el rating del usuario
+// async function computeRating(ctx) {
+//   let countReview = 0;
+//   let sumValues = 0;
+//   let reviewsList = [];
+//   const { user } = ctx.state;
+//   const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: user.id } });
+//   asyncForEach(offeringPostsList, async (post) => {
+//     reviewsList = await ctx.orm.review.findAll({ where: { id_post: post.id } });
+//     // console.log('Lista de reviwes');
+//     // console.log(reviewsList);
+//     reviewsList.forEach((review) => {
+//       sumValues += review.rating;
+//       countReview += 1;
+//     });
+//   }).then(() => {
+//     // console.log(`Suma de ratings: ${sumValues}`);
+//     // console.log(`Cantidad de reviws: ${countReview}`);
+//     const mean = sumValues / countReview;
+//     // console.log(`Promedio: ${mean.toFixed(1)}`);
+//     user.rating = mean.toFixed(1);
+//   });
+// }
+
+// Función que calcula la cantidad de followers y de followed
+async function computeFollowers(ctx) {
+  const { user } = ctx.state;
+  const followersList = await ctx.orm.follow.findAll({ where: { followedId: user.id } });
+  const followedList = await ctx.orm.follow.findAll({ where: { followerId: user.id } });
+  // console.log(typeof (followersList));
+  // console.log(followedList.length);
+  user.cFollowers = followersList.length;
+  user.cFollowed = followedList.length;
+}
+
 router.get('users.list', '/', async (ctx) => {
   const result = ctx.request.query;
-  const [term, type] = [result.search, result.type];
-  let usersList = await ctx.orm.user.findAll();
-  if (type === 'name') {
-    usersList = await ctx.orm.user.findAll({ where: { name: { [Op.like]: `%${term}%` } } });
-  } else if (type === 'email') {
-    usersList = await ctx.orm.user.findAll({ where: { email: { [Op.eq]: term } } });
+  let term = result.search;
+  const options = {
+    isCaseSensitive: false,
+    includeScore: false,
+    shouldSort: true,
+    // includeMatches: false,
+    // findAllMatches: true,
+    // minMatchCharLength: 1,
+    // location: 0,
+    // threshold: 0.6,
+    // distance: 100,
+    useExtendedSearch: true,
+    keys: [{ name: 'dataValues.email', weight: 2 }, { name: 'dataValues.name', weight: 1.5 }, { name: 'dataValues.occupation', weight: 0.3 }],
+  };
+  if (!term) {
+    term = '';
+  }
+  const usersList = await ctx.orm.user.findAll({ order: [['rating', 'DESC']] });
+  const fuse = new Fuse(usersList, options);
+  let searchResult = fuse.search(`'${term}`);
+  if (!term) {
+    usersList.forEach((e) => {
+      e.item = e.dataValues;
+    });
+    searchResult = usersList;
   }
   await ctx.render('users/index', {
-    usersList,
+    searchResult,
     newUserPath: ctx.router.url('users.new'),
-    showUserPath: (user) => ctx.router.url('users.show', { id: user.id }),
+    showUserPath: (user) => ctx.router.url('users.show', { id: user.item.id }),
   });
 });
 
@@ -36,6 +101,7 @@ router.get('users.new', '/new', async (ctx) => {
   const user = ctx.orm.user.build();
   await ctx.render('users/new', {
     user,
+    passwordError,
     submitUserPath: ctx.router.url('users.create'),
   });
 });
@@ -43,6 +109,12 @@ router.get('users.new', '/new', async (ctx) => {
 router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
   try {
+    const password1 = ctx.request.body.password;
+    const { password2 } = ctx.request.body;
+    if (password1 !== password2) {
+      passwordError = 'Las contraseñas ingresadas NO coindicen.';
+      throw new Error(passwordError);
+    }
     const {
       name, email, password, occupation,
     } = ctx.request.body;
@@ -82,6 +154,7 @@ router.post('users.create', '/', async (ctx) => {
       user,
       errors: validationError.errors,
       submitUserPath: ctx.router.url('users.create'),
+      passwordError,
     });
   }
 });
@@ -92,6 +165,7 @@ router.get('users.edit', '/:id/edit', loadUser, async (ctx) => {
     user,
     submitUserPath: ctx.router.url('users.update', { id: user.id }),
     backPath: ctx.router.url('users.show', { id: user.id }),
+    passwordError,
   });
 });
 
@@ -123,13 +197,37 @@ router.del('users.delete', '/:id', loadUser, async (ctx) => {
 
 router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
+  const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
+  let followerPreviousId = -1;
+  // computeRating(ctx);
+  computeFollowers(ctx);
+  if (currentUser) {
+    followerPreviousId = currentUser.id;
+  }
+  const follow = await ctx.orm.follow.findOne({
+    where: { followedId: user.id, followerId: followerPreviousId },
+  });
+  const offeringPostsList = await ctx.orm.offeringPost.findAll({
+    where: { userId: { [Op.eq]: user.id } },
+  });
+  const searchingPostsList = await ctx.orm.searchingPost.findAll({
+    where: { userId: { [Op.eq]: user.id } },
+  });
   await ctx.render('users/show', {
     user,
+    follow,
+    offeringPostsList,
+    searchingPostsList,
     submitFilePath: ctx.router.url('users.uploadFile', { id: user.id }),
     editUserPath: ctx.router.url('users.edit', { id: user.id }),
     sendMessagePath: ctx.router.url('messages.new', { id: user.id }),
+    followPath: ctx.router.url('users.follow', { id: user.id }),
     deleteUserPath: ctx.router.url('users.delete', { id: user.id }),
     backPath: ctx.router.url('users.list'),
+    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.id }),
+    showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
+    newSearchingPostPath: ctx.router.url('searchingPosts.new'),
+    newOfferingPostPath: ctx.router.url('offeringPosts.new'),
   });
 });
 
@@ -148,4 +246,18 @@ router.post('users.uploadFile', '/:id', loadUser, async (ctx) => {
   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
 });
 
+router.post('users.follow', '/:id/follow', loadUser, async (ctx) => {
+  const { user } = ctx.state;
+  const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
+  const follow = await ctx.orm.follow.findOne({
+    where: { followedId: user.id, followerId: currentUser.id },
+  });
+  if (follow) {
+    await follow.destroy();
+  } else {
+    const newFollow = ctx.orm.follow.build({ followedId: user.id, followerId: currentUser.id });
+    await newFollow.save();
+  }
+  ctx.redirect(ctx.router.url('users.show', { id: user.id }));
+});
 module.exports = router;

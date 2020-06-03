@@ -1,124 +1,164 @@
-<h2>Offering Posts</h2>
-  <table id="offeringPosts-list">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Category</th>
-        <th>Description</th>
-        <th>User Owner</th>
-        <th>Publication Date </th>
-        <th>End Date </th>
-        <% if(currentUser) { %>
-          <th colspan="4">Actions</th>
+<main class="post-show-container">
+
+  <!-- Left Column / Headphones Image -->
+  <div class="left-column">
+    <% if (offeringPost.img) { %> <img src="<%= offeringPost.img%>"> <% } %>
+  </div>
+
+
+  <!-- Right Column -->
+  <div class="right-column">
+
+    <!-- Product Description -->
+    <div class="post-description">
+      <span><a href="<%= userProfilePath(offeringPost.userId)%>">@<%= offeringPost.username %></a></span>
+
+      <h1><%= offeringPost.name %></h1>
+
+      <p><%= offeringPost.description %></p>
+
+    </div>
+
+    <!-- Product Configuration -->
+    <div class="post-info">
+
+      <div class="product-categories">
+        <ul class="tags">
+          <li><a href="#"><%= offeringPost.category %></a></li>
+        </ul>
+      </div>
+
+
+      <!-- product-color -->
+      <div class="post-dates">
+        <span>Creado el:
+          <%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></span>
+        <span>Finaliza el:
+          <%= offeringPost.endsAt.getDate() + '-' + offeringPost.endsAt.getMonth() + '-' + offeringPost.endsAt.getFullYear() %></span>
+      </div>
+
+
+      <!-- Cable Configuration -->
+      <div class="post-rating">
+        <span>Rating</span>
+        <%= offeringPost.rating%>
+      </div>
+    </div>
+
+
+    <!-- Product Pricing -->
+    <div class="post-price">
+      <span><%= offeringPost.price%>$</span>
+      <% if(currentUser && (currentUser.id !== offeringPost.userId )){ %>
+      <a href="<%= newApplicationPath %>" class="action-btn"><img src="https://img.icons8.com/material-outlined/24/000000/hand-with-pen.png"/>Postular</a>
+      <% } %>
+    </div>
+    <div class="post-price">
+      <% if(currentUser) { %>
+      <a href="<%= reportPostPath %>" class="action-btn"><img src="https://img.icons8.com/material-outlined/24/000000/break.png"/>Denunciar</a>
+      <% } %>
+      <% if(currentUser) { %><a href="<%= newReviewPath %>" class="action-btn"><img src="https://img.icons8.com/material-outlined/24/000000/add.png"/>Nueva Reseña</a> <% } %>
+    </div>
+    <div class="owner-actions">
+      <div class="post-price">
+        <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+        <a href="<%= editOfferingPostPath %>" class="action-btn"><img src="https://img.icons8.com/material-sharp/24/000000/edit.png"/>Editar Post</a>
+        <form action="<%= deleteOfferingPostPath %>" method="POST" id="delete-post">
+          <input type="hidden" name="_method" value="delete" />
+          <button type="submit" ><img src="https://img.icons8.com/android/24/000000/trash.png"/>Eliminar</button>
+        </form>
         <% } %>
+      </div>
 
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><% if (offeringPost.img) { %> <img class="user" src="<%= offeringPost.img%>"> <% } %></td>
-          <td><%= offeringPost.name %></td>
-          <td><%= offeringPost.category %></td>
-          <td><%= offeringPost.description %></td>
-          <td><a href="<%= userProfilePath(offeringPost.userId)%>"><%= offeringPost.username %></a></td>
-          <td><%= offeringPost.createdAt %></td>
-          <td><%= offeringPost.endsAt %></td>
-          <% if(currentUser) { %>
-          <td><a href="<%= reportPostPath %>">Report Post</a></td>
-          <% } %>
-          <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-          <td><a href="<%= editOfferingPostPath %>">Edit</a></td>
-          <td>
-          <form action="<%= deleteOfferingPostPath %>" method="POST">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" value="Delete" />
-          </form>
-          <td>
-            <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
-                  <div class="field">
-                    <label for="img">Select Picture</label>
-                    <input type="file" name="img" />
-                  </div>
-                  <div class="field">
-                    <input type="submit" name="uploadFile" value="Upload" />
-                  </div>
-              </form>
-          </td>
-          <% } %>
-        </tr>
-    </tbody>
-  </table>
 
-  <h2>Reviews</h2>
-<% if (!reviewsList.length) { %>
-  <p>No results</p>
-<% } else { %>
-  <table id="reviews-list">
-    <thead>
-      <tr>
-        <th>WorkerID</th>
-        <th>Rating</th>
-        <th>Comment</th>
-        <th colspan="2">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% reviewsList.forEach((review) => { %>
-        <tr>
-          <td><a href="<%= userProfilePath(review.id_worker)%>"><%= review.username %></a></td>
-          <td><%= review.rating %></td>
-          <td><%= review.comment %></td>
-          <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-          <td><a href="<%= editReviewPath(review) %>">Edit</a></td>
-          <td>
-            <form action="<%=deleteReviewPath(review) %>" method="POST">
-              <input type="hidden" name="_method" value="delete" />
-              <input type="submit" value="Delete" />
-            </form>
-            <% } %>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
-<% } %>
+      <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+      <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post" id="upload">
+        <label for="img"> Selecciona imagen</label>
+        <input type="file" name="img" />
+        <button type="submit" name="uploadFile" ><img src="https://img.icons8.com/material-outlined/24/000000/send.png"/>Enviar</button>
+      </form>
+      <% } %>
 
-<% if(currentUser) { %><a href="<%= newReviewPath %>">New Review</a> <% } %>
+    </div>
+  </div>
+</main>
+
+<div class="list">
+  <span>Reseñas</span>
+  <% if (!reviewsList.length) { %>
+  <p>No hay resultados</p>
+  <% } else { %>
+  <% reviewsList.forEach((review) => { %>
+  <div class="list-element">
+    <div id="left">
+      <img class="user" src="<%= review.image %>" alt="smth" />
+    </div>
+    <div id="center">
+      <div class="element-user">
+        <a href="<%= userProfilePath(review.id_worker)%>"><%= review.username %></a>
+      </div>
+      <div class="element-content">
+        <%= review.comment %>
+      </div>
+    </div>
+    <div id="right">
+      <div class="review-rating">
+        Rating: <%= review.rating %>
+      </div>
+      <div class="element-actions">
+        <% if(currentUser && (currentUser.id == review.id_worker || currentUser.isAdmin)) { %>
+        <a href="<%= editReviewPath(review) %>" class="action-btn"><img src="https://img.icons8.com/material-sharp/24/000000/edit.png"/>Edit</a>
+        <form action="<%=deleteReviewPath(review) %>" method="POST" id="review-delete">
+          <input type="hidden" name="_method" value="delete" />
+          <button type="submit" ><img src="https://img.icons8.com/android/24/000000/trash.png"/>Eliminar</button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+
+  </div>
+  <% })} %>
+</div>
+
+
 <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-<h2>Applications</h2>
-<% if (!applicationsList.length) { %>
-  <p>No results</p>
-<% } else { %>
-  <table id="applications-list">
-    <thead>
-      <tr>
-        <th>User</th>
-        <th>Content</th>
-        <th colspan="2">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% applicationsList.forEach((application) => { %>
-        <tr>
+<div class="list">
+  <span>Postulaciones</span>
+  <% if (!applicationsList.length) { %>
+  <p>No hay resultados</p>
+  <% } else { %>
+  <% applicationsList.forEach((application) => { %>
+  <div class="list-element">
+    <div id="left">
+      <img class="user" src="<%= application.image %>" alt="smth" />
+    </div>
+    <div id="center">
+      <div class="element-user">
+        <a href="<%= userProfilePath(application.userId)%>"><%= application.username %></a>
+      </div>
+      <div class="element-content">
+        <%= application.content %>
+      </div>
+    </div>
+    <div id="right">
+      <div class="element-actions">
+        <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+        <a href="<%= editApplicationPath(application) %>" class="action-btn"><img src="https://img.icons8.com/material-sharp/24/000000/edit.png"/>Editar</a>
+        <form action="<%= deleteApplicationPath(application) %>" method="POST" id="review-delete">
+          <input type="hidden" name="_method" value="delete" />
+          <button type="submit">
+            <img src="https://img.icons8.com/android/24/000000/trash.png"/>Eliminar
+          </button>
+        </form>
+        <% } %>
+      </div>
+    </div>
 
-          <td><a href="<%= userProfilePath(application.userId)%>"><%= application.username %></a></td>
-          <td><%= application.content %></td>
-          <td><a href="<%= editApplicationPath(application) %>">Edit</a></td>
-          <td>
-            <form action="<%= deleteApplicationPath(application) %>" method="POST">
-              <input type="hidden" name="_method" value="delete" />
-              <input type="submit" value="Delete" />
-            </form>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
-<% } %>
+  </div>
+  <% })} %>
+</div>
 <%} %>
-<% if (currentUser) { %> <a href="<%= newApplicationPath %>">New Application</a> <% }%>
 
 <form action="<%= backPath %>" method="get">
-  <input type="submit" value="Back" />
+  <input type="submit" value="Atrás" />
 </form>

@@ -1,12 +1,18 @@
 #reports-list {
-  th {
-    background-color: green;
-    text-align: center;
-  }
+  border-collapse: collapse;
+  width: 80%;
+  margin: auto;
+  margin-top: 40px;
+}
 
-  td {
-    background-color: #EEE;
-    border: 1px solid rgb(194, 194, 194);
-    padding: 10px;
-  }
+#reports-list th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+#reports-list tr:nth-child(even){background-color: #f2f2f2}
+
+#reports-list th {
+  background-color: rgb(63, 152, 211);
+  color: white;
 }
