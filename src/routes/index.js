@@ -17,12 +17,14 @@ router.get('index.landing', '/', async (ctx) => {
   }
   const bestUsers = await ctx.orm.user.findAll({ where: { rating: { [Op.gte]: 4 } }, order: [['rating', 'DESC']] });
   const bestOfferingPosts = await ctx.orm.offeringPost.findAll({ where: { rating: { [Op.gte]: 4 } }, order: [['rating', 'DESC']] });
-  const following = await ctx.orm.follow.findAll({
-    where: { followerId: { [Op.eq]: currentUser.id } } });
-  const followingIds = following.map(function(x) {
-       return x.followedId;
-    });
-  console.log(followingIds);
+  let followingIds = ''
+  if (currentUser) {
+    const following = await ctx.orm.follow.findAll({
+      where: { followerId: { [Op.eq]: currentUser.id } } });
+    followingIds = following.map(function(x) {
+         return x.followedId;
+      });
+  }
   const offeringPostsFollowing = await ctx.orm.offeringPost.findAll({ where: { userId: { [Op.in]: followingIds } } });
   const searchingPostsFollowing = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.in]: followingIds } } });
   const showOfferingPostPath = (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.id });
