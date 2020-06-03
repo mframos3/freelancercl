@@ -101,7 +101,7 @@ const ChatWindow = () => {
     if (message && userData !== {}) {
       socket.emit('sendMessage',
         data, () => setMessage(''));
-      fetch(`${ENDPOINT}/chat/save`, {
+      fetch(`${ENDPOINT}/api/chat/save`, {
         method: 'post',
         headers: {
           Accept: 'application/json',
