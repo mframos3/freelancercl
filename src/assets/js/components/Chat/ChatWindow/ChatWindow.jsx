@@ -22,10 +22,10 @@ const ChatWindow = () => {
   const [isBusy, setBusy] = useState(true);
 
 
-  const SOCKET_IO_URL = 'http://localhost:3000';
+  const ENDPOINT = 'https://freelancercl.herokuapp.com';
 
   async function fetchData() {
-    const res = await fetch('http://localhost:3000/api/chat/chats');
+    const res = await fetch(`${ENDPOINT}/api/chat/chats`);
     const data = await res.json();
     setUsers(data.data.users);
     setMyId(data.data.myuserid);
@@ -34,8 +34,8 @@ const ChatWindow = () => {
   }
 
   async function fetchDirectory() {
-    const directory = (await fetch('http://localhost:3000/api/chat/directory').then((res) => res.json())).data;
-    const existingChats = (await fetch('http://localhost:3000/api/chat/chats').then((res) => res.json())).data;
+    const directory = (await fetch(`${ENDPOINT}/api/chat/directory`).then((res) => res.json())).data;
+    const existingChats = (await fetch(`${ENDPOINT}/api/chat/chats`).then((res) => res.json())).data;
     const usersid = existingChats.users.map((existingChat) => existingChat.userid);
     const newChats = directory.filter((i) => (!usersid.includes(i.userid) && i.userid !== existingChats.myuserid));
     console.log(newChats);
@@ -61,21 +61,21 @@ const ChatWindow = () => {
     const user = users.filter((obj) => obj.userid === userId)[0];
     setUserData({ name: user.username, userid: user.userid, img: user.img });
     socket.emit('join', { myId, userId });
-    const res = await fetch(`http://localhost:3000/api/chat/history/${userId}`);
+    const res = await fetch(`${ENDPOINT}/api/chat/history/${userId}`);
     const data = await res.json();
     setMessages(data.data);
   };
 
   useEffect(() => {
     fetchData();
-    socket = io(SOCKET_IO_URL);
+    socket = io(ENDPOINT);
     return () => {
       if (typeof socket !== 'undefined') {
         socket.emit('disconnect');
         socket.off();
       }
     };
-  }, [SOCKET_IO_URL]);
+  }, [ENDPOINT]);
 
   useEffect(() => {
     socket.on('message', (message) => {
@@ -101,7 +101,7 @@ const ChatWindow = () => {
     if (message && userData !== {}) {
       socket.emit('sendMessage',
         data, () => setMessage(''));
-      fetch('http://localhost:3000/api/chat/save', {
+      fetch(`${ENDPOINT}/api/chat/save`, {
         method: 'post',
         headers: {
           Accept: 'application/json',
@@ -117,7 +117,7 @@ const ChatWindow = () => {
   return ((!isBusy) ? (
     <div id="chat-container">
       <div id="search-container">
-        <input type="text" placeholder="Busca" value={search} onChange={(event) => filterUser(event.target.value)}/>
+        <input type="text" placeholder="Busca" value={search} onChange={(event) => filterUser(event.target.value)} />
       </div>
       <ChatUsers
         users={users}
@@ -130,7 +130,7 @@ const ChatWindow = () => {
           <a onClick={() => toggleList()}>{(!modalIsOpen) ? ('+') : ('-')}</a>
         </div>
         <div className="right">
-        {(!modalIsOpen) ? ('Nuevo Chat') : ('Volver atrás')}
+          {(!modalIsOpen) ? ('Nuevo Chat') : ('Volver atrás')}
         </div>
       </div>
       <ChatTitle userData={userData} users={users} />
