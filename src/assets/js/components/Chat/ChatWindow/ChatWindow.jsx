@@ -22,10 +22,10 @@ const ChatWindow = () => {
   const [isBusy, setBusy] = useState(true);
 
 
-  const ENDPOINT = 'https://freelancercl.herokuapp.com/api';
+  const ENDPOINT = 'https://freelancercl.herokuapp.com/';
 
   async function fetchData() {
-    const res = await fetch(`${ENDPOINT}/chat/chats`);
+    const res = await fetch(`${ENDPOINT}/api/chat/chats`);
     const data = await res.json();
     setUsers(data.data.users);
     setMyId(data.data.myuserid);
@@ -34,8 +34,8 @@ const ChatWindow = () => {
   }
 
   async function fetchDirectory() {
-    const directory = (await fetch(`${ENDPOINT}/chat/directory`).then((res) => res.json())).data;
-    const existingChats = (await fetch(`${ENDPOINT}/chat/chats`).then((res) => res.json())).data;
+    const directory = (await fetch(`${ENDPOINT}/api/chat/directory`).then((res) => res.json())).data;
+    const existingChats = (await fetch(`${ENDPOINT}/api/chat/chats`).then((res) => res.json())).data;
     const usersid = existingChats.users.map((existingChat) => existingChat.userid);
     const newChats = directory.filter((i) => (!usersid.includes(i.userid) && i.userid !== existingChats.myuserid));
     console.log(newChats);
@@ -61,7 +61,7 @@ const ChatWindow = () => {
     const user = users.filter((obj) => obj.userid === userId)[0];
     setUserData({ name: user.username, userid: user.userid, img: user.img });
     socket.emit('join', { myId, userId });
-    const res = await fetch(`${ENDPOINT}/history/${userId}`);
+    const res = await fetch(`${ENDPOINT}/api/chat/history/${userId}`);
     const data = await res.json();
     setMessages(data.data);
   };
