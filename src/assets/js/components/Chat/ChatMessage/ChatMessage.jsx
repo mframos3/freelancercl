@@ -11,7 +11,7 @@ const ChatMessage = ({ message, userData, myId }) => {
         <div className="message-row you-message">
           <div className="message-content">
             <div className="message-text">{message.content}</div>
-            <div className="message-time">Apr 16</div>
+            {/* <div className="message-time">Apr 16</div> */}
           </div>
         </div>
       )
@@ -20,7 +20,7 @@ const ChatMessage = ({ message, userData, myId }) => {
           <div className="message-content">
             <img src={userData.img} alt="default" />
             <div className="message-text">{message.content}</div>
-            <div className="message-time">Apr 16</div>
+            {/* <div className="message-time">Apr 16</div> */}
           </div>
         </div>
       ));

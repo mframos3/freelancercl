@@ -22,7 +22,8 @@ const ChatWindow = () => {
   const [isBusy, setBusy] = useState(true);
 
 
-  const ENDPOINT = 'https://freelancercl.herokuapp.com';
+  const DEV = true;
+  const ENDPOINT = (DEV) ? 'http://localhost:3000' : 'https://freelancercl.herokuapp.com';
 
   async function fetchData() {
     const res = await fetch(`${ENDPOINT}/api/chat/chats`);
@@ -95,7 +96,7 @@ const ChatWindow = () => {
       sender: myId,
       receiver: userData.userid,
       content: message,
-      createdAt: 'May 16',
+      createdAt: new Date(),
     };
 
     if (message && userData !== {}) {
