@@ -43,12 +43,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     rating: {
       type: DataTypes.FLOAT,
+      defaultValue: 0,
       validate: {
         isFloat: true,
         min: 0,
         max: 5,
       },
-      defaultValue: 0,
     },
     cvPath: {
       type: DataTypes.STRING,
