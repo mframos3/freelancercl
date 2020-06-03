@@ -12,137 +12,150 @@
     <!-- Product Description -->
     <div class="post-description">
       <span><a href="<%= userProfilePath(offeringPost.userId)%>">@<%= offeringPost.username %></a></span>
+
       <h1><%= offeringPost.name %></h1>
+
       <p><%= offeringPost.description %></p>
+
     </div>
 
     <!-- Product Configuration -->
     <div class="post-info">
 
-      <!-- product-color -->
       <div class="product-categories">
-        <span>Categorías</span>
-
         <ul class="tags">
-        	<li><a href="#">tag</a></li>
-            <li><a href="#">tag name</a></li>
+          <li><a href="#"><%= offeringPost.category %></a></li>
         </ul>
-
-        <%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %>
-        <%= offeringPost.endsAt.getDate() + '-' + offeringPost.endsAt.getMonth() + '-' + offeringPost.endsAt.getFullYear() %>
       </div>
+
+
+      <!-- product-color -->
+      <div class="post-dates">
+        <span>Creado el:
+          <%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></span>
+        <span>Finaliza el:
+          <%= offeringPost.endsAt.getDate() + '-' + offeringPost.endsAt.getMonth() + '-' + offeringPost.endsAt.getFullYear() %></span>
+      </div>
+
 
       <!-- Cable Configuration -->
       <div class="post-rating">
         <span>Rating</span>
         <%= offeringPost.rating%>
-        <div class="rating">
-          <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-        </div>
       </div>
     </div>
+
 
     <!-- Product Pricing -->
     <div class="post-price">
       <span><%= offeringPost.price%>$</span>
       <% if(currentUser && (currentUser.id !== offeringPost.userId )){ %>
-        <a href="#" class="action-btn">Postular</a>
+      <a href="#" class="action-btn">Postular</a>
       <% } %>
+    </div>
+    <div class="post-price">
       <% if(currentUser) { %>
-        <a href="<%= reportPostPath %>" class="action-btn">Denunciar</a>
+      <a href="<%= reportPostPath %>" class="action-btn">Denunciar</a>
       <% } %>
+      <% if(currentUser) { %><a href="<%= newReviewPath %>" class="action-btn">Nueva Reseña</a> <% } %>
     </div>
     <div class="owner-actions">
-       
+      <div class="post-price">
         <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-        <a href="<%= editOfferingPostPath %>">Edit</a>
-          <form action="<%= deleteOfferingPostPath %>" method="POST">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" value="Delete" />
-          </form>
-          <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
-            <div class="field">
-              <label for="img">Selecciona imagen</label>
-              <input type="file" name="img" />
-            </div>
-            <div class="field">
-              <input type="submit" name="uploadFile" value="Enviar" />
-            </div>
-          </form>
-          <% } %>
-    </div>
-  </div>
-</main>
-
-
-<h2>Reseñas</h2>
-<% if (!reviewsList.length) { %>
-<p>No hay resultados</p>
-<% } else { %>
-<table id="reviews-list">
-  <thead>
-    <tr>
-      <th>Nombre de usuario</th>
-      <th>Valoración</th>
-      <th>Comentario</th>
-      <th colspan="2">Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% reviewsList.forEach((review) => { %>
-    <tr>
-      <td><a href="<%= userProfilePath(review.id_worker)%>"><%= review.username %></a></td>
-      <td><%= review.rating %></td>
-      <td><%= review.comment %></td>
-      <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-      <td><a href="<%= editReviewPath(review) %>">Edit</a></td>
-      <td>
-        <form action="<%=deleteReviewPath(review) %>" method="POST">
+        <a href="<%= editOfferingPostPath %>" class="action-btn">Editar Post</a>
+        <form action="<%= deleteOfferingPostPath %>" method="POST" id="delete-post">
           <input type="hidden" name="_method" value="delete" />
           <input type="submit" value="Delete" />
         </form>
         <% } %>
-      </td>
-    </tr>
-    <% }) %>
-  </tbody>
-</table>
-<% } %>
+      </div>
 
-<% if(currentUser) { %><a href="<%= newReviewPath %>">Nueva Reseña</a> <% } %>
-<% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-<h2>Postulaciones</h2>
-<% if (!applicationsList.length) { %>
-<p>No hay resultados</p>
-<% } else { %>
-<table id="applications-list">
-  <thead>
-    <tr>
-      <th>Nombre de Usuario</th>
-      <th>Contenido</th>
-      <th colspan="2">Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% applicationsList.forEach((application) => { %>
-    <tr>
 
-      <td><a href="<%= userProfilePath(application.userId)%>"><%= application.username %></a></td>
-      <td><%= application.content %></td>
-      <td><a href="<%= editApplicationPath(application) %>">Editar</a></td>
-      <td>
-        <form action="<%= deleteApplicationPath(application) %>" method="POST">
+      <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+      <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post" id="upload">
+        <label for="img"> Selecciona imagen</label>
+        <input type="file" name="img" />
+        <input type="submit" name="uploadFile" value="Enviar" />
+      </form>
+      <% } %>
+
+    </div>
+  </div>
+</main>
+
+<div class="list">
+  <span>Reseñas</span>
+  <% if (!reviewsList.length) { %>
+  <p>No hay resultados</p>
+  <% } else { %>
+  <% reviewsList.forEach((review) => { %>
+  <div class="list-element">
+    <div id="left">
+      <img src="<%= review.image %>" alt="smth" />
+    </div>
+    <div id="center">
+      <div class="element-user">
+        <a href="<%= userProfilePath(review.id_worker)%>"><%= review.username %></a>
+      </div>
+      <div class="element-content">
+        <%= review.comment %>
+      </div>
+    </div>
+    <div id="right">
+      <div class="review-rating">
+        Rating: <%= review.rating %>
+      </div>
+      <div class="element-actions">
+        <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+        <a href="<%= editReviewPath(review) %>" class="action-btn">Edit</a>
+        <form action="<%=deleteReviewPath(review) %>" method="POST" id="review-delete">
           <input type="hidden" name="_method" value="delete" />
           <input type="submit" value="Delete" />
         </form>
-      </td>
-    </tr>
-    <% }) %>
-  </tbody>
-</table>
-<% } %>
+        <% } %>
+      </div>
+    </div>
+
+  </div>
+  <% })} %>
+</div>
+
+
+<% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+<div class="list">
+  <span>Postulaciones</span>
+  <% if (!applicationsList.length) { %>
+  <p>No hay resultados</p>
+  <% } else { %>
+  <% applicationsList.forEach((application) => { %>
+  <div class="list-element">
+    <div id="left">
+      <img src="<%= application.image %>" alt="smth" />
+    </div>
+    <div id="center">
+      <div class="element-user">
+        <a href="<%= userProfilePath(application.userId)%>"><%= application.username %></a>
+      </div>
+      <div class="element-content">
+        <%= application.content %>
+      </div>
+    </div>
+    <div id="right">
+      <div class="element-actions">
+        <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+        <a href="<%= editApplicationPath(application) %>" class="action-btn">Edit</a>
+        <form action="<%= deleteApplicationPath(application) %>" method="POST" id="review-delete">
+          <input type="hidden" name="_method" value="delete" />
+          <input type="submit" value="Delete" />
+        </form>
+        <% } %>
+      </div>
+    </div>
+
+  </div>
+  <% })} %>
+</div>
 <%} %>
-<% if (currentUser) { %> <a href="<%= newApplicationPath %>">Nueva postulación</a> <% }%>
 
 <form action="<%= backPath %>" method="get">
   <input type="submit" value="Atrás" />

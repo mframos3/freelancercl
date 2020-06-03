@@ -147,14 +147,18 @@ router.get('offeringPosts.show', '/:pid', loadOfferingPost, async (ctx) => {
   const auxReviews = await offeringPost.getReviews();
   const promisesReviews = auxReviews.map(async (element) => {
     const newElement = element;
-    newElement.username = (await ctx.orm.user.findByPk(newElement.id_worker)).name;
+    const aux = await ctx.orm.user.findByPk(newElement.id_worker);
+    newElement.username = aux.name;
+    newElement.image = aux.imagePath;
     return newElement;
   });
   const reviewsList = await Promise.all(promisesReviews);
   const auxApplications = await offeringPost.getApplications();
   const promisesApplications = auxApplications.map(async (element) => {
     const newElement = element;
-    newElement.username = (await ctx.orm.user.findByPk(newElement.userId)).name;
+    const aux = await ctx.orm.user.findByPk(newElement.userId);
+    newElement.username = aux.name;
+    newElement.image = aux.imagePath;
     return newElement;
   });
   const applicationsList = await Promise.all(promisesApplications);
