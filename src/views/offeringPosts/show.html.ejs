@@ -50,22 +50,22 @@
     <div class="post-price">
       <span><%= offeringPost.price%>$</span>
       <% if(currentUser && (currentUser.id !== offeringPost.userId )){ %>
-      <a href="#" class="action-btn">Postular</a>
+      <a href="<%= newApplicationPath %>" class="action-btn"><img src="https://img.icons8.com/material-outlined/24/000000/hand-with-pen.png"/>Postular</a>
       <% } %>
     </div>
     <div class="post-price">
       <% if(currentUser) { %>
-      <a href="<%= reportPostPath %>" class="action-btn">Denunciar</a>
+      <a href="<%= reportPostPath %>" class="action-btn"><img src="https://img.icons8.com/material-outlined/24/000000/break.png"/>Denunciar</a>
       <% } %>
-      <% if(currentUser) { %><a href="<%= newReviewPath %>" class="action-btn">Nueva Reseña</a> <% } %>
+      <% if(currentUser) { %><a href="<%= newReviewPath %>" class="action-btn"><img src="https://img.icons8.com/material-outlined/24/000000/add.png"/>Nueva Reseña</a> <% } %>
     </div>
     <div class="owner-actions">
       <div class="post-price">
         <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-        <a href="<%= editOfferingPostPath %>" class="action-btn">Editar Post</a>
+        <a href="<%= editOfferingPostPath %>" class="action-btn"><img src="https://img.icons8.com/material-sharp/24/000000/edit.png"/>Editar Post</a>
         <form action="<%= deleteOfferingPostPath %>" method="POST" id="delete-post">
           <input type="hidden" name="_method" value="delete" />
-          <input type="submit" value="Delete" />
+          <button type="submit" ><img src="https://img.icons8.com/android/24/000000/trash.png"/>Eliminar</button>
         </form>
         <% } %>
       </div>
@@ -75,7 +75,7 @@
       <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post" id="upload">
         <label for="img"> Selecciona imagen</label>
         <input type="file" name="img" />
-        <input type="submit" name="uploadFile" value="Enviar" />
+        <button type="submit" name="uploadFile" ><img src="https://img.icons8.com/material-outlined/24/000000/send.png"/>Enviar</button>
       </form>
       <% } %>
 
@@ -106,11 +106,11 @@
         Rating: <%= review.rating %>
       </div>
       <div class="element-actions">
-        <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-        <a href="<%= editReviewPath(review) %>" class="action-btn">Edit</a>
+        <% if(currentUser && (currentUser.id == review.id_worker || currentUser.isAdmin)) { %>
+        <a href="<%= editReviewPath(review) %>" class="action-btn"><img src="https://img.icons8.com/material-sharp/24/000000/edit.png"/>Edit</a>
         <form action="<%=deleteReviewPath(review) %>" method="POST" id="review-delete">
           <input type="hidden" name="_method" value="delete" />
-          <input type="submit" value="Delete" />
+          <button type="submit" ><img src="https://img.icons8.com/android/24/000000/trash.png"/>Eliminar</button>
         </form>
         <% } %>
       </div>
@@ -143,10 +143,12 @@
     <div id="right">
       <div class="element-actions">
         <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-        <a href="<%= editApplicationPath(application) %>" class="action-btn">Edit</a>
+        <a href="<%= editApplicationPath(application) %>" class="action-btn"><img src="https://img.icons8.com/material-sharp/24/000000/edit.png"/>Editar</a>
         <form action="<%= deleteApplicationPath(application) %>" method="POST" id="review-delete">
           <input type="hidden" name="_method" value="delete" />
-          <input type="submit" value="Delete" />
+          <button type="submit">
+            <img src="https://img.icons8.com/android/24/000000/trash.png"/>Eliminar
+          </button>
         </form>
         <% } %>
       </div>
