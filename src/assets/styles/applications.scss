@@ -1,17 +1,8 @@
 $freelancer-color: rgb(63, 152, 211);
 
-
-*{
-  margin: auto;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-  text-decoration: none;
-  text-align: center;
-}
 h2{
     color: #4a4a4a;
     font-weight: bolder;
-
 }
 
 // body{
@@ -42,8 +33,6 @@ h2{
 }
 
 ///////////search bar
-@import url('https://fonts.googleapis.com/css?family=Inconsolata:700');
-
 // html, body {
 //   width: 100%;
 //   height: 100%;
@@ -109,7 +98,6 @@ h2{
     }
   }
   input {
-    font-family: 'Inconsolata', monospace;
     position: absolute;
     top: 25px;
     right: 0;

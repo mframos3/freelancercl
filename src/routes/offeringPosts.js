@@ -33,6 +33,8 @@ async function computeRating(ctx) {
 }
 
 router.get('offeringPosts.list', '/', async (ctx) => {
+  const perPage = 9;
+  let page = ctx.params.page || 1;
   const result = ctx.request.query;
   let [term, category] = [result.search, result.category];
   if (category === 'Todo') {
@@ -74,7 +76,7 @@ router.get('offeringPosts.list', '/', async (ctx) => {
     searchResult,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
     newOfferingPostPath: ctx.router.url('offeringPosts.new'),
-    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.item.id }),
+    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.id }),
   });
 });
 
