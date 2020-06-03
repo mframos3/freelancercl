@@ -33,16 +33,28 @@
 <% } else { %>
  
   <br>
-  <% searchResult.forEach((offeringPost) => { %>
-    <div id="offeringPosts-list"></div>
-      <ol class="listHorizontal">
-        <li><% if (offeringPost.item.img) { %> <img class="user" src="<%= offeringPost.item.img%>"> <% } %></li>
-        <li><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a></li>
-        <li>Fecha publicación: <%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></li>
-      </ol>
-    </div>
-    <br>
-  <% }) %>
+  <div class="offeringPosts-list">
+    <% searchResult.forEach((offeringPost) => { %>
+      <div class="offeringPost">
+        <% if (offeringPost.item.img) { %> <img class="offeringPost__image" src="<%= offeringPost.item.img%>"> <% } %>
+        <div class="offeringPost__name">
+            <a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a>
+        </div>
+        <div class="offeringPost__content">
+          <%= offeringPost.item.description %>
+        </div>
+        <div class="offeringPost__extras">
+          <%= offeringPost.item.category %>
+        </div>
+      </div>
+    <!-- <ol class="listHorizontal">
+      <li><% if (offeringPost.item.img) { %> <img class="user" src="<%= offeringPost.item.img%>"> <% } %></li>
+      <li><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a></li>
+      <li>Fecha publicación: <%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></li>
+    </ol> -->
+    <% }) %>
+  </div>
+  <br>
 <% } %>
 
 <% if(currentUser) {%><a href="<%= newOfferingPostPath %>" class="enlaceboton">Nueva Oferta</a><% } %>
