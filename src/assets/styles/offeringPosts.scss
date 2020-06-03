@@ -8,6 +8,7 @@
 .left-column {
   width: 65%;
   position: relative;
+  margin-top: 60px;
 }
 
 .right-column {
@@ -50,20 +51,21 @@
   line-height: 24px;
 }
 
-.tags{
-	margin:10px;
-	padding:10px;
+.tags {
+	margin-top:10px;
+	padding-top:10px;
   list-style:none;
   display: inline-block;
-	}	
-.tags li, .tags a{
+}	
+.tags li, .tags a {
 	float: left;
 	height:26px;
 	line-height:24px;
 	position:relative;
   font-size:14px;
   display: inline-block;
-	}	
+}	
+  
 .tags a{
 	margin-left:20px;
 	padding:0 10px 0 12px;
@@ -76,7 +78,8 @@
 	-moz-border-radius-topright:4px;
 	-webkit-border-top-right-radius:4px;	
 	border-top-right-radius:4px;	
-	}	
+  }	
+  
 .tags a:before{
 	content:"";
 	float:left;
@@ -128,21 +131,23 @@
   font-size: 26px;
   font-weight: 300;
   color: #43474D;
-  margin-right: 20px;
-  
+  margin: 10px;
+
 }
 
  
-.action-btn {
+.action-btn, #delete-post > input[type=submit], 
+ #upload > input[type=submit],
+ #review-delete > input[type=submit] {
   display: inline-block;
   background-color: rgb(63, 152, 211);
-  border-radius: 6px;
-  font-size: 16px;
+  border-radius: 3px;
+  font-size: 14px;
   color: #FFFFFF;
   text-decoration: none;
-  padding: 12px 30px;
+  padding: 6px 15px;
   transition: all .5s;
-  margin: 10px;
+  margin: 5px;
 }
 .action-btn:hover {
   background-color: grey;
@@ -174,17 +179,89 @@
   }
 }
 
-.rating {
-  unicode-bidi: bidi-override;
-  direction: rtl;
+#upload {
+  margin: 10px;
+  padding: 10px;
+  border: solid;
+  border-radius: 5%;
+  border: 1px solid #e1e8ee;
 }
-.rating > span {
-  display: inline-block;
-  position: relative;
-  width: 1.1em;
+
+.list {
+  width: 80%;
+  margin: auto;
+  overflow-y: scroll;
+  margin-bottom: 50px;
+  margin-top: 50px;
 }
-.rating > span:hover:before,
-.rating > span:hover ~ span:before {
-   content: "\2605";
-   position: absolute;
+
+.list-element {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: stretch;
+  padding: 20px 20px 20px 15px;
+  border-bottom: 1px solid #e1e8ee;
+}
+
+
+.list-element > img {
+  flex-grow: 1;
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+}
+
+.element-user {
+  flex-grow: 1;
+  font-weight: bold;
+  color: #eee;
+  padding-left: 5px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.review-rating {
+  font-size: 1rem;
+}
+
+
+.element-comment {
+  flex-grow: 3;
+  padding-left: 5px;
+  padding-top: 10px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.list-element > #left, .list-element > #right{
+  flex-grow: 1;
+}
+
+.list-element > #center {
+  flex-grow: 5;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-element > #left, .list-element > #center , .list-element > #right {
+  display: flex;
+  align-content: stretch;
+  justify-content: stretch;
+}
+
+.list-element > #right {
+  display: flex;
+  flex-direction: column;
+}
+
+.element-actions {
+  display: flex;
+  flex-direction: row;
 }

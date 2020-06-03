@@ -118,7 +118,9 @@ router.del('searchingPosts.delete', '/:id', loadSearchingPost, async (ctx) => {
 
 router.get('searchingPosts.show', '/:id/', loadSearchingPost, async (ctx) => {
   const { searchingPost } = ctx.state;
-  searchingPost.username = (await ctx.orm.user.findByPk(searchingPost.userId)).name;
+  const user = await ctx.orm.user.findByPk(searchingPost.userId);
+  searchingPost.username = user.name;
+  searchingPost.image = user.imagePath;
   await ctx.render('searchingPosts/show', {
     searchingPost,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
