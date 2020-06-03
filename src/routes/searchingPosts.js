@@ -47,6 +47,15 @@ router.get('searchingPosts.list', '/', async (ctx) => {
     });
     searchResult = searchingPostsList;
   }
+  const auxSearchResult = searchResult;
+  const promisesSearchResul = auxSearchResult.map(async (element) => {
+    const newElement = element;
+    const aux = await ctx.orm.user.findByPk(newElement.userId);
+    newElement.item.username = aux.name;
+    newElement.item.image = aux.imagePath;
+    return newElement;
+  });
+  searchResult = await Promise.all(promisesSearchResul);
   await ctx.render('searchingPosts/index', {
     searchResult,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
