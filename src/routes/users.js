@@ -13,41 +13,43 @@ const msg = require('../mailers/login-email-Api');
 
 const router = new KoaRouter();
 
+let passwordError = '';
+
 async function loadUser(ctx, next) {
   ctx.state.user = await ctx.orm.user.findByPk(ctx.params.id);
   return next();
 }
 
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index += 1) {
-    // eslint-disable-next-line no-await-in-loop
-    await callback(array[index], index, array);
-  }
-}
+// async function asyncForEach(array, callback) {
+//   for (let index = 0; index < array.length; index += 1) {
+//     // eslint-disable-next-line no-await-in-loop
+//     await callback(array[index], index, array);
+//   }
+// }
 
-// Función que calcula el rating del usuario
-async function computeRating(ctx) {
-  let countReview = 0;
-  let sumValues = 0;
-  let reviewsList = [];
-  const { user } = ctx.state;
-  const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: user.id } });
-  asyncForEach(offeringPostsList, async (post) => {
-    reviewsList = await ctx.orm.review.findAll({ where: { id_post: post.id } });
-    // console.log('Lista de reviwes');
-    // console.log(reviewsList);
-    reviewsList.forEach((review) => {
-      sumValues += review.rating;
-      countReview += 1;
-    });
-  }).then(() => {
-    // console.log(`Suma de ratings: ${sumValues}`);
-    // console.log(`Cantidad de reviws: ${countReview}`);
-    const mean = sumValues / countReview;
-    // console.log(`Promedio: ${mean.toFixed(1)}`);
-    user.rating = mean.toFixed(1);
-  });
-}
+// // Función que calcula el rating del usuario
+// async function computeRating(ctx) {
+//   let countReview = 0;
+//   let sumValues = 0;
+//   let reviewsList = [];
+//   const { user } = ctx.state;
+//   const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: user.id } });
+//   asyncForEach(offeringPostsList, async (post) => {
+//     reviewsList = await ctx.orm.review.findAll({ where: { id_post: post.id } });
+//     // console.log('Lista de reviwes');
+//     // console.log(reviewsList);
+//     reviewsList.forEach((review) => {
+//       sumValues += review.rating;
+//       countReview += 1;
+//     });
+//   }).then(() => {
+//     // console.log(`Suma de ratings: ${sumValues}`);
+//     // console.log(`Cantidad de reviws: ${countReview}`);
+//     const mean = sumValues / countReview;
+//     // console.log(`Promedio: ${mean.toFixed(1)}`);
+//     user.rating = mean.toFixed(1);
+//   });
+// }
 
 // Función que calcula la cantidad de followers y de followed
 async function computeFollowers(ctx) {
@@ -97,7 +99,6 @@ router.get('users.list', '/', async (ctx) => {
 
 router.get('users.new', '/new', async (ctx) => {
   const user = ctx.orm.user.build();
-  const passwordError = '';
   await ctx.render('users/new', {
     user,
     passwordError,
@@ -107,7 +108,6 @@ router.get('users.new', '/new', async (ctx) => {
 
 router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
-  let passwordError = '';
   try {
     const password1 = ctx.request.body.password;
     const { password2 } = ctx.request.body;
@@ -165,6 +165,7 @@ router.get('users.edit', '/:id/edit', loadUser, async (ctx) => {
     user,
     submitUserPath: ctx.router.url('users.update', { id: user.id }),
     backPath: ctx.router.url('users.show', { id: user.id }),
+    passwordError,
   });
 });
 
@@ -198,7 +199,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   let followerPreviousId = -1;
-  computeRating(ctx);
+  // computeRating(ctx);
   computeFollowers(ctx);
   if (currentUser) {
     followerPreviousId = currentUser.id;
@@ -230,21 +231,6 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   });
 });
 
-router.post('users.follow', '/:id', loadUser, async (ctx) => {
-  const { user } = ctx.state;
-  const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
-  const follow = await ctx.orm.follow.findOne({
-    where: { followedId: user.id, followerId: currentUser.id },
-  });
-  if (follow) {
-    await follow.destroy();
-  } else {
-    const newFollow = ctx.orm.follow.build({ followedId: user.id, followerId: currentUser.id });
-    await newFollow.save();
-  }
-  ctx.redirect(ctx.router.url('users.show', { id: user.id }));
-});
-
 router.post('users.uploadFile', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const { img, CV } = ctx.request.files;
@@ -260,4 +246,18 @@ router.post('users.uploadFile', '/:id', loadUser, async (ctx) => {
   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
 });
 
+router.post('users.follow', '/:id/follow', loadUser, async (ctx) => {
+  const { user } = ctx.state;
+  const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
+  const follow = await ctx.orm.follow.findOne({
+    where: { followedId: user.id, followerId: currentUser.id },
+  });
+  if (follow) {
+    await follow.destroy();
+  } else {
+    const newFollow = ctx.orm.follow.build({ followedId: user.id, followerId: currentUser.id });
+    await newFollow.save();
+  }
+  ctx.redirect(ctx.router.url('users.show', { id: user.id }));
+});
 module.exports = router;

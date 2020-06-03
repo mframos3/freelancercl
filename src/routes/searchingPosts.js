@@ -47,10 +47,6 @@ router.get('searchingPosts.list', '/', async (ctx) => {
     });
     searchResult = searchingPostsList;
   }
-  for (let i = 0; i < searchingPostsList.length; i += 1) {
-    searchingPostsList[i].createdAt = searchingPostsList[i].createdAt.toString().slice(0, 24);
-  }
-  
   await ctx.render('searchingPosts/index', {
     searchResult,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
@@ -124,7 +120,6 @@ router.get('searchingPosts.show', '/:id/', loadSearchingPost, async (ctx) => {
   const { searchingPost } = ctx.state;
   const user = await ctx.orm.user.findByPk(searchingPost.userId);
   searchingPost.username = user.name;
-  searchingPost.createdAt = searchingPost.createdAt.toString().slice(0, 24);
   searchingPost.image = user.imagePath;
   await ctx.render('searchingPosts/show', {
     searchingPost,
