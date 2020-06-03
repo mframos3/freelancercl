@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
 	<div class="profile-main">
@@ -26,13 +26,6 @@
               </form>
           <% } %>
 				</div>
-				<div class="social-icons">
-					<i class="fa fa-facebook"></i>
-					<i class="fa fa-twitter"></i>
-					<i class="fa fa-linkedin"></i>
-					<i class="fa fa-google"></i>
-					<i class="fa fa-instagram"></i>
-				</div>
 			</div>
 			<div class="tab-panel-main">
 				<ul class="tabs">
@@ -47,12 +40,16 @@
               <li><%= user.occupation %></li>
               <li><strong>Valoración:</strong></li>
               <% if (typeof user.rating == "number") {%>
-                <% for(let i=0; i < user.rating; i++) {%>                
-                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                <% for(let i=0; i < Math.round(user.rating); i++) {%>                
+                  <li><img class="star" src="https://img.icons8.com/color/2x/star.png"></img></li>
                 <% } %>
               <% } else {%>
                 <li>Sin Valoraciones</li>
               <% } %> 
+              <li><strong>Seguidores:</strong></li>
+              <li><%= user.cFollowers %></li>
+              <li><strong>Seguidos:</strong></li>
+              <li><%= user.cFollowed %></li>
             </ul>		
 					</div>
 					<div class="bio-box">
@@ -96,7 +93,7 @@
                 <% if (!offeringPostsList.length && currentUser && currentUser.id == user.id) { %>
                   <ul  class="ul-first">
                   <span>No tienes Publicaciones de Oferta</span>
-                  <a href="<%= newOfferingPostPath %> "> Haz tu primer post de Oferta!</a>
+                  <a href="<%= newOfferingPostPath %> "> Haz tu primera publicación de Oferta!</a>
                   </ul>
                   <% } else { %>
                        <% offeringPostsList.forEach((offeringPost) => { %>
@@ -108,9 +105,7 @@
                         </table>
                       <% }) %>
                 <% } %>
-                                <% if (!searchingPostsList.length) {%>
-                  <span>Sin Publicaciones de Búsqueda</span>
-                <% } %>
+
 					</div>
         </div>
         <div id="Portfolio" class="tab-content">
@@ -120,7 +115,7 @@
                 <% if (!searchingPostsList.length && currentUser && currentUser.id == user.id) { %>
                   <ul  class="ul-first">
                   <span>No tienes Publicaciones de Búsqueda</span>
-                  <a href="<%= newOfferingPostPath %> "> Haz tu primer post de Oferta!</a>
+                  <a href="<%= newSearchingPostPath %> "> Haz tu primera publicación Buscando empleo!</a>
                   </ul>
                   <% } else { %>
                         
@@ -132,9 +127,6 @@
                           <td><%= searchingPost.createdAt.getDate() + '-' + searchingPost.createdAt.getMonth() + '-' + searchingPost.createdAt.getFullYear() %></td>
                         </table>
                       <% }) %>
-                <% } %>
-                <% if (!searchingPostsList.length) {%>
-                  <span>Sin Publicaciones de Búsqueda</span>
                 <% } %>
                 
 
