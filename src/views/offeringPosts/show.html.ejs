@@ -1,124 +1,145 @@
-<h2>Posts de Oferta</h2>
-  <table id="offeringPosts-list">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Nombre</th>
-        <th>Categoría</th>
-        <th>Descripción</th>
-        <th>Creador del Post</th>
-        <th>Precio</th>
-        <th>Rating</th>
-        <th>Fecha de publicación</th>
-        <th>Fecha de término</th>
-        <% if(currentUser) { %>
-          <th colspan="4">Acciones</th>
-        <% } %>
+<main class="post-show-container">
 
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><% if (offeringPost.img) { %> <img class="user" src="<%= offeringPost.img%>"> <% } %></td>
-          <td><%= offeringPost.name %></td>
-          <td><%= offeringPost.category %></td>
-          <td><%= offeringPost.description %></td>
-          <td><a href="<%= userProfilePath(offeringPost.userId)%>"><%= offeringPost.username %></a></td>
-          <td><%= offeringPost.price%></td>
-          <td><%= offeringPost.rating%></td>
-          <td><%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></td>
-          <td><%= offeringPost.endsAt.getDate() + '-' + offeringPost.endsAt.getMonth() + '-' + offeringPost.endsAt.getFullYear() %></td>
-          <% if(currentUser) { %>
-          <td><a href="<%= reportPostPath %>">Denunciar</a></td>
-          <% } %>
-          <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-          <td><a href="<%= editOfferingPostPath %>">Edit</a></td>
-          <td>
+  <!-- Left Column / Headphones Image -->
+  <div class="left-column">
+    <% if (offeringPost.img) { %> <img src="<%= offeringPost.img%>"> <% } %>
+  </div>
+
+
+  <!-- Right Column -->
+  <div class="right-column">
+
+    <!-- Product Description -->
+    <div class="post-description">
+      <span><a href="<%= userProfilePath(offeringPost.userId)%>">@<%= offeringPost.username %></a></span>
+      <h1><%= offeringPost.name %></h1>
+      <p><%= offeringPost.description %></p>
+    </div>
+
+    <!-- Product Configuration -->
+    <div class="post-info">
+
+      <!-- product-color -->
+      <div class="product-categories">
+        <span>Categorías</span>
+
+        <ul class="tags">
+        	<li><a href="#">tag</a></li>
+            <li><a href="#">tag name</a></li>
+        </ul>
+
+        <%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %>
+        <%= offeringPost.endsAt.getDate() + '-' + offeringPost.endsAt.getMonth() + '-' + offeringPost.endsAt.getFullYear() %>
+      </div>
+
+      <!-- Cable Configuration -->
+      <div class="post-rating">
+        <span>Rating</span>
+        <%= offeringPost.rating%>
+        <div class="rating">
+          <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Pricing -->
+    <div class="post-price">
+      <span><%= offeringPost.price%>$</span>
+      <% if(currentUser && (currentUser.id !== offeringPost.userId )){ %>
+        <a href="#" class="action-btn">Postular</a>
+      <% } %>
+      <% if(currentUser) { %>
+        <a href="<%= reportPostPath %>" class="action-btn">Denunciar</a>
+      <% } %>
+    </div>
+    <div class="owner-actions">
+       
+        <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+        <a href="<%= editOfferingPostPath %>">Edit</a>
           <form action="<%= deleteOfferingPostPath %>" method="POST">
             <input type="hidden" name="_method" value="delete" />
             <input type="submit" value="Delete" />
           </form>
-          <td>
-            <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
-                  <div class="field">
-                    <label for="img">Selecciona imagen</label>
-                    <input type="file" name="img" />
-                  </div>
-                  <div class="field">
-                    <input type="submit" name="uploadFile" value="Enviar" />
-                  </div>
-              </form>
-          </td>
+          <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
+            <div class="field">
+              <label for="img">Selecciona imagen</label>
+              <input type="file" name="img" />
+            </div>
+            <div class="field">
+              <input type="submit" name="uploadFile" value="Enviar" />
+            </div>
+          </form>
           <% } %>
-        </tr>
-    </tbody>
-  </table>
+    </div>
+  </div>
+</main>
 
-  <h2>Reseñas</h2>
+
+<h2>Reseñas</h2>
 <% if (!reviewsList.length) { %>
-  <p>No hay resultados</p>
+<p>No hay resultados</p>
 <% } else { %>
-  <table id="reviews-list">
-    <thead>
-      <tr>
-        <th>Nombre de usuario</th>
-        <th>Valoración</th>
-        <th>Comentario</th>
-        <th colspan="2">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% reviewsList.forEach((review) => { %>
-        <tr>
-          <td><a href="<%= userProfilePath(review.id_worker)%>"><%= review.username %></a></td>
-          <td><%= review.rating %></td>
-          <td><%= review.comment %></td>
-          <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
-          <td><a href="<%= editReviewPath(review) %>">Edit</a></td>
-          <td>
-            <form action="<%=deleteReviewPath(review) %>" method="POST">
-              <input type="hidden" name="_method" value="delete" />
-              <input type="submit" value="Delete" />
-            </form>
-            <% } %>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
+<table id="reviews-list">
+  <thead>
+    <tr>
+      <th>Nombre de usuario</th>
+      <th>Valoración</th>
+      <th>Comentario</th>
+      <th colspan="2">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% reviewsList.forEach((review) => { %>
+    <tr>
+      <td><a href="<%= userProfilePath(review.id_worker)%>"><%= review.username %></a></td>
+      <td><%= review.rating %></td>
+      <td><%= review.comment %></td>
+      <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
+      <td><a href="<%= editReviewPath(review) %>">Edit</a></td>
+      <td>
+        <form action="<%=deleteReviewPath(review) %>" method="POST">
+          <input type="hidden" name="_method" value="delete" />
+          <input type="submit" value="Delete" />
+        </form>
+        <% } %>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
 <% } %>
 
 <% if(currentUser) { %><a href="<%= newReviewPath %>">Nueva Reseña</a> <% } %>
 <% if(currentUser && (currentUser.id == offeringPost.userId || currentUser.isAdmin)) { %>
 <h2>Postulaciones</h2>
 <% if (!applicationsList.length) { %>
-  <p>No hay resultados</p>
+<p>No hay resultados</p>
 <% } else { %>
-  <table id="applications-list">
-    <thead>
-      <tr>
-        <th>Nombre de Usuario</th>
-        <th>Contenido</th>
-        <th colspan="2">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% applicationsList.forEach((application) => { %>
-        <tr>
+<table id="applications-list">
+  <thead>
+    <tr>
+      <th>Nombre de Usuario</th>
+      <th>Contenido</th>
+      <th colspan="2">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% applicationsList.forEach((application) => { %>
+    <tr>
 
-          <td><a href="<%= userProfilePath(application.userId)%>"><%= application.username %></a></td>
-          <td><%= application.content %></td>
-          <td><a href="<%= editApplicationPath(application) %>">Editar</a></td>
-          <td>
-            <form action="<%= deleteApplicationPath(application) %>" method="POST">
-              <input type="hidden" name="_method" value="delete" />
-              <input type="submit" value="Delete" />
-            </form>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
+      <td><a href="<%= userProfilePath(application.userId)%>"><%= application.username %></a></td>
+      <td><%= application.content %></td>
+      <td><a href="<%= editApplicationPath(application) %>">Editar</a></td>
+      <td>
+        <form action="<%= deleteApplicationPath(application) %>" method="POST">
+          <input type="hidden" name="_method" value="delete" />
+          <input type="submit" value="Delete" />
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
 <% } %>
 <%} %>
 <% if (currentUser) { %> <a href="<%= newApplicationPath %>">Nueva postulación</a> <% }%>

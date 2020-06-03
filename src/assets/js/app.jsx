@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import ChatWindow from './components/ChatWindow/ChatWindow';
+import ChatWindow from './components/Chat/ChatWindow/ChatWindow';
 import ValidationPassword from './components/Validation';
 
 const reactAppContainer = document.getElementById('react-app');

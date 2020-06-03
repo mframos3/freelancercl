@@ -25,7 +25,7 @@ const ChatWindow = () => {
   const SOCKET_IO_URL = 'http://localhost:3000';
 
   async function fetchData() {
-    const res = await fetch('http://localhost:3000/messages/api');
+    const res = await fetch('http://localhost:3000/api/chat/chats');
     const data = await res.json();
     setUsers(data.data.users);
     setMyId(data.data.myuserid);
@@ -34,8 +34,8 @@ const ChatWindow = () => {
   }
 
   async function fetchDirectory() {
-    const directory = (await fetch('http://localhost:3000/messages/api/directory').then((res) => res.json())).data;
-    const existingChats = (await fetch('http://localhost:3000/messages/api').then((res) => res.json())).data;
+    const directory = (await fetch('http://localhost:3000/api/chat/directory').then((res) => res.json())).data;
+    const existingChats = (await fetch('http://localhost:3000/api/chat/chats').then((res) => res.json())).data;
     const usersid = existingChats.users.map((existingChat) => existingChat.userid);
     const newChats = directory.filter((i) => (!usersid.includes(i.userid) && i.userid !== existingChats.myuserid));
     console.log(newChats);
@@ -61,7 +61,7 @@ const ChatWindow = () => {
     const user = users.filter((obj) => obj.userid === userId)[0];
     setUserData({ name: user.username, userid: user.userid, img: user.img });
     socket.emit('join', { myId, userId });
-    const res = await fetch(`http://localhost:3000/messages/api/history/${userId}`);
+    const res = await fetch(`http://localhost:3000/api/chat/history/${userId}`);
     const data = await res.json();
     setMessages(data.data);
   };
@@ -101,7 +101,7 @@ const ChatWindow = () => {
     if (message && userData !== {}) {
       socket.emit('sendMessage',
         data, () => setMessage(''));
-      fetch('http://localhost:3000/messages/api/save', {
+      fetch('http://localhost:3000/api/chat/save', {
         method: 'post',
         headers: {
           Accept: 'application/json',

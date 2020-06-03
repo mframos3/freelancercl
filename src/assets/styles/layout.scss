@@ -1,8 +1,14 @@
 $freelancer-color: rgb(63, 152, 211);
 
+
+
 html, body {
   margin: 0;
-  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+body { 
+  margin: 0.5%;
 }
 
 #freelancer-logo {
@@ -20,6 +26,7 @@ ul.topnav {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  width: 100%;
   overflow: hidden;
   background-color: #333;
 }

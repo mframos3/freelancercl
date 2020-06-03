@@ -10,6 +10,8 @@ const messages = require('./routes/messages');
 const searchResults = require('./routes/searchResults');
 const session = require('./routes/session');
 
+const chatApi = require('./routes/api/chat');
+
 const router = new KoaRouter();
 
 router.use(async (ctx, next) => {
@@ -36,5 +38,6 @@ router.use('/users', users.routes());
 router.use('/messages', messages.routes());
 router.use('/searchResults', searchResults.routes());
 router.use('/session', session.routes());
+router.use('/api/chat', chatApi.routes());
 
 module.exports = router;
