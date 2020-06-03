@@ -22,7 +22,7 @@ const ChatWindow = () => {
   const [isBusy, setBusy] = useState(true);
 
 
-  const ENDPOINT = 'https://freelancercl.herokuapp.com/';
+  const ENDPOINT = 'https://freelancercl.herokuapp.com';
 
   async function fetchData() {
     const res = await fetch(`${ENDPOINT}/api/chat/chats`);
