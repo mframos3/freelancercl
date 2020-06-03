@@ -16,11 +16,13 @@
         <td><a href="<%= userProfilePath(report.reportingUserId) %>"><%= report.reportingUserName %></a></td>
         <td><a href="<%= userProfilePath(report.reportedUserId) %>"><%= report.reportedUserName %></a></td>
         <td><a href="<%= postPath(report.reportedPost) %>"><%= report.reportedPostName %></a></td>
-        <td><a href="<%= editReportPath %>">Edit</a></td>
+        <td><a href="<%= editReportPath %>"><img src="https://img.icons8.com/material-sharp/24/000000/edit.png"/>Editar</a></td>
           <td>
             <form action="<%= deleteReportPath %>" method="POST">
               <input type="hidden" name="_method" value="delete" />
-              <input type="submit" value="Delete" />
+              <button>
+                <img src="https://img.icons8.com/material-sharp/24/000000/trash.png"/>Eliminar
+              </button>
             </form>
           </td>
   </tbody>
