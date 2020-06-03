@@ -8,7 +8,7 @@ module.exports = {
     const usersData = [
       {
         name: faker.name.findName(),
-        email: 'user1@example.com',
+        email: 'user10@example.com',
         password: bcrypt.hashSync('123456789', PASSWORD_SALT),
         rating: 3,
         occupation: 'jardinero',
@@ -18,7 +18,7 @@ module.exports = {
       },
       {
         name: faker.name.findName(),
-        email: 'user2@example.com',
+        email: 'user20@example.com',
         password: bcrypt.hashSync('qwerty', PASSWORD_SALT),
         rating: 4,
         occupation: 'gasfiter',

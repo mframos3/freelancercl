@@ -1,133 +1,156 @@
-<table id="users-list">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Nombre</th>
-      <th>Email</th>
-      <th>Valoración</th>
-      <th>Followers</th>
-      <th>Following</th>
-      <th>CV</th>
-      <th>Ocupación</th>
-      <% if (currentUser) { %>
-      <th colspan="3">Acciones</th>
-      <% } %>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><% if (user.imagePath) { %><img class="user" src="<%= user.imagePath %>" ><% } %></td>
-        <td><%= user.name %></td>
-        <td><%= user.email %></td>
-        <td><%= user.rating %></td>
-        <td><%= user.cFollowers %></td>
-        <td><%= user.cFollowed %></td>
-      <td><% if (user.cvPath) { %> <a href="<%= user.cvPath %> " class="enlaceboton">Descargar CV</a> <% } %></td>
-        <td><%= user.occupation %></td>
-        <% if (currentUser && currentUser.id != user.id ) { %>
-          <td><a href="<%= sendMessagePath %>">Enviar Mensaje</a></td>
-        <% } %>
-        <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
-          <td><a href="<%= editUserPath %>" class="enlaceboton">Editar</a></td>
-        <% } %>
-        <% if (currentUser && currentUser.id != user.id && !follow) { %>
-          <td>
-            <form action="<%= followPath %>" method="post">
-                <input type="submit" value="Seguir" class="enlaceboton"/>
-            </form>
-          </td>
-        <% } else if (currentUser && currentUser.id != user.id && follow) { %>
-          <td>
-            <form action="<%= followPath %>" method="post">
-                <input type="submit" value="Dejar de Seguir" class="enlaceboton"/>
-            </form>
-          </td>
-        <% } %>
-        <% if (currentUser && currentUser.isAdmin) { %>
-        <td><form action="<%= deleteUserPath %>" method="POST">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" value="Delete" class="enlaceboton"/>
-        <% } %>
-        </form>
-      </td>
-      </tr>
-  </tbody>
-</table>
+<!DOCTYPE html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+	<div class="profile-main">
+		<div class="profile-header">
+			<div class="user-detail">
+				<div class="user-image">
+          <% if (user.imagePath) { %><img class="user" src="<%= user.imagePath %>" ><% } %>
+				</div>
+				<div class="user-data">
+					<h2><%= user.name %></h2>
+					<span class="post-label"><%= user.occupation %></span>
+          </p>
+          <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
+            <a href="<%= editUserPath %>">Editar</a>
+          <% } %>
+          <% if (currentUser && currentUser.id != user.id && !follow) { %>
+              <form action="<%= followPath %>" method="post">
+                  <input type="submit" value="Seguir" />
+              </form>
+          <% } else if (currentUser && currentUser.id != user.id && follow) { %>
+              <form action="<%= followPath %>" method="post">
+                  <input type="submit" value="Dejar de Seguir" />
+              </form>
+          <% } %>
+				</div>
+			</div>
+			<div class="tab-panel-main">
+				<ul class="tabs">
+					<li class="tab-link current" data-tab="Basic-detail">Detalles</li>
+					<li class="tab-link" data-tab="Edu-detail">Ofertas</li>
+					<li class="tab-link" data-tab="Portfolio">Búsquedas</li>
+				</ul>
+				<div id="Basic-detail" class="tab-content current">
+					<div class="skill-box">
+					  <ul>
+              <li><strong>Ocupación:</strong></li>
+              <li><%= user.occupation %></li>
+              <li><strong>Valoración:</strong></li>
+              <% if (typeof user.rating == "number") {%>
+                <% for(let i=0; i < Math.round(user.rating); i++) {%>                
+                  <li><img class="star" src="https://img.icons8.com/color/2x/star.png"></img></li>
+                <% } %>
+              <% } else {%>
+                <li>Sin Valoraciones</li>
+              <% } %> 
+              <li><strong>Seguidores:</strong></li>
+              <li><%= user.cFollowers %></li>
+              <li><strong>Seguidos:</strong></li>
+              <li><%= user.cFollowed %></li>
+            </ul>		
+					</div>
+					<div class="bio-box">
+						<div class="heading">
+							<p>Información de Contacto
+							<label><%= user.email %></label></p>
+						</div>
+						<div class="desc">
+            <% if (currentUser && currentUser.id == user.id) { %>
+              <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
+                <div class="field">
+                  <label for="CV">Selecciona CV</label>
+                  <input type="file" name="CV" />
+                </div>
+                <div class="field">
+                  <label for="img">Selecciona foto de perfil</label>
+                  <input type="file" name="img" />
+                </div>
+                <div class="field">
+                  <input class="action-btn"type="submit" name="uploadFile" value="Upload" />
+                </div>
+                </form> 
+            <% } %>
+          </div>
+					</div>
+					<div class="detail-box">
+						<p>Descargar Currículum</p>
+						<ul class="ul-first">
+              <% if (user.cvPath) { %> 
+                <li><a href="<%= user.cvPath %>">Descargar CV</a></li> 
+              <% } else {%>
+                <li>Sin Currículum </li>
+              <% } %>
+						</ul>
+					</div>
+				</div>
+				<div id="Edu-detail" class="tab-content">
+					<div class="Edu-box-main">
+             <h2><i class="fa fa-graduation-cap" aria-hidden="true"></i> Ofertas</h2>
 
-<% if (currentUser && currentUser.id == user.id) { %>
-  <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
-    <div class="field">
-      <label  for="CV">Selecciona CV</label>
-      <input type="file" name="CV" />
-    </div>
-    <div class="field">
-      <label for="img">Selecciona foto de perfil</label>
-      <input type="file" name="img" />
-    </div>
-    <div class="field">
-      <input class="enlaceboton" type="submit" name="uploadFile" value="Upload" />
-    </div>
-    </form> 
-<% } %>
+                <% if (!offeringPostsList.length && currentUser && currentUser.id == user.id) { %>
+                  <ul  class="ul-first">
+                  <span>No tienes Publicaciones de Oferta</span>
+                  <a href="<%= newOfferingPostPath %> "> Haz tu primera publicación de Oferta!</a>
+                  </ul>
+                  <% } else { %>
+                       <% offeringPostsList.forEach((offeringPost) => { %>
+                        <table>
+                        <td><% if (offeringPost.img) { %> <img class="user" src="<%= offeringPost.img%>"> <% } %></td>
+                          <td><span><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.name %></a></span></td>
+                          <p><td><%= offeringPost.category %></td></p>
+                          <td><%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></td>
+                        </table>
+                      <% }) %>
+                <% } %>
+
+					</div>
+        </div>
+        <div id="Portfolio" class="tab-content">
+					<div class="Edu-box-main">
+             <h2><i class="fa fa-graduation-cap" aria-hidden="true"></i> Búsquedas de Empleo</h2>
+
+                <% if (!searchingPostsList.length && currentUser && currentUser.id == user.id) { %>
+                  <ul  class="ul-first">
+                  <span>No tienes Publicaciones de Búsqueda</span>
+                  <a href="<%= newSearchingPostPath %> "> Haz tu primera publicación Buscando empleo!</a>
+                  </ul>
+                  <% } else { %>
+                        
+                       <% searchingPostsList.forEach((searchingPost) => { %>
+                        <table>
+                        <td><% if (searchingPost.img) { %> <img class="user" src="<%= searchingPost.img%>"> <% } %></td>
+                          <td><a href="<%= showSearchingPostPath(searchingPost) %> "><%= searchingPost.name %></a></td>
+                          <td><%= searchingPost.category %></td>
+                          <td><%= searchingPost.createdAt.getDate() + '-' + searchingPost.createdAt.getMonth() + '-' + searchingPost.createdAt.getFullYear() %></td>
+                        </table>
+                      <% }) %>
+                <% } %>
+                
+
+					</div>
+        </div>
+				
+			</div>
+		</div>
+		<div style="clear: both;"></div>
+
+	</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('ul.tabs li').click(function(){
+			var tab_id = $(this).attr('data-tab');
+
+			$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+
+			$(this).addClass('current');
+			$("#"+tab_id).addClass('current');
+		});
+	});
+</script>
+</body>
 
 
-<% if (!offeringPostsList.length && currentUser && currentUser.id == user.id) { %>
-  <h2>No tienes Posts de Oferta</h2>
-  <td><a href="<%= newOfferingPostPath %> " class="enlaceboton"> Haz tu primer post de Oferta!</a></td>
-  <% } else { %>
-<h2>Publicaciones de Oferta</h2>
-  <table id="offeringPosts-list">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Nombre</th>
-        <th>Categoría</th>
-        <th>Fecha de Término </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% offeringPostsList.forEach((offeringPost) => { %>
-        <tr>
-        <td><% if (offeringPost.img) { %> <img class="user" src="<%= offeringPost.img%>"> <% } %></td>
-          <td><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.name %></a></td>
-          <td><%= offeringPost.category %></td>
-          <td><%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></td>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
-<% } %>
-
-
-
-<% if (!searchingPostsList.length && currentUser && currentUser.id == user.id) { %>
-  <h2>No tienes Posts de Búsqueda</h2>
-  <td><a href="<%= newSearchingPostPath %> " class="enlaceboton"> Haz tu primer post de Búsqueda!</a></td>
-  <% } else { %>
-<h2>Publicaciones de Búsqueda</h2>
-  <table id="searchingPosts-list">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Categoría</th>
-        <th>Fecha de Publicación </th>
-        
-      </tr>
-    </thead>
-    <tbody>
-      <% searchingPostsList.forEach((searchingPost) => { %>
-        <tr>
-          <td><a href="<%= showSearchingPostPath(searchingPost) %>"><%= searchingPost.name %></a></td>
-          <td><%= searchingPost.category %></td>
-          <td><%= searchingPost.createdAt.getDate() + '-' + searchingPost.createdAt.getMonth() + '-' + searchingPost.createdAt.getFullYear() %></td>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
-<% } %>
-
-<form class="back" action="<%= backPath %>" method="get">
-  <input type="submit" value="Volver" />
-</form>

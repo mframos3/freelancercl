@@ -43,12 +43,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     rating: {
       type: DataTypes.FLOAT,
+      defaultValue: 0,
       validate: {
         isFloat: true,
         min: 0,
         max: 5,
       },
-      defaultValue: 0,
     },
     cvPath: {
       type: DataTypes.STRING,
@@ -59,6 +59,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
       },
+      defaultValue: 'https://freelancercl.sfo2.digitaloceanspaces.com/avatar.png',
     },
     occupation: {
       type: DataTypes.STRING,
