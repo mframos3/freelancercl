@@ -18,36 +18,36 @@ async function loadUser(ctx, next) {
   return next();
 }
 
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index += 1) {
-    // eslint-disable-next-line no-await-in-loop
-    await callback(array[index], index, array);
-  }
-}
+// async function asyncForEach(array, callback) {
+//   for (let index = 0; index < array.length; index += 1) {
+//     // eslint-disable-next-line no-await-in-loop
+//     await callback(array[index], index, array);
+//   }
+// }
 
-// Función que calcula el rating del usuario
-async function computeRating(ctx) {
-  let countReview = 0;
-  let sumValues = 0;
-  let reviewsList = [];
-  const { user } = ctx.state;
-  const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: user.id } });
-  asyncForEach(offeringPostsList, async (post) => {
-    reviewsList = await ctx.orm.review.findAll({ where: { id_post: post.id } });
-    // console.log('Lista de reviwes');
-    // console.log(reviewsList);
-    reviewsList.forEach((review) => {
-      sumValues += review.rating;
-      countReview += 1;
-    });
-  }).then(() => {
-    // console.log(`Suma de ratings: ${sumValues}`);
-    // console.log(`Cantidad de reviws: ${countReview}`);
-    const mean = sumValues / countReview;
-    // console.log(`Promedio: ${mean.toFixed(1)}`);
-    user.rating = mean.toFixed(1);
-  });
-}
+// // Función que calcula el rating del usuario
+// async function computeRating(ctx) {
+//   let countReview = 0;
+//   let sumValues = 0;
+//   let reviewsList = [];
+//   const { user } = ctx.state;
+//   const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: user.id } });
+//   asyncForEach(offeringPostsList, async (post) => {
+//     reviewsList = await ctx.orm.review.findAll({ where: { id_post: post.id } });
+//     // console.log('Lista de reviwes');
+//     // console.log(reviewsList);
+//     reviewsList.forEach((review) => {
+//       sumValues += review.rating;
+//       countReview += 1;
+//     });
+//   }).then(() => {
+//     // console.log(`Suma de ratings: ${sumValues}`);
+//     // console.log(`Cantidad de reviws: ${countReview}`);
+//     const mean = sumValues / countReview;
+//     // console.log(`Promedio: ${mean.toFixed(1)}`);
+//     user.rating = mean.toFixed(1);
+//   });
+// }
 
 // Función que calcula la cantidad de followers y de followed
 async function computeFollowers(ctx) {
@@ -198,7 +198,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   let followerPreviousId = -1;
-  computeRating(ctx);
+  // computeRating(ctx);
   computeFollowers(ctx);
   if (currentUser) {
     followerPreviousId = currentUser.id;
