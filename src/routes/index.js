@@ -17,7 +17,7 @@ router.get('index.landing', '/', async (ctx) => {
   }
   const bestUsers = await ctx.orm.user.findAll({ where: { rating: { [Op.gte]: 4 } }, order: [['rating', 'DESC']] });
   const bestOfferingPosts = await ctx.orm.offeringPost.findAll({ where: { rating: { [Op.gte]: 4 } }, order: [['rating', 'DESC']] });
-  let followingIds = ''
+  let followingIds = '';
   if (currentUser) {
     const following = await ctx.orm.follow.findAll({
       where: { followerId: { [Op.eq]: currentUser.id } } });
