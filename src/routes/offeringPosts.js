@@ -21,16 +21,23 @@ async function computeRating(ctx) {
   let sumValues = 0;
   const { offeringPost } = ctx.state;
   const reviewsList = await ctx.orm.review.findAll({ where: { id_post: offeringPost.id } });
-  reviewsList.forEach((review) => {
-    sumValues += review.rating;
-  });
-  const countReview = reviewsList.length;
-  // console.log(`Cantidad de reviews: ${countReview}`);
-  // console.log(`Suma de rating: ${sumValues}`);
-  const mean = sumValues / countReview;
-  // console.log(`Promedio: ${mean.toFixed(1)}`);
-  offeringPost.rating = mean.toFixed(1);
-  offeringPost.save({ fields: ['rating'] });
+  console.log(reviewsList.length);
+  if (reviewsList.length === 0) {
+    // console.log('entre!');
+    offeringPost.rating = 0;
+    offeringPost.save({ fields: ['rating'] });
+  } else {
+    reviewsList.forEach((review) => {
+      sumValues += review.rating;
+    });
+    const countReview = reviewsList.length;
+    // console.log(`Cantidad de reviews: ${countReview}`);
+    // console.log(`Suma de rating: ${sumValues}`);
+    const mean = sumValues / countReview;
+    // console.log(`Promedio: ${mean.toFixed(1)}`);
+    offeringPost.rating = mean.toFixed(1);
+    offeringPost.save({ fields: ['rating'] });
+  }
 }
 
 router.get('offeringPosts.list', '/', async (ctx) => {
