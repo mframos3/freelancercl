@@ -30,6 +30,7 @@ async function computeRating(ctx) {
   const mean = sumValues / countReview;
   // console.log(`Promedio: ${mean.toFixed(1)}`);
   offeringPost.rating = mean.toFixed(1);
+  offeringPost.save({ fields: ['rating'] });
 }
 
 router.get('offeringPosts.list', '/', async (ctx) => {

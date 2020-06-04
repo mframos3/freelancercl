@@ -53,16 +53,7 @@ router.post('reviews.create', '/:pid', async (ctx) => {
   try {
     await review.save({ fields: ['id_post', 'id_worker', 'rating', 'comment'] });
     ctx.redirect(ctx.router.url('offeringPosts.show', { pid: ctx.state.offeringPost.id }));
-    console.log('estoy entrando?');
     computeRating(ctx, review.id_post);
-    // const motherPost = await ctx.orm.offeringPost.findOne({ where: { id: review.id_post } });
-    // const { user } = await ctx.orm.user.findOne({ where: { id: motherPost.userId } });
-    // computeRating(ctx, review.id_post);
-    // const newRating = await computeRating(ctx, user);
-    // console.log('rating es:');
-    // console.log(newRating);
-    // user.rating = newRating;
-    // await user.save();
   } catch (validationError) {
     await ctx.render('reviews/new', {
       review,
@@ -92,6 +83,7 @@ router.patch('reviews.update', '/:rid', loadReview, async (ctx) => {
     await review.update({
       idPost, idWorker, rating, comment,
     });
+    computeRating(ctx, review.id_post);
     ctx.redirect(ctx.router.url('offeringPosts.show', { pid: ctx.state.offeringPost.id }));
   } catch (validationError) {
     await ctx.render('reviews/edit', {
@@ -106,6 +98,7 @@ router.patch('reviews.update', '/:rid', loadReview, async (ctx) => {
 router.del('reviews.delete', '/:rid', loadReview, async (ctx) => {
   const { review } = ctx.state;
   await review.destroy();
+  computeRating(ctx, review.id_post);
   ctx.redirect(ctx.router.url('offeringPosts.show', { pid: review.id_post }));
 });
 module.exports = router;
