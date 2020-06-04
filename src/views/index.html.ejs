@@ -74,6 +74,32 @@
         
     </div>
 
+    <% if (bestUsers.length) { %>
+      <h2>En freelancercl Podrás interactuar con:</h2>
+            <% bestUsers.forEach((user) => { %>
+              <div id="users-list"></div>
+                <ol class="listHorizontal">
+                  <li><% if (user.img) { %> <img class="user" src="<%= user.img%>"> <% } %></li>
+                  <li><a href="<%= showOfferingPostPath(user) %> "><%= user.name %></a></li>
+                  <li>Seguidores: <%= user.cFollowed %></li>
+                </ol>
+              </div>
+            <% }) %>
+      <% } %>
+
+      <% if (bestOfferingPosts.length) { %>
+        <h2>En freelancercl Podrás interactuar con:</h2>
+              <% bestOfferingPosts.forEach((post) => { %>
+                <div id="users-list"></div>
+                  <ol class="listHorizontal">
+                    <li><% if (post.img) { %> <img class="user" src="<%= post.img%>"> <% } %></li>
+                    <li><a href="<%= showOfferingPostPath(post) %> "><%= post.name %></a></li>
+                    <li>Rating: <%= post.rating %></li>
+                  </ol>
+                </div>
+              <% }) %>
+        <% } %>
+
 
   <% } else {%>
   <br><br>
