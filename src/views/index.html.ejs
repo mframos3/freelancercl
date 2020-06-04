@@ -75,26 +75,27 @@
     </div>
 
     <% if (bestUsers.length) { %>
+      <div class="list">
       <h2>En freelancercl Podrás interactuar con:</h2>
             <% bestUsers.forEach((user) => { %>
               <div class="list-element">
                 <div id="left">
-                  <% if (user.img) { %> <img class="user" src="<%= user.img%>"> <% } %>
+                  <img class="user" src="<%= user.img%>">
                 </div>
                 <div id="center">
                   <div class="element-user">
                   <a href="<%= showUserPath(user) %> "><%= user.name %></a>
+                  </div>
                 </div>
                 <div id="right">
                 <div class="review-rating">
                   Seguidores: <%= user.cFollowers %>
                 </div>
               </div>
-
               </div>
-            </div>
 
             <% }) %>
+            </div>
       <% } %>
 
       <% if (bestOfferingPosts.length) { %>
