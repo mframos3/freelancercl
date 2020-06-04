@@ -8,7 +8,6 @@ const usersData = [];
 
 for (let i = 1; i < 11; i += 1) {
   usersData.push({
-    id: i,
     name: faker.name.findName(),
     email: `user${i}@example.com`,
     password: bcrypt.hashSync('123456789', PASSWORD_SALT),

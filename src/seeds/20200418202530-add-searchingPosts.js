@@ -9,7 +9,6 @@ const categories = ['General', 'Hogar', 'Educación', 'Música', 'Entretenimient
 
 for (let i = 1; i < 10; i += 1) {
   searchingPostsData.push({
-    id: i,
     name: `Busco trabajo como  ${faker.name.jobTitle()}`,
     img: `${faker.image.business()}?random=${Date.now()}`,
     category: categories[Math.floor(Math.random() * categories.length)],
