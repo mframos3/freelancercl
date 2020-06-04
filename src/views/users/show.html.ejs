@@ -1,3 +1,4 @@
+<div class="general">
 <!DOCTYPE html>
 <head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -39,7 +40,7 @@
               <li><strong>Ocupación:</strong></li>
               <li><%= user.occupation %></li>
               <li><strong>Valoración:</strong></li>
-              <% if (typeof user.rating == "number") {%>
+              <% if (user.rating !== 0) {%>
                 <% for(let i=0; i < Math.round(user.rating); i++) {%>                
                   <li><img class="star" src="https://img.icons8.com/color/2x/star.png"></img></li>
                 <% } %>
@@ -152,5 +153,4 @@
 	});
 </script>
 </body>
-
-
+</div>

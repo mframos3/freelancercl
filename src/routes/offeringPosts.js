@@ -30,6 +30,7 @@ async function computeRating(ctx) {
   const mean = sumValues / countReview;
   // console.log(`Promedio: ${mean.toFixed(1)}`);
   offeringPost.rating = mean.toFixed(1);
+  offeringPost.save({ fields: ['rating'] });
 }
 
 router.get('offeringPosts.list', '/', async (ctx) => {
@@ -68,15 +69,11 @@ router.get('offeringPosts.list', '/', async (ctx) => {
     });
     searchResult = offeringPostsList;
   }
-  for (let i = 0; i < offeringPostsList.length; i += 1) {
-    offeringPostsList[i].endsAt = offeringPostsList[i].endsAt.toString().slice(0, 24);
-    offeringPostsList[i].createdAt = offeringPostsList[i].createdAt.toString().slice(0, 24);
-  }
   await ctx.render('offeringPosts/index', {
     searchResult,
     userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
     newOfferingPostPath: ctx.router.url('offeringPosts.new'),
-    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.id }),
+    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.item.id }),
   });
 });
 

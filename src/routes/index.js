@@ -15,8 +15,8 @@ router.get('index.landing', '/', async (ctx) => {
     offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: { [Op.eq]: isUser.id } } });
     searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.eq]: isUser.id } } });
   }
-  const bestUsers = await ctx.orm.user.findAll({ where: { rating: { [Op.gte]: 4 } }, order: [['rating', 'DESC']] });
-  const bestOfferingPosts = await ctx.orm.offeringPost.findAll({ where: { rating: { [Op.gte]: 4 } }, order: [['rating', 'DESC']] });
+  const bestUsers = await ctx.orm.user.findAll({ order: [['cFollowers', 'DESC']], limit: 3 });
+  const bestOfferingPosts = await ctx.orm.offeringPost.findAll({ order: [['rating', 'DESC']], limit: 3 });
   let followingIds = '';
   if (currentUser) {
     const following = await ctx.orm.follow.findAll({
@@ -39,7 +39,6 @@ router.get('index.landing', '/', async (ctx) => {
     appVersion: pkg.version,
     offeringPostsList,
     searchingPostsList,
-    bestUsers,
     newSearchingPostPath: ctx.router.url('searchingPosts.new'),
     newOfferingPostPath: ctx.router.url('offeringPosts.new'),
     createSessionPath: ctx.router.url('session.create'),
@@ -55,6 +54,7 @@ router.get('index.landing', '/', async (ctx) => {
     backPath: ctx.router.url('searchingPosts.list'),
     //
     passwordError,
+    bestUsers,
     bestOfferingPosts,
     offeringPostsFollowing,
     searchingPostsFollowing,

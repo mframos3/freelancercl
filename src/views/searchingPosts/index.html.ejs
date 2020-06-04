@@ -1,3 +1,4 @@
+<div class="general">
 <h2>Publicaciones de Búsqueda</h2>
 
 <div class="search-container">
@@ -31,19 +32,27 @@
   <p>No hay resultados</p>
 <% } else { %>
   <br>
-  <% searchResult.forEach((searchingPost) => { %>
-    <div id="searchingPosts-list"></div>
-      <ol class="listHorizontal">
-        <li><% if (searchingPost.item.img) { %> <img class="user" src="<%= searchingPost.item.img%>"> <% } %></li>
-        <li><a href="<%= showSearchingPostPath(searchingPost) %> "><%= searchingPost.item.name %></a></li>
-        <li>Fecha publicación: <%= searchingPost.item.createdAt.getDate() + '-' + searchingPost.item.createdAt.getMonth() + '-' + searchingPost.item.createdAt.getFullYear() %></li>
-      </ol>
-    </div>
-    <br>
-  <% }) %>
+  <div class="offeringPosts-list">
+    <% searchResult.forEach((searchingPost) => { %>
+      <div class="offeringPost">
+        <% if (searchingPost.item.image) { %> <img class="offeringPost__image" src="<%= searchingPost.item.image%>"> <% } %>
+        <div class="name-content">
+          <div class="offeringPost__name">
+              <a href="<%= showSearchingPostPath(searchingPost) %> "><%= searchingPost.item.name %></a>
+          </div>
+          <div class="offeringPost__content">
+            <%= searchingPost.item.description %>
+          </div>
+      </div>
+        <div class="offeringPost__extras">
+          <%= searchingPost.item.category %>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+  <br>
 <% } %>
 
 <% if (currentUser) { %><a href="<%= newSearchingPostPath %>" class="enlaceboton">Nuevo post de búsqueda</a> <% } %>
-
-<div> <a href="/">Atrás</a> </div>
+</div>
 

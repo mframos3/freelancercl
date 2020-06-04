@@ -54,12 +54,19 @@ async function loadUser(ctx, next) {
 // Función que calcula la cantidad de followers y de followed
 async function computeFollowers(ctx) {
   const { user } = ctx.state;
+  const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   const followersList = await ctx.orm.follow.findAll({ where: { followedId: user.id } });
   const followedList = await ctx.orm.follow.findAll({ where: { followerId: user.id } });
+  const followersCU = await ctx.orm.follow.findAll({ where: { followedId: currentUser.id } });
+  const followedCU = await ctx.orm.follow.findAll({ where: { followerId: currentUser.id } });
   // console.log(typeof (followersList));
   // console.log(followedList.length);
+  currentUser.cFollowers = followersCU.length;
+  currentUser.cFollowed = followedCU.length;
   user.cFollowers = followersList.length;
   user.cFollowed = followedList.length;
+  user.save({ fields: ['cFollowers', 'cFollowed'] });
+  currentUser.save({ fields: ['cFollowers', 'cFollowed'] });
 }
 
 router.get('users.list', '/', async (ctx) => {

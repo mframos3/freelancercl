@@ -74,6 +74,42 @@
         
     </div>
 
+    <% if (bestUsers.length) { %>
+      <h2>En freelancercl Podrás interactuar con:</h2>
+            <% bestUsers.forEach((user) => { %>
+              <div class="list-element">
+                <div id="left">
+                  <% if (user.img) { %> <img class="user" src="<%= user.img%>"> <% } %>
+                </div>
+                <div id="center">
+                  <div class="element-user">
+                  <a href="<%= showUserPath(user) %> "><%= user.name %></a>
+                </div>
+                <div id="right">
+                <div class="review-rating">
+                  Seguidores: <%= user.cFollowers %>
+                </div>
+              </div>
+
+              </div>
+            </div>
+
+            <% }) %>
+      <% } %>
+
+      <% if (bestOfferingPosts.length) { %>
+        <h2>... Y encontrar las mejores Ofertas de empleo:</h2>
+              <% bestOfferingPosts.forEach((post) => { %>
+                <div id="users-list"></div>
+                  <ol class="listHorizontal">
+                    <li><% if (post.img) { %> <img class="user" src="<%= post.img%>"> <% } %></li>
+                    <li><a href="<%= showOfferingPostPath(post) %> "><%= post.name %></a></li>
+                    <li>Rating: <%= post.rating %></li>
+                  </ol>
+                </div>
+              <% }) %>
+        <% } %>
+
 
   <% } else {%>
   <br><br>
@@ -106,5 +142,4 @@
         
       <% } %>
 <% } %>
-
 </body>

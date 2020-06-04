@@ -1,5 +1,9 @@
 $freelancer-color: rgb(63, 152, 211);
 
+.divnavbar {
+  margin: 0;
+}
+
 a {
   text-decoration: none;
   color: black;
@@ -15,10 +19,12 @@ html, body {
   font-family: 'Roboto', sans-serif;
 }
 
-body { 
-  margin: 0.5%;
+.general {
+  margin: 5%;
 }
-
+// body { 
+//   margin: 0.5%;
+// }
 
 #freelancer-logo {
   border-top-left-radius: 30% 30%;
@@ -230,7 +236,7 @@ h2{
 //Barra de herramientas
 ul.topnav {
   list-style-type: none;
-  margin: auto;
+  margin: 0;
   padding: 0;
   width: 100%;
   overflow: hidden;
@@ -287,6 +293,6 @@ ul.topnav li.right {float: right; background-color: $freelancer-color;}
 }
 
 .logo {
-  height: 45px;
+  height: 25px;
 }
 
