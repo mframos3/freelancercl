@@ -1,3 +1,4 @@
+<div class="general">
 <h2>Publicaciones de Oferta</h2>
 <div class="search-container">  
   <form action="/offeringPosts" class="search-form">
@@ -57,7 +58,6 @@
   <br>
 <% } %>
 
-<% if(currentUser) {%><a href="<%= newOfferingPostPath %>" class="enlaceboton">Nueva Oferta</a><% } %>
-<div> <a href="/">Volver</a> </div>
-
+  <% if(currentUser) {%><a href="<%= newOfferingPostPath %>" class="enlaceboton">Nueva Oferta</a><% } %>
+</div>
 
