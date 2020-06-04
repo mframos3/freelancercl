@@ -50,7 +50,7 @@
     <!-- <ol class="listHorizontal">
       <li><% if (offeringPost.item.img) { %> <img class="user" src="<%= offeringPost.item.img%>"> <% } %></li>
       <li><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a></li>
-      <li>Fecha publicación: <%= offeringPost.createdAt.getDate() + '-' + offeringPost.createdAt.getMonth() + '-' + offeringPost.createdAt.getFullYear() %></li>
+      <li>Fecha publicación: <%= offeringPost.item.createdAt.getDate() + '-' + offeringPost.item.createdAt.getMonth() + '-' + offeringPost.item.createdAt.getFullYear() %></li>
     </ol> -->
     <% }) %>
   </div>

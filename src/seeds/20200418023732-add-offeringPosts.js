@@ -1,36 +1,30 @@
+const faker = require('faker');
+
+faker.locale = 'es';
+
+const offeringPostsData = [];
+const categories = ['General', 'Hogar', 'Educación', 'Música', 'Entretenimiento',
+  'Deportes', 'Artes', 'Tele Trabajo', 'Emprendimiento', 'Investigación', 'Salud',
+  'Asesoría', 'Otros'];
+
+for (let i = 1; i < 11; i += 1) {
+  offeringPostsData.push({
+    id: i,
+    name: `Ofrecemos trabajo de ${faker.name.jobType()}`,
+    category: categories[Math.floor(Math.random() * categories.length)],
+    description: faker.lorem.paragraph(2),
+    userId: i,
+    img: `${faker.image.business()}?random=${Date.now()}`,
+    endsAt: faker.date.future(1),
+    price: Math.floor(Math.random() * (100000 - 20000 + 1)) + 200000,
+    rating: 0,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+}
+
 module.exports = {
-  up: (queryInterface) => {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkInsert('People', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
-    const offeringPostsData = [
-      {
-        name: 'Se busca consultor informático.',
-        category: 'Tecnología, Computación, Ingeniería',
-        description: 'Se requiere programador con al menos 2 años de experiencia para pizzería.',
-        userId: 1,
-        endsAt: '2020-08-09',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
-
-    return queryInterface.bulkInsert('offeringPosts', offeringPostsData);
-  },
+  up: (queryInterface) => queryInterface.bulkInsert('offeringPosts', offeringPostsData),
 
   down: (queryInterface) => queryInterface.bulkDelete('offeringPosts', null, {}),
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
 };

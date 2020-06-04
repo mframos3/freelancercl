@@ -1,28 +1,27 @@
+const faker = require('faker');
+
+faker.locale = 'es';
+
+const searchingPostsData = [];
+const categories = ['General', 'Hogar', 'Educación', 'Música', 'Entretenimiento',
+  'Deportes', 'Artes', 'Tele Trabajo', 'Emprendimiento', 'Investigación', 'Salud',
+  'Asesoría', 'Otros'];
+
+for (let i = 1; i < 10; i += 1) {
+  searchingPostsData.push({
+    id: i,
+    name: `Busco trabajo como  ${faker.name.jobTitle()}`,
+    img: `${faker.image.business()}?random=${Date.now()}`,
+    category: categories[Math.floor(Math.random() * categories.length)],
+    description: faker.lorem.paragraph(2),
+    userId: i,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+}
+
 module.exports = {
-  up: (queryInterface) => {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkInsert('People', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
-    const searchingPostsData = [
-      {
-        name: 'Experimentado ingeniero informático busca proyecto por teletrabajo.',
-        category: 'Tecnología, Computación, Ingeniería',
-        description: 'Estoy buscando trabajo con duración máximo de 3 meses, esencialmente full stack developer.',
-        userId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
-
-    return queryInterface.bulkInsert('searchingPosts', searchingPostsData);
-  },
+  up: (queryInterface) => queryInterface.bulkInsert('searchingPosts', searchingPostsData),
 
   down: (queryInterface) => queryInterface.bulkDelete('searchingPosts', null, {}),
 
