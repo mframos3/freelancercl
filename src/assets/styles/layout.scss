@@ -1,5 +1,10 @@
 $freelancer-color: rgb(63, 152, 211);
 
+.center-head {
+  margin: auto;
+  text-align: center;
+}
+
 .divnavbar {
   margin: 0;
 }
@@ -76,6 +81,7 @@ h2{
 
 
 .search-container {
+  margin: auto;
   position: relative;
   top: 0;
   left: 0;
@@ -86,8 +92,19 @@ h2{
 
 
   .dropdown {
-    margin-top: 30px;
+    margin: auto;
+
   }
+
+  .search-form > .dropdown {
+    flex-grow: 1;
+  }
+
+  .search-form > input[type=text] {
+    margin:auto;
+    margin-top: 30%;
+  }
+
   .search {
     position: absolute;
     top: 25px;

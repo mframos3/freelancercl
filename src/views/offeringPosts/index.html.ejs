@@ -1,7 +1,10 @@
 <div class="general">
-<h2>Publicaciones de Oferta</h2>
+<div class="center-head">
+  <h2>Publicaciones de Oferta</h2>
 <div class="search-container">  
   <form action="/offeringPosts" class="search-form">
+    <input type="text" name="search" placeholder="Buscar Post...">
+    <div type="submit" value="Search" class="search"></div>
     <div class="dropdown">
       <select class="dropbtn" name="category" id="category" class="custom-select sources" placeholder="Categoría">
         <option value="Todo">Todas las categorías</option>
@@ -21,11 +24,10 @@
 
       </select>
     </div>
-      <br><br>
-
-    <input type="text" name="search" placeholder="Buscar Post...">
-    <div type="submit" value="Search" class="search"></div>
+    
   </form>
+</div>
+
 </div>
 
 <% if (!searchResult.length) { %>
