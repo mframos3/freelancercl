@@ -40,6 +40,8 @@ Consideraciones a tener:
 
 * El mail se manda cuando uno se registra, esta la probabilidad de que se mande a spam.
 
+* El chat tiene a la izquierda la lista de usuarios con los que se tiene una conversación activa, es decir, existe un historial de mensajes entre ambos usuarios. Para chatear con otros usuarios con los que nunca se ha conversado, se hace click en el boton '+' debajo de la lista de usuarios. Al presionar el botón aparecerá una lista de usuarios con los que no se tiene una conversación. Se puede enviar mensajes a estos, y por lo tanto, formarán parte de la lista de ususarios inicial (conversación activa). Si se hace click al botón '-' Se volvera a la lista de usuarios del principio. Si no hay usuarios nuevos con quien conversar, la lista + aparecerá vacía. Se puede enviar mensaje tanto con el botón enviar como con enter.
+
 La tabla follows también fue creada, pero sin vista (ya que no tenía mucho sentido realizarle ahora independiente del usuario, pero están creadas sus partes necesarias para las siguientes entregas del proyecto)
 
 Además, en estos últimos, las relaciones con usuarios se realizaron en base al siguiente modelo: https://nodeontrain.xyz/tuts/relationship_model/
