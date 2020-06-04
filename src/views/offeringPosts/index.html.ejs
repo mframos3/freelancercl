@@ -37,13 +37,15 @@
   <div class="offeringPosts-list">
     <% searchResult.forEach((offeringPost) => { %>
       <div class="offeringPost">
-        <% if (offeringPost.item.img) { %> <img class="offeringPost__image" src="<%= offeringPost.item.img%>"> <% } %>
-        <div class="offeringPost__name">
-            <a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a>
-        </div>
-        <div class="offeringPost__content">
-          <%= offeringPost.item.description %>
-        </div>
+        <div class="name-content">
+          <% if (offeringPost.item.img) { %> <img class="offeringPost__image" src="<%= offeringPost.item.img%>"> <% } %>
+          <div class="offeringPost__name">
+              <a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a>
+          </div>
+          <div class="offeringPost__content">
+            <%= offeringPost.item.description %>
+          </div>
+      </div>
         <div class="offeringPost__extras">
           <%= offeringPost.item.category %>
         </div>

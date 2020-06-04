@@ -15,9 +15,8 @@ router.get('index.landing', '/', async (ctx) => {
     offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: { [Op.eq]: isUser.id } } });
     searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.eq]: isUser.id } } });
   }
-  const bestUsers = await ctx.orm.user.findAll({ limit: 3, order: [['cFollowers']] });
-  console.log(bestUsers[0]);
-  const bestOfferingPosts = await ctx.orm.offeringPost.findAll({ limit: 3, order: [['rating']] });
+  const bestUsers = await ctx.orm.user.findAll({ order: [['cFollowers', 'DESC']], limit: 3 });
+  const bestOfferingPosts = await ctx.orm.offeringPost.findAll({ order: [['rating', 'DESC']], limit: 3 });
   let followingIds = '';
   if (currentUser) {
     const following = await ctx.orm.follow.findAll({

@@ -50,7 +50,7 @@ router.get('searchingPosts.list', '/', async (ctx) => {
   const auxSearchResult = searchResult;
   const promisesSearchResul = auxSearchResult.map(async (element) => {
     const newElement = element;
-    const aux = await ctx.orm.user.findByPk(newElement.userId);
+    const aux = await ctx.orm.user.findByPk(newElement.item.userId);
     newElement.item.username = aux.name;
     newElement.item.image = aux.imagePath;
     return newElement;

@@ -13,9 +13,12 @@ for (let i = 1; i < 11; i += 1) {
     email: `user${i}@example.com`,
     password: bcrypt.hashSync('123456789', PASSWORD_SALT),
     imagePath: `${faker.image.people()}?random=${Date.now()}`,
+    cvPath: '',
     rating: 0,
     occupation: faker.name.jobTitle(),
     isAdmin: (i === 1),
+    cFollowers: 0,
+    cFollowed: 0,
     createdAt: new Date(),
     updatedAt: new Date(),
   });
