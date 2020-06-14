@@ -9,7 +9,6 @@ const categories = ['General', 'Hogar', 'Educación', 'Música', 'Entretenimient
 
 for (let i = 1; i < 11; i += 1) {
   offeringPostsData.push({
-    id: i,
     name: `Ofrecemos trabajo de ${faker.name.jobType()}`,
     category: categories[Math.floor(Math.random() * categories.length)],
     description: faker.lorem.paragraph(2),
