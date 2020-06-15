@@ -16,25 +16,31 @@ Quarantinos propone una aplicación tipo red social con bulletin board digital. 
 
 ### Ya Puedes dejar de esperar!
 
-La segunda versión de freelancercl ya está disponible en tu navegador, solo debes hacer click en el siguiente link y listo!
+La tercera versión de freelancercl ya está disponible en tu navegador, solo debes hacer click en el siguiente link y listo!
 
 https://freelancercl.herokuapp.com
 
 Consideraciones a tener:
 
-* La versión 1.0.0 de esta App, presenta a modo general, todos los modelos y tablas que estarán presentes en una futura versión definitiva de freelancercl. Las presentamos con un css básico, a modo de tener ya el archivo para futuro enfocarnos en una buena apariencia para el usuario. Lo mismo al rellenar un form para crear una nueva entidad. Además, todas las relaciones están hechas y checkeadas entre las distintas entidades, de manera que el modelamiento a futuro se hará mucho más fácil teniendo una base firme en el modelo y entendimiento por parte de los desarrolladores. 
+* La versión 1.0.3 de esta App, presenta a todos los modelos que estarán presentes en una futura versión definitiva de freelancercl. Si bien no están con el css definitivo, esta bien avanzado y da una muy buena imágen de cómo va a terminar siendo. El index de Searching Post y Offering Post muestra las publicaciones en forma de grid, mostrando su foto, el título, su contenido y su categoría. Hay pop ups para el inicio de sesión y el register. 
 
-* Lo mismo ocurre con las validaciones al crear nuevas entidades, por ejemplo, los caracteres de un nombre, que la fecha de término debe ser mayor a la de inicio (actual), etc. A modo de prueba, dejamos ciertas validaciones  que, posteriormente, serán reafinadas de acuerdo a los requerimientos de la página.
+* Las validaciones al crear nuevas entidades, por ejemplo, los caracteres de un nombre, que la fecha de término debe ser mayor a la de inicio (actual), etc. A modo de prueba, dejamos ciertas validaciones  que, posteriormente, serán reafinadas de acuerdo a los requerimientos de la página.
 
-* Básicamente, está todo lo que se esperaba para esta entrega de la App, espero seas feliz navegando por ella!
+* Para los no registrados, el landing page les muestra los usuarios con más followers y los offering post con mejor rating. Para los registrados, el landing page muestra la actividad de los usuarios que sigue. Además, si nunca han hecho un offering post o un searching post, la página principal los incitará a crearse uno nuevo.
+
+* Creamos un sistema de rating que funciona por medio de los reviews de los offering post. El rating de cada usuario es el promedio de todos las valoraciones de los reviews puestos en los offering post que le pertenecen. A su vez cada offering post tiene un promedio de sus ratings.
+
+* Básicamente, está todo lo que se esperaba para esta entrega de la App y más!!! Espero seas feliz navegando por ella.
 
 * El usuario administrador es:  
-    email: user2@example.com  
-    contraseña: qwerty  
+    email: user1@example.com  
+    contraseña: 123456789
 
 * Las barras de busqueda son sensibles a las mayúsculas.
 
 * El mail se manda cuando uno se registra, esta la probabilidad de que se mande a spam.
+
+* El chat tiene a la izquierda la lista de usuarios con los que se tiene una conversación activa, es decir, existe un historial de mensajes entre ambos usuarios. Para chatear con otros usuarios con los que nunca se ha conversado, se hace click en el boton '+' debajo de la lista de usuarios. Al presionar el botón aparecerá una lista de usuarios con los que no se tiene una conversación. Se puede enviar mensajes a estos, y por lo tanto, formarán parte de la lista de ususarios inicial (conversación activa). Si se hace click al botón '-' Se volvera a la lista de usuarios del principio. Si no hay usuarios nuevos con quien conversar, la lista + aparecerá vacía. Se puede enviar mensaje tanto con el botón enviar como con enter.
 
 La tabla follows también fue creada, pero sin vista (ya que no tenía mucho sentido realizarle ahora independiente del usuario, pero están creadas sus partes necesarias para las siguientes entregas del proyecto)
 

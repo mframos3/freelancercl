@@ -1,5 +1,10 @@
 $freelancer-color: rgb(63, 152, 211);
 
+.center-head {
+  margin: auto;
+  text-align: center;
+}
+
 .divnavbar {
   margin: 0;
 }
@@ -76,6 +81,7 @@ h2{
 
 
 .search-container {
+  margin: auto;
   position: relative;
   top: 0;
   left: 0;
@@ -85,9 +91,6 @@ h2{
   height: 100px;
 
 
-  .dropdown {
-    margin-top: 30px;
-  }
   .search {
     position: absolute;
     top: 25px;
