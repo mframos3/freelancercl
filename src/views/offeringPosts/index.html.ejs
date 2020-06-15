@@ -34,8 +34,10 @@
   <p>No existen Resultados</p>
 
 <% } else { %>
+
+  <div id="react-posts"></div>
  
-  <br>
+  <!-- <br>
   <div class="offeringPosts-list">
     <% searchResult.forEach((offeringPost) => { %>
       <div class="offeringPost">
@@ -52,14 +54,14 @@
           <%= offeringPost.item.category %>
         </div>
       </div>
-    <!-- <ol class="listHorizontal">
+     <ol class="listHorizontal">
       <li><% if (offeringPost.item.img) { %> <img class="user" src="<%= offeringPost.item.img%>"> <% } %></li>
       <li><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a></li>
       <li>Fecha publicación: <%= offeringPost.item.createdAt.getDate() + '-' + offeringPost.item.createdAt.getMonth() + '-' + offeringPost.item.createdAt.getFullYear() %></li>
-    </ol> -->
+    </ol>
     <% }) %>
   </div>
-  <br>
+  <br> -->
 <% } %>
 
   <% if(currentUser) {%><a href="<%= newOfferingPostPath %>" class="enlaceboton">Nueva Oferta</a><% } %>

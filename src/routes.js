@@ -11,6 +11,7 @@ const searchResults = require('./routes/searchResults');
 const session = require('./routes/session');
 
 const chatApi = require('./routes/api/chat');
+const postsApi = require('./routes/api/posts');
 
 const router = new KoaRouter();
 
@@ -39,5 +40,7 @@ router.use('/messages', messages.routes());
 router.use('/searchResults', searchResults.routes());
 router.use('/session', session.routes());
 router.use('/api/chat', chatApi.routes());
+router.use('/api/posts', postsApi.routes());
+
 
 module.exports = router;

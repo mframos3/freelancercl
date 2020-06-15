@@ -1,30 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Posts.scss';
 
 const Posts = ({ posts, loading, contentType }) => {
   if (loading) {
     return <h2>Loading...</h2>;
   }
-
-  if (contentType === 'offeringPosts') {
-    return (
-      <ul className="list-group mb-4">
-        {posts.map((post) => (
-          <li key={post.id} className="list-group-item">
-            {post.title}
-          </li>
-        ))}
-      </ul>
-    );
-  }
   return (
-    <ul className="list-group mb-4">
+    <div className="offeringPost-list">
       {posts.map((post) => (
-        <li key={post.id} className="list-group-item">
-          {post.title}
-        </li>
+        <div className="offeringPost" key={post.id}>
+          <img className="offeringPost__image" src={post.img} alt="OfferingPost" />
+          <div className="offeringPost__name">
+            <a href={`/offeringPosts/${post.id}`}>{post.name}</a>
+          </div>
+          <div className="offeringPost__content">
+            {post.description}
+          </div>
+          <div className="offeringPost__extras">
+            {post.category}
+          </div>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 
