@@ -2,6 +2,14 @@
 <!DOCTYPE html>
 <head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript">
+      function PreviewImage() {
+          pdffile=document.getElementById("CV").files[0];
+          pdffile_url=URL.createObjectURL(pdffile);
+          $('#viewer').attr('src',pdffile_url);
+      }
+  </script>
 </head>
 <body>
 	<div class="profile-main">
@@ -63,24 +71,30 @@
               <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
                 <div class="field">
                   <label for="CV">Selecciona CV</label>
-                  <input type="file" name="CV" />
+                  <input type="file" name="CV" id="CV"/>
+                  <a href="#popupSearch" value="Vista Previa" type="button" onclick="PreviewImage();"> Vista Previa</a>
                 </div>
+
                 <div class="field">
                   <label for="img">Selecciona foto de perfil</label>
                   <input type="file" name="img" />
                 </div>
                 <div class="field">
-                  <input class="action-btn"type="submit" name="uploadFile" value="Upload" />
+                  <input class="action-btn"type="submit" name="uploadFile" value="Subir" />
                 </div>
                 </form> 
             <% } %>
           </div>
 					</div>
 					<div class="detail-box">
-						<p>Descargar Currículum</p>
+            <P>CV</P>
 						<ul class="ul-first">
               <% if (user.cvPath) { %> 
-                <li><a href="<%= user.cvPath %>">Descargar CV</a></li> 
+                <embed src="<%= user.cvPath %>" type="application/pdf" width="100%" height="80px"/>
+                <li><a href="<%= user.cvPath %>">Descargar</a></li>
+     
+
+
               <% } else {%>
                 <li>Sin Currículum </li>
               <% } %>
@@ -138,7 +152,22 @@
 		</div>
 		<div style="clear: both;"></div>
 
-	</div>
+  </div>
+  
+<!-- VISTA PREVIA PDF -->
+
+ <div class="container-all" id="popupSearch"> 
+   <div class="popup" id="popupCv">
+       <div class="container-text">
+        <div style="clear:both" class="cvPdf" margin= "auto" display="block" margin-left="auto" margin-right="auto">
+          <iframe id="viewer" frameborder="0" scrolling="no" height="300px" ></iframe>
+       </div>
+       </div>
+       <a href="#" class="btn-close-popup">X</a>
+   </div>
+   
+ </div>
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('ul.tabs li').click(function(){

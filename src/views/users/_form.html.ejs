@@ -18,20 +18,17 @@
       <label for="name">Nombre</label>
       <input type="text" name="name" value="<%= user.name %>" />
     </div>
-    <div  class="field">
-      <label for="email">Email</label>
-      <input type="text" name="email" value="<%= user.email %>" />
-    </div>
+    <div id="react-email"> </div>
     <div  class="field">
       <label for="occupation">Ocupación</label>
       <textarea type="text" name="occupation"><%= user.occupation %></textarea>
     </div>
-    <div id="react-validation"> </div>
+    <div id="react-confirmPassword"> </div>
     <div  class="field">
       <% if (user.isNewRecord) { %>
-        <input type="submit" name="create" value="Create" />
+        <input type="submit" name="create" value="Registrar" />
       <% } else { %>
-        <input type="submit" name="update" value="Update" />
+        <input type="submit" name="update" value="Actualizar" />
       <% } %>
     </div>
   </form>

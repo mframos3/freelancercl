@@ -2,6 +2,9 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
+const index = require('../routes/index');
+
+router.use('/', index.routes());
 
 router.get('session.new', '/new', (ctx) => ctx.render('session/new', {
   createSessionPath: ctx.router.url('session.create'),
@@ -15,7 +18,7 @@ router.put('session.create', '/', async (ctx) => {
   const isPasswordCorrect = user && await user.checkPassword(password);
   if (isPasswordCorrect) {
     ctx.session.userId = user.id;
-    return ctx.redirect(ctx.router.url('users.show', { id: user.id }));
+    ctx.redirect(ctx.router.url('index.landing'));
   }
   return ctx.render('session/new', {
     email,
