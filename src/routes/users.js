@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const Sequelize = require('sequelize');
+
 const bcrypt = require('bcrypt');
 
 const PASSWORD_SALT = 10;
@@ -14,6 +15,10 @@ const msg = require('../mailers/login-email-Api');
 const router = new KoaRouter();
 
 let passwordError = '';
+
+const index = require('../routes/index');
+
+router.use('/', index.routes());
 
 async function loadUser(ctx, next) {
   ctx.state.user = await ctx.orm.user.findByPk(ctx.params.id);
