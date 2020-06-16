@@ -5,9 +5,20 @@
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script type="text/javascript">
       function PreviewImage() {
+        console.log("AAAAAAAAA");
           pdffile=document.getElementById("CV").files[0];
-          pdffile_url=URL.createObjectURL(pdffile);
-          $('#viewer').attr('src',pdffile_url);
+          console.log(pdffile)
+          if (pdffile){
+            pdffile_url=URL.createObjectURL(pdffile);
+            console.log(pdffile_url);
+            $('#viewer').attr('src', pdffile_url);
+            $('#viewerDefault').attr('height', '0');
+
+          } else {
+            $('#viewerDefault').attr('src', 'https://freelancercl.sfo2.digitaloceanspaces.com/noFile.png');
+            $('#viewer').attr('height', '0');
+
+          }
       }
   </script>
 </head>
@@ -70,13 +81,21 @@
             <% if (currentUser && currentUser.id == user.id) { %>
               <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
                 <div class="field">
-                  <label for="CV">Selecciona CV</label>
+                  <% if (currentUser.cvPath) {%>
+                    <label for="CV">Actualizar CV</label>
+                  <% } else {%>
+                    <label for="CV">Seleccionar CV</label>
+                  <% } %>
                   <input type="file" name="CV" id="CV"/>
                   <a href="#popupSearch" value="Vista Previa" type="button" onclick="PreviewImage();"> Vista Previa</a>
                 </div>
 
                 <div class="field">
-                  <label for="img">Selecciona foto de perfil</label>
+                  <% if (currentUser.imagePath) {%>
+                    <label for="CV">Actualizar Foto de Perfil</label>
+                  <% } else {%>
+                    <label for="CV">Seleccionar Foto de Perfil</label>
+                  <% } %>                  
                   <input type="file" name="img" />
                 </div>
                 <div class="field">
@@ -87,14 +106,11 @@
           </div>
 					</div>
 					<div class="detail-box">
-            <P>CV</P>
+            <p><a href="<%= user.cvPath %>">Descargar CV</a></p>
 						<ul class="ul-first">
               <% if (user.cvPath) { %> 
-                <embed src="<%= user.cvPath %>" type="application/pdf" width="100%" height="80px"/>
-                <li><a href="<%= user.cvPath %>">Descargar</a></li>
+                <embed src="<%= user.cvPath %>" type="application/pdf" width="100%" height="100px"/>
      
-
-
               <% } else {%>
                 <li>Sin Currículum </li>
               <% } %>
@@ -161,6 +177,7 @@
        <div class="container-text">
         <div style="clear:both" class="cvPdf" margin= "auto" display="block" margin-left="auto" margin-right="auto">
           <iframe id="viewer" frameborder="0" scrolling="no" height="300px" ></iframe>
+          <img id="viewerDefault" height="300px" ></img>
        </div>
        </div>
        <a href="#" class="btn-close-popup">X</a>
