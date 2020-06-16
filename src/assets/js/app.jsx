@@ -15,6 +15,7 @@ const chat = document.getElementById('react-chat');
 const password = document.getElementById('react-validation');
 
 const posts = document.getElementById('react-posts');
+const searchPosts = document.getElementById('react-posts-search');
 
 if (chat) {
   ReactDOM.render(<ChatWindow />, chat);
@@ -26,4 +27,8 @@ if (password) {
 
 if (posts) {
   ReactDOM.render(<PostsList contentType="offeringPosts" />, posts);
+}
+
+if (searchPosts) {
+  ReactDOM.render(<PostsList contentType="searchingPosts" />, searchPosts);
 }

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { FiSearch } from 'react-icons/fi';
+
 import Posts from './Posts/Posts';
 import Pagination from './Pagination/Pagination';
 import './PostsList.scss';
@@ -49,27 +51,34 @@ const PostsList = ({ contentType }) => {
 
   return (
     <div>
-      <div id="search-container">
-        <input type="text" placeholder="Busca" value={search} onChange={(event) => setSearch(event.target.value)} />
+      <div className="wrap">
+        <div className="search">
+          <input type="text" className="searchTerm" placeholder="Busca" value={search} onChange={(event) => setSearch(event.target.value)} />
+          <button type="submit" className="searchButton">
+            <FiSearch />
+          </button>
+        </div>
       </div>
-      <select className="dropbtn" name="category" id="category" placeholder="Categoría" value={category} onChange={(event) => setCategory(event.target.value)}>
-        <option value="Todo">Todas las categorías</option>
-        <option value="General">General</option>
-        <option value="Hogar">Hogar</option>
-        <option value="Educación">Educación</option>
-        <option value="Música">Música</option>
-        <option value="Entretenimiento">Entretenimiento</option>
-        <option value="Deportes">Deportes</option>
-        <option value="Artes">Artes</option>
-        <option value="Tele Trabajo">Tele Trabajo</option>
-        <option value="Emprendimiento">Emprendimiento</option>
-        <option value="Investigación">Investigación</option>
-        <option value="Salud">Salud</option>
-        <option value="Asesoría">Asesoría</option>
-        <option value="Otros">Otros</option>
+      <div className="wrap">
+        <select className="select-css" name="category" id="category" placeholder="Categoría" value={category} onChange={(event) => setCategory(event.target.value)}>
+          <option value="Todo">Todas las categorías</option>
+          <option value="General">General</option>
+          <option value="Hogar">Hogar</option>
+          <option value="Educación">Educación</option>
+          <option value="Música">Música</option>
+          <option value="Entretenimiento">Entretenimiento</option>
+          <option value="Deportes">Deportes</option>
+          <option value="Artes">Artes</option>
+          <option value="Tele Trabajo">Tele Trabajo</option>
+          <option value="Emprendimiento">Emprendimiento</option>
+          <option value="Investigación">Investigación</option>
+          <option value="Salud">Salud</option>
+          <option value="Asesoría">Asesoría</option>
+          <option value="Otros">Otros</option>
 
-      </select>
-      <h1>Posts</h1>
+        </select>
+      </div>
+
       <Posts posts={currentPosts} loading={loading} contentType={contentType} />
       <Pagination
         postsPerPage={postsPerPage}
