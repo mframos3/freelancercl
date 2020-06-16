@@ -24,7 +24,7 @@ export default class Validation extends Component {
   throwError(name, value) {
     this.currentError = emailRegex.test(value)
       ? ''
-      : 'invalid email address';
+      : 'Email inválido.';
     this.setState({ currentError: this.currentError });
   }
 
