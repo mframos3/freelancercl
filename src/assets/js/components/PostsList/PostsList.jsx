@@ -22,6 +22,7 @@ const PostsList = ({ contentType }) => {
       const data = await res.json();
       setPosts(data.data);
       setPreSearch([...data.data]);
+      console.log(data.data);
       setCategory('Todo');
       setLoading(false);
     };

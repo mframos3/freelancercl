@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { BsFillStarFill } from 'react-icons/bs';
 import './Posts.scss';
 
+
 const Posts = ({ posts, loading, contentType }) => {
   if (loading) {
     return <h2>Loading...</h2>;
@@ -25,8 +26,8 @@ const Posts = ({ posts, loading, contentType }) => {
           </div>
           <div className="card__info">
             <div>
-              <BsFillStarFill />
-              4.7
+              {(contentType === 'searchingPost') ? <BsFillStarFill /> : ''}
+              {post.rating}
             </div>
             <div>
               {post.category}
