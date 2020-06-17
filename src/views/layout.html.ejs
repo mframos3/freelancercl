@@ -12,7 +12,7 @@
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
   <div class=divnavbar>
     <ul class="topnav" id="topnav">
-    <li><a class="active" href="/"><img src="https://freelancercl.sfo2.digitaloceanspaces.com/freelancer.png" class="logo"></a></li>
+    <li><a href="/"> Inicio </a></li>
     <li><a href="/offeringPosts">Publicaciones de Oferta</a></li>
     <li><a href="/searchingPosts">Publicaciones de Búsqueda</a></li>
 
@@ -24,7 +24,7 @@
       <li><a href="<%='/users/'+ currentUser.id %>">Mi Perfil</a></li>        
     <% }%>
     <% if (!currentUser) { %>
-      <li class="right"><a href="<%= newSessionPath %>">Iniciar sesión</a></li>
+      <li class="right"><a href="<%= newSessionPath %>">Login</a></li>
       <li class="right"><a href="<%= newRegisterPath %>">Registrarse</a></li>
 
     <% } else { %>

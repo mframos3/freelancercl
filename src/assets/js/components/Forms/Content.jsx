@@ -14,13 +14,13 @@ export default class Validation extends Component {
     event.preventDefault();
     const { name, value } = event.target;
     this.setState({ [name]: value });
-    this.props.serverData.description = value;
+    this.props.serverData.content = value;
     this.throwError(name, value);
   }
 
   throwError(name, value) {
     if (!value) {
-      this.currentError = 'Debes ingresar una descripción.';
+      this.currentError = 'Debes ingresar un contenido.';
     } else {
       this.currentError = '';
     }
@@ -32,8 +32,8 @@ export default class Validation extends Component {
     return (
       <div>
         <div className="field">
-          <label htmlFor="description" > Descripción </label>
-          <input type="text" name="description" value={this.props.serverData.description} onChange={this.handleError} />
+          <label htmlFor="content"> Contenido </label>
+          <input type="text" name="content" value={this.props.serverData.content} onChange={this.handleError} />
         </div>
         <span className="errorMessage" style={{ color: 'red' }}>{currentError}</span>
       </div>

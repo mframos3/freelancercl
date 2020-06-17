@@ -1,5 +1,5 @@
 <div>
-  <% if (locals.errors) { %>
+  <!-- <% if (locals.errors) { %>
     <div class="errors">
       Tienes que solucionar los siguientes problemas:
       <ul>
@@ -8,15 +8,13 @@
         <% }); %>
       </ul>
     </div>
-  <% } %>
+  <% } %> -->
   <form class="form-style-1" action="<%= submitApplicationPath %>" method="post">
     <% if (!application.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
-    <div  class="field">
-      <label for="content">Contenido</label>
-      <textarea type="text" name="content"><%= application.content %></textarea>
-    </div>
+    <div id="react-content" data-name="<%= application.content %>" > </div>
+
     <input type="hidden" name="offeringPostId" value="<%=postId%>"></input>
     <input type="hidden" name="userId" value="<%=currentUser.id%>"></input>
     <div  class="field">

@@ -15,6 +15,7 @@ export default class Validation extends Component {
     event.preventDefault();
     const { name, value } = event.target;
     this.setState({ [name]: value });
+    this.props.serverData.name = value;
     this.throwError(name, value);
   }
 
@@ -33,7 +34,7 @@ export default class Validation extends Component {
       <div>
         <div className="field">
           <label htmlFor="name" > Nombre</label>
-          <input type="text" name="name" value={this.props.serverData.username} onChange={this.handleError} />
+          <input type="text" name="name" value={this.props.serverData.name} onChange={this.handleError} />
         </div>
         <span className="errorMessage" style={{ color: 'red' }}>{currentError}</span>
       </div>
