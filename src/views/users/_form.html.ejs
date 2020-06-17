@@ -6,18 +6,16 @@
         <% }); %>
     </div>
   <% } %>
-  <% if (passwordError) { %>
-    <!-- <img src="../../../assets/images/error.png" width="100" height="100"/> -->
-    <li class="validationError"><%= passwordError %></li>
-  <% } %>
   <form class="form-style-1" action="<%= submitUserPath %>" method="post">
     <% if (!user.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
-    <% if (!currentUser) { currentUser = {};}%>
-    <div id="react-name" data-username="<%= currentUser.name %>"> </div>
-    <div id="react-email"> </div>
-    <div id="react-occupation"> </div>
+    <% if (!currentUser) { 
+      currentUser = {};
+      currentUser.name = "";}%>
+    <div id="react-name" data-name="<%= currentUser.name %>" > </div>
+    <div id="react-email" data-email="<%= currentUser.email %>"> </div>
+    <div id="react-occupation" data-occupation="<%= currentUser.occupation %>"> </div>
     <div id="react-confirmPassword"> </div>
     <div  class="field">
       <% if (user.isNewRecord) { %>

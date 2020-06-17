@@ -1,5 +1,5 @@
 <div>
-    <% if (locals.errors) { %>
+    <!-- <% if (locals.errors) { %>
       <div class="errors">
         Tienes que solucionar los siguientes errores:
         <ul>
@@ -8,12 +8,12 @@
           <% }); %>
         </ul>
       </div>
-    <% } %>
+    <% } %> -->
     <form class="form-style-1" action="<%= submitOfferingPostPath %>" method="post">
       <% if (!offeringPost.isNewRecord) { %>
         <input type="hidden" name="_method" value="patch" />
       <% } %>
-      <div id="react-name"> </div>
+      <div id="react-name" data-name="<%= offeringPost.name %>"> </div>
       <div  class="field">
         <label for="category">Categoría</label>
         <select name="category" id="category">
@@ -33,14 +33,9 @@
 
         </select>
       </div>
-      <div id="react-description"> </div>
-      <!-- <div  class="field">
-        <label for="price">Precio</label>
-        <textarea type="number" name="price"><%= offeringPost.price %></textarea>
-      </div> -->
-      <div id="react-price"> </div>
-
-      <div id="react-endsAt"> </div>
+      <div id="react-description" data-description="<%= offeringPost.description %>"></div>
+      <div id="react-price" data-price="<%= offeringPost.price %>"></div>
+      <div id="react-endsAt"></div> 
 
       <div  class="field">
         <input type="hidden" name="userId" value=<%= currentUser.id %>></input>
@@ -54,7 +49,3 @@
       </div>
     </form>
   </div>
-
-  <form action="<%= backPath %>" method="get">
-    <input type="submit" value="Back" />
-  </form>

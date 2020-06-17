@@ -1,5 +1,5 @@
 <div>
-    <% if (locals.errors) { %>
+    <!-- <% if (locals.errors) { %>
       <div class="errors">
         Tienes que solucionar los siguientes errores:
         <ul>
@@ -8,15 +8,11 @@
           <% }); %>
         </ul>
       </div>
-    <% } %>
+    <% } %> -->
     <form class="form-style-1" action="<%= submitReviewPath %>" method="post">
       <% if (!review.isNewRecord) { %>
         <input type="hidden" name="_method" value="patch" />
       <% } %>
-      <!-- <div  class="field">
-        <label for="id_worker">Worker ID</label>
-        <input type="number" name="id_worker"><%= review.id_worker %></input>
-      </div> -->
       <div  class="field">
         <label for="rating">Valoración</label>
         <select name="rating" id="category">
@@ -27,10 +23,7 @@
           <option value=5>5</option>
         </select>
       </div>
-      <div  class="field">
-        <label for="comment">Comentario</label>
-        <textarea type="text" name="comment"><%= review.comment %></textarea>
-      </div>
+      <div id="react-comment" data-comment="<%= review.comment %>"> </div>
       <input type="hidden" name="id_post" value="<%= postId %>"></input>
       <input type="hidden" name="id_worker" value="<%= currentUser.id %>"></input>
       <div  class="field">
