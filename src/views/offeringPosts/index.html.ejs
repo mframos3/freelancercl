@@ -1,67 +1,10 @@
 <div class="general">
 <div class="center-head">
   <h2>Publicaciones de Oferta</h2>
-<div class="search-container">  
-  <form action="/offeringPosts" class="search-form">
-    <input type="text" name="search" placeholder="Buscar Post...">
-    <div type="submit" value="Search" class="search"></div>
-    <div class="dropdown">
-      <select class="dropbtn" name="category" id="category" class="custom-select sources" placeholder="Categoría">
-        <option value="Todo">Todas las categorías</option>
-        <option value="General">General</option>
-        <option value="Hogar">Hogar</option>
-        <option value="Educación">Educación</option>
-        <option value="Música">Música</option>
-        <option value="Entretenimiento">Entretenimiento</option>
-        <option value="Deportes">Deportes</option>
-        <option value="Artes">Artes</option>
-        <option value="Tele Trabajo">Tele Trabajo</option>
-        <option value="Emprendimiento">Emprendimiento</option>
-        <option value="Investigación">Investigación</option>
-        <option value="Salud">Salud</option>
-        <option value="Asesoría">Asesoría</option>
-        <option value="Otros">Otros</option>
-
-      </select>
-    </div>
-    
-  </form>
 </div>
 
-</div>
-
-<% if (!searchResult.length) { %>
-  <p>No existen Resultados</p>
-
-<% } else { %>
+  <div id="react-posts"></div>
  
-  <br>
-  <div class="offeringPosts-list">
-    <% searchResult.forEach((offeringPost) => { %>
-      <div class="offeringPost">
-        <div class="name-content">
-          <% if (offeringPost.item.img) { %> <img class="offeringPost__image" src="<%= offeringPost.item.img%>"> <% } %>
-          <div class="offeringPost__name">
-              <a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a>
-          </div>
-          <div class="offeringPost__content">
-            <%= offeringPost.item.description %>
-          </div>
-      </div>
-        <div class="offeringPost__extras">
-          <%= offeringPost.item.category %>
-        </div>
-      </div>
-    <!-- <ol class="listHorizontal">
-      <li><% if (offeringPost.item.img) { %> <img class="user" src="<%= offeringPost.item.img%>"> <% } %></li>
-      <li><a href="<%= showOfferingPostPath(offeringPost) %> "><%= offeringPost.item.name %></a></li>
-      <li>Fecha publicación: <%= offeringPost.item.createdAt.getDate() + '-' + offeringPost.item.createdAt.getMonth() + '-' + offeringPost.item.createdAt.getFullYear() %></li>
-    </ol> -->
-    <% }) %>
-  </div>
-  <br>
-<% } %>
-
   <% if(currentUser) {%><a href="<%= newOfferingPostPath %>" class="enlaceboton">Nueva Oferta</a><% } %>
 </div>
 

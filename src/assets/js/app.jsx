@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import ChatWindow from './components/Chat/ChatWindow/ChatWindow';
+import PostsList from './components/PostsList/PostsList';
 import ValidationPassword from './components/Forms/ConfirmPassword';
 import Email from './components/Forms/Email';
 import Name from './components/Forms/Name';
@@ -31,6 +32,9 @@ const comment = document.getElementById('react-comment');
 const content = document.getElementById('react-content');
 const title = document.getElementById('react-title');
 
+const posts = document.getElementById('react-posts');
+const searchPosts = document.getElementById('react-posts-search');
+
 if (chat) {
   ReactDOM.render(<ChatWindow />, chat);
 }
@@ -39,6 +43,13 @@ if (password) {
   ReactDOM.render(<ValidationPassword />, password);
 }
 
+if (posts) {
+  ReactDOM.render(<PostsList contentType="offeringPosts" />, posts);
+}
+
+if (searchPosts) {
+  ReactDOM.render(<PostsList contentType="searchingPosts" />, searchPosts);
+  
 if (email) {
   ReactDOM.render(<Email serverData={email.dataset} />, email);
 }
@@ -73,3 +84,4 @@ if (content) {
 if (title) {
   ReactDOM.render(<Title serverData={title.dataset} />, title);
 }
+
