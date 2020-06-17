@@ -14,15 +14,10 @@
     <% if (!user.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
-    <div  class="field">
-      <label for="name">Nombre</label>
-      <input type="text" name="name" value="<%= user.name %>" />
-    </div>
+    <% if (!currentUser) { currentUser = {};}%>
+    <div id="react-name" data-username="<%= currentUser.name %>"> </div>
     <div id="react-email"> </div>
-    <div  class="field">
-      <label for="occupation">Ocupación</label>
-      <textarea type="text" name="occupation"><%= user.occupation %></textarea>
-    </div>
+    <div id="react-occupation"> </div>
     <div id="react-confirmPassword"> </div>
     <div  class="field">
       <% if (user.isNewRecord) { %>

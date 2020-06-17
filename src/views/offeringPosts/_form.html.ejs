@@ -13,10 +13,7 @@
       <% if (!offeringPost.isNewRecord) { %>
         <input type="hidden" name="_method" value="patch" />
       <% } %>
-      <div  class="field">
-        <label for="name">Nombre</label>
-        <input type="text" name="name" value="<%= offeringPost.name %>" />
-      </div>
+      <div id="react-name"> </div>
       <div  class="field">
         <label for="category">Categoría</label>
         <select name="category" id="category">
@@ -36,18 +33,15 @@
 
         </select>
       </div>
-      <div  class="field">
-        <label for="description">Descripción</label>
-        <textarea type="text" name="description"><%= offeringPost.description %></textarea>
-      </div>
-      <div  class="field">
+      <div id="react-description"> </div>
+      <!-- <div  class="field">
         <label for="price">Precio</label>
         <textarea type="number" name="price"><%= offeringPost.price %></textarea>
-      </div>
-      <div  class="field">
-        <label for="endsAt">Fecha de Término</label>
-        <input type="date" name="endsAt"></input>
-      </div>
+      </div> -->
+      <div id="react-price"> </div>
+
+      <div id="react-endsAt"> </div>
+
       <div  class="field">
         <input type="hidden" name="userId" value=<%= currentUser.id %>></input>
       </div>
