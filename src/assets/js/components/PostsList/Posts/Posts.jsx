@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { BsFillStarFill } from 'react-icons/bs';
 import './Posts.scss';
 
 const Posts = ({ posts, loading, contentType }) => {
@@ -7,18 +8,29 @@ const Posts = ({ posts, loading, contentType }) => {
     return <h2>Loading...</h2>;
   }
   return (
-    <div className="offeringPost-list">
+    <div className="cards">
       {posts.map((post) => (
-        <div className="offeringPost" key={post.id}>
-          <img className="offeringPost__image" src={post.img} alt="OfferingPost" />
-          <div className="offeringPost__name">
-            <a href={`/offeringPosts/${post.id}`}>{post.name}</a>
+        <div className="card" key={post.id}>
+          <img className="card__image" src={post.img} alt="OfferingPost" />
+          {/* <div className="card__title">
+            <a href={`/${contentType}/${post.id}`}>{post.name}</a>
+          </div> */}
+          <div className="card__content">
+            <div className="card__link">
+              <a href={`/${contentType}/${post.id}`}>{post.name}</a>
+            </div>
+            <p>
+              {post.description}
+            </p>
           </div>
-          <div className="offeringPost__content">
-            {post.description}
-          </div>
-          <div className="offeringPost__extras">
-            {post.category}
+          <div className="card__info">
+            <div>
+              <BsFillStarFill />
+              4.7
+            </div>
+            <div>
+              {post.category}
+            </div>
           </div>
         </div>
       ))}
