@@ -196,7 +196,6 @@ h2{
   }
 }
 
-
 ////////Dropdown
 .dropbtn {
   background-color: $freelancer-color;
@@ -209,8 +208,6 @@ h2{
 
 
 ////////// href
-
-
 .enlaceboton{
   text-decoration: none;
   padding: 3px;
@@ -232,6 +229,7 @@ h2{
 //errores
 .validationError {
   color: #D8000C;
+  text-align: center;
   // background-image: url('../images/error.png');
 }
 

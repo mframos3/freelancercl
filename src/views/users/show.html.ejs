@@ -2,6 +2,24 @@
 <!DOCTYPE html>
 <head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript">
+      function PreviewImage() {
+          pdffile=document.getElementById("CV").files[0];
+          console.log(pdffile)
+          if (pdffile){
+            pdffile_url=URL.createObjectURL(pdffile);
+            console.log(pdffile_url);
+            $('#viewer').attr('src', pdffile_url);
+            $('#viewerDefault').attr('height', '0');
+
+          } else {
+            $('#viewerDefault').attr('src', 'https://freelancercl.sfo2.digitaloceanspaces.com/noFile.png');
+            $('#viewer').attr('height', '0');
+
+          }
+      }
+  </script>
 </head>
 <body>
 	<div class="profile-main">
@@ -62,25 +80,36 @@
             <% if (currentUser && currentUser.id == user.id) { %>
               <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
                 <div class="field">
-                  <label for="CV">Selecciona CV</label>
-                  <input type="file" name="CV" />
+                  <% if (currentUser.cvPath) {%>
+                    <label for="CV">Actualizar CV</label>
+                  <% } else {%>
+                    <label for="CV">Seleccionar CV</label>
+                  <% } %>
+                  <input type="file" name="CV" id="CV"/>
+                  <a href="#popupSearch" value="Vista Previa" type="button" onclick="PreviewImage();"> Vista Previa</a>
                 </div>
+
                 <div class="field">
-                  <label for="img">Selecciona foto de perfil</label>
+                  <% if (currentUser.imagePath) {%>
+                    <label for="CV">Actualizar Foto de Perfil</label>
+                  <% } else {%>
+                    <label for="CV">Seleccionar Foto de Perfil</label>
+                  <% } %>                  
                   <input type="file" name="img" />
                 </div>
                 <div class="field">
-                  <input class="action-btn"type="submit" name="uploadFile" value="Upload" />
+                  <input class="action-btn"type="submit" name="uploadFile" value="Subir" />
                 </div>
                 </form> 
             <% } %>
           </div>
 					</div>
 					<div class="detail-box">
-						<p>Descargar Currículum</p>
+            <p><a href="<%= user.cvPath %>">Descargar CV</a></p>
 						<ul class="ul-first">
               <% if (user.cvPath) { %> 
-                <li><a href="<%= user.cvPath %>">Descargar CV</a></li> 
+                <embed src="<%= user.cvPath %>" type="application/pdf" width="100%" height="100px"/>
+     
               <% } else {%>
                 <li>Sin Currículum </li>
               <% } %>
@@ -138,7 +167,23 @@
 		</div>
 		<div style="clear: both;"></div>
 
-	</div>
+  </div>
+  
+<!-- VISTA PREVIA PDF -->
+
+ <div class="container-all" id="popupSearch"> 
+   <div class="popup" id="popupCv">
+       <div class="container-text">
+        <div style="clear:both" class="cvPdf" margin= "auto" display="block" margin-left="auto" margin-right="auto">
+          <iframe id="viewer" frameborder="0" scrolling="no" height="300px" ></iframe>
+          <img id="viewerDefault" height="300px" ></img>
+       </div>
+       </div>
+       <a href="#" class="btn-close-popup">X</a>
+   </div>
+   
+ </div>
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('ul.tabs li').click(function(){

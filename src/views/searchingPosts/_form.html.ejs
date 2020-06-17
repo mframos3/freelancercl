@@ -1,5 +1,5 @@
 <div>
-    <% if (locals.errors) { %>
+    <!-- <% if (locals.errors) { %>
       <div class="errors">
         Tienes que solucionar los siguientes errores:
         <ul>
@@ -8,15 +8,12 @@
           <% }); %>
         </ul>
       </div>
-    <% } %>
+    <% } %> -->
     <form class="form-style-1" action="<%= submitSearchingPostPath %>" method="post">
       <% if (!searchingPost.isNewRecord) { %>
         <input type="hidden" name="_method" value="patch" />
       <% } %>
-      <div  class="field">
-        <label for="name">Nombre</label>
-        <input type="text" name="name" value="<%= searchingPost.name %>" />
-      </div>
+      <div id="react-name" data-name="<%= searchingPost.name %>"> </div>
       <div  class="field">
         <label for="category">Categoría</label>
         <select name="category" id="category">
@@ -36,10 +33,7 @@
 
         </select>
       </div>
-      <div  class="field">
-        <label for="description">Descripción</label>
-        <textarea type="text" name="description"><%= searchingPost.description %></textarea>
-      </div>
+      <div id="react-description" data-description="<%= searchingPost.description %>"> </div>
       <div  class="field">
         <input type="hidden" name="userId" value=<%= currentUser.id %>></input>
       </div>
@@ -52,7 +46,3 @@
       </div>
     </form>
   </div>
-
-  <form action="<%= backPath %>" method="get">
-    <input type="submit" value="Back" />
-  </form>

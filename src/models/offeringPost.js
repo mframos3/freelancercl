@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: { args: true, msg: 'Include a name please' },
+        notEmpty: { args: true, msg: 'Debes incluir un nombre.' },
       },
     },
     img: {

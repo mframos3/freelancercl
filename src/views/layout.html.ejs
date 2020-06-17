@@ -24,7 +24,7 @@
       <li><a href="<%='/users/'+ currentUser.id %>">Mi Perfil</a></li>        
     <% }%>
     <% if (!currentUser) { %>
-      <li class="right"><a href="<%= newSessionPath %>">Iniciar sesión</a></li>
+      <li class="right"><a href="<%= newSessionPath %>">Login</a></li>
       <li class="right"><a href="<%= newRegisterPath %>">Registrarse</a></li>
 
     <% } else { %>
