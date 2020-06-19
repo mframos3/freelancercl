@@ -256,9 +256,13 @@ ul.topnav li img{
   height: 30px;
   margin-right: 10px;
   top: 0;
-  filter: brightness(0) invert(1);
+
+  
 }
 
+ul.topnav li img:not([name="logo"]) {
+  filter: brightness(0) invert(1);
+}
 
 ul.topnav li a {
   float: right;
@@ -275,7 +279,7 @@ ul.topnav li a {
 
 ul.topnav li a:hover:not(.active) {background-color: #111;}
 
-ul.topnav li a.active {background-color: $freelancer-color;}
+ul.topnav li a.active {background-color: white;}
 
 ul.topnav li.right {float: right; background-color: $freelancer-color;}
 

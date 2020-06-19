@@ -1,10 +1,167 @@
 @import './layout';
 
-// @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+$border-radius-size: 14px;
+$barbarian: rgb(63, 152, 211);
+
+
+
+#second-banner {
+  background-image: url("https://freelancercl.sfo2.digitaloceanspaces.com/wallp.jpg");
+  background-repeat: repeat;
+  background-attachment: fixed;
+  margin-top: 20px;
+}
+
+#main-banner {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.slide-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  margin-top: 30px;
+}
+
+.wrapper {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  
+
+  
+  &:focus {
+    outline: 0;
+  }
+}
+
+
+
+.clash-card {
+  background: white;
+  width: 300px;
+  display: inline-block;
+  margin: auto;
+  border-radius: $border-radius-size + 5;
+  position: relative;
+  text-align: center;
+  box-shadow: -1px 15px 30px -12px black;
+  z-index: 9999;
+ 
+}
+
+.clash-card__image {
+  position: relative;
+  height: 230px;
+  margin-bottom: 35px;
+  border-top-left-radius: $border-radius-size;
+  border-top-right-radius: $border-radius-size;
+  width: 100%;
+}
+
+.clash-card__image--barbarian {
+  img {
+    width: 100%;    
+    border-top-left-radius: $border-radius-size;
+    border-top-right-radius: $border-radius-size;
+  }
+}
+
+.clash-card__level {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 3px;
+  
+}
+
+.clash-card__level--barbarian {
+  color: $barbarian;
+  
+}
+
+
+.clash-card__unit-name {
+  font-size: 26px;
+  color: black;
+  font-weight: 900;
+  margin-bottom: 5px;
+  
+}
+
+.clash-card__unit-description {
+  padding: 20px;
+  margin-bottom: 10px;  
+}
+
+.clash-card__unit-stats--barbarian {
+  background: $barbarian;
+  
+  .one-third {
+     border-right: 1px solid #333;
+  }
+}
+
+
+.clash-card__unit-stats {
+  
+  color: white;
+  font-weight: 700;
+  border-bottom-left-radius: $border-radius-size;
+  border-bottom-right-radius: $border-radius-size;
+  
+  .one-third {
+    width: 33%;
+    float: left;
+    padding: 20px 15px;
+    box-sizing: border-box;
+  }
+  
+  sup {
+    position: absolute;
+    bottom: 4px; 
+    font-size: 45%;
+    margin-left: 2px;
+    box-sizing: border-box;
+  }
+  
+  .stat {
+    position: relative;
+    font-size: 24px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  
+  .stat-value {
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 12px;
+    box-sizing: border-box;
+  }
+
+  .no-border {
+    border-right: none;
+    box-sizing: border-box;
+  }
+}
+
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+  height: 0;
+  box-sizing: border-box;
+}
+
+
 
 //Fondo
 #freelancer-fondo{
     max-width: 100%;
+    margin-bottom: 0;
 }
 
 //Bienvenida
@@ -16,6 +173,7 @@
 #welcome{
     font-size: 50px;
     font-weight: bold;
+    margin: 0;
 }
 #popupCv{
     width: 30%;
@@ -138,5 +296,87 @@
     }
 }
 
+.cards-landing {
+    margin: center;
+    max-width: 90%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    // grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+    // grid-auto-rows: auto;
+    gap: 20px;
+    padding-top: 30px;
+    margin-bottom: 30px;
+  }
+  
+.cards-landing * {
+box-sizing: border-box;
+}
 
+.card-landing {
 
+}
+
+.card__image {
+width: 100%;
+height: 150px;
+object-fit: cover;
+display: block;
+border-top: 2px solid #333333;
+border-right: 2px solid #333333;
+border-left: 2px solid #333333;
+}
+
+.card__content {
+line-height: 1.5;
+font-size: 0.9em;
+height: 150px;
+padding: 15px;
+background: #fafafa;
+border-right: 2px solid #333333;
+border-left: 2px solid #333333;
+
+}
+
+.card__content > p {
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;
+margin-top: 0; 
+overflow: hidden;
+}
+
+.card__info {
+padding: 15px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+color: #555555;
+background: #eeeeee;
+font-size: 0.8em;
+border-bottom: 2px solid #333333;
+border-right: 2px solid #333333;
+border-left: 2px solid #333333;
+}
+
+.card__info i {
+font-size: 0.9em;
+margin-right: 8px;
+}
+
+.card__link {
+color: #64968c;
+text-decoration: none;
+font-size: 1.2em;
+}
+
+.card__link:hover {
+text-decoration: underline;
+}
+
+.titles {
+  padding: 0;
+  color:white;
+  margin-top: 20px;
+}

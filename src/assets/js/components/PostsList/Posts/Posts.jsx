@@ -13,9 +13,6 @@ const Posts = ({ posts, loading, contentType }) => {
       {posts.map((post) => (
         <div className="card" key={post.id}>
           <img className="card__image" src={post.img} alt="OfferingPost" />
-          {/* <div className="card__title">
-            <a href={`/${contentType}/${post.id}`}>{post.name}</a>
-          </div> */}
           <div className="card__content">
             <div className="card__link">
               <a href={`/${contentType}/${post.id}`}>{post.name}</a>
