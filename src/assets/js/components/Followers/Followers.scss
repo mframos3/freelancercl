@@ -1,0 +1,48 @@
+#followButton {
+    color: #3399FF;
+    font-size: 10pt;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #3399FF;
+    border-radius: 3px;
+    width: 108px;
+    height: 30px;
+    cursor: hand;		    
+}
+
+.skill-box{
+  border:1px solid #ededed;
+  border-radius: 3px;
+  padding: 11px 15px;
+  margin-bottom: 20px;
+}
+.skill-box ul li strong{
+  font-size: 12px;
+}
+.skill-box ul{ 
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.skill-box ul li{
+  display: inline-block;
+  font-size: 11px;
+  margin-right: 4px;
+  padding: 4px 4px;
+  border-radius: 2px;
+}
+.skill-box ul li:hover{
+  background-color: #FF6E00;
+  color: #fff !important;
+}
+.skill-box ul li:first-child:hover{
+  background-color: #fff;
+  color: black !important;
+}
+.skill-box ul li:last-child:hover{
+  background-color: #fff;
+}
+.skill-box ul li i{
+  margin-left: 4px;
+  margin-right: 1px;
+}

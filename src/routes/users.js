@@ -272,4 +272,5 @@ router.post('users.follow', '/:id/follow', loadUser, async (ctx) => {
   }
   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
 });
+
 module.exports = router;

@@ -5,6 +5,7 @@ import ChatWindow from './components/Chat/ChatWindow/ChatWindow';
 import PostsList from './components/PostsList/PostsList';
 import ValidationPassword from './components/Forms/ConfirmPassword';
 import Email from './components/Forms/Email';
+import Followers from './components/Followers/Followers';
 import Name from './components/Forms/Name';
 import Occupation from './components/Forms/Occupation';
 import Description from './components/Forms/Description';
@@ -23,6 +24,7 @@ if (reactAppContainer) {
 const chat = document.getElementById('react-chat');
 const password = document.getElementById('react-confirmPassword');
 const email = document.getElementById('react-email');
+const followButton = document.getElementById('react-follower');
 const name = document.getElementById('react-name');
 const occupation = document.getElementById('react-occupation');
 const description = document.getElementById('react-description');
@@ -59,6 +61,9 @@ if (name) {
   ReactDOM.render(<Name serverData={name.dataset} />, name);
 }
 
+if (followButton) {
+  ReactDOM.render(<Followers />, followButton);
+}
 if (occupation) {
   ReactDOM.render(<Occupation serverData={occupation.dataset} />, occupation);
 }

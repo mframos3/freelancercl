@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { IoMdCloseCircleOutline } from 'react-icons/io';
 
 export default class Validation extends Component {
   constructor(props) {
@@ -29,13 +30,19 @@ export default class Validation extends Component {
 
   render() {
     const { currentError } = this.state;
+    let alert;
+    if (currentError) {
+      alert = <span visibility="hidden" className="errorMessage" style={{ color: 'red' }}>{currentError} <IoMdCloseCircleOutline /></span>;
+    } else {
+      alert = '';
+    }
     return (
       <div>
         <div className="field">
           <label htmlFor="title"> Título </label>
           <input type="text" name="title" value={this.props.serverData.title} onChange={this.handleError} />
         </div>
-        <span className="errorMessage" style={{ color: 'red' }}>{currentError}</span>
+        {alert}
       </div>
     );
   }

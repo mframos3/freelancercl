@@ -1,4 +1,4 @@
-<div>
+<div class="form-center">
   <% if (locals.errors) { %>
     <div class="errors">
         <% errors.forEach(error => { %>
@@ -10,9 +10,7 @@
     <% if (!user.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
-    <% if (!currentUser) { 
-      currentUser = {};
-      currentUser.name = "";}%>
+    <% if (!currentUser) { currentUser = {};}%>
     <div id="react-name" data-name="<%= currentUser.name %>" > </div>
     <div id="react-email" data-email="<%= currentUser.email %>"> </div>
     <div id="react-occupation" data-occupation="<%= currentUser.occupation %>"> </div>
