@@ -1,4 +1,4 @@
-<div>
+<div class="center-head">
     <% if (locals.notice) { %>
       <div className="notice"><%= notice %></div>
     <% } %>
@@ -13,7 +13,7 @@
     <% } %> -->
     <form class="form-style-1" action="<%= createSessionPath %>" method="post">
         <input type="hidden" name="_method" value="put" />
-        <div  class="field">
+        <div class="field">
             <label for="email">Email</label>
             <input type="email" name="email" value="<%= locals.email %>" />
         </div>
