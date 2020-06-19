@@ -27,13 +27,6 @@
       <li class="right"><a href="<%= newSessionPath %>"><img src="https://img.icons8.com/ios-glyphs/30/000000/enter-2.png"/>Login</a></li>
       <li class="right"><a href="<%= newRegisterPath %>"><img src="https://img.icons8.com/ios-glyphs/30/000000/edit-user-male.png"/>Registrarse</a></li>
 
-    <% } else { %>
-      <form action="<%= destroySessionPath %>" method="post">
-        <input type="hidden" name="_method" value="delete" />
-        <li class="right">
-          <input type="submit" value="Logout" />
-        </li>
-      </form> 
     <% } %>
   </ul>
 </div>
