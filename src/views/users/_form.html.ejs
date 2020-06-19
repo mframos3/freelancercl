@@ -1,4 +1,4 @@
-<div>
+<div class="form-center">
   <% if (locals.errors) { %>
     <div class="errors">
         <% errors.forEach(error => { %>
@@ -6,32 +6,20 @@
         <% }); %>
     </div>
   <% } %>
-  <% if (passwordError) { %>
-    <!-- <img src="../../../assets/images/error.png" width="100" height="100"/> -->
-    <li class="validationError"><%= passwordError %></li>
-  <% } %>
   <form class="form-style-1" action="<%= submitUserPath %>" method="post">
     <% if (!user.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
-    <div  class="field">
-      <label for="name">Nombre</label>
-      <input type="text" name="name" value="<%= user.name %>" />
-    </div>
-    <div  class="field">
-      <label for="email">Email</label>
-      <input type="text" name="email" value="<%= user.email %>" />
-    </div>
-    <div  class="field">
-      <label for="occupation">Ocupación</label>
-      <textarea type="text" name="occupation"><%= user.occupation %></textarea>
-    </div>
-    <div id="react-validation"> </div>
+    <% if (!currentUser) { currentUser = {};}%>
+    <div id="react-name" data-name="<%= currentUser.name %>" > </div>
+    <div id="react-email" data-email="<%= currentUser.email %>"> </div>
+    <div id="react-occupation" data-occupation="<%= currentUser.occupation %>"> </div>
+    <div id="react-confirmPassword"> </div>
     <div  class="field">
       <% if (user.isNewRecord) { %>
-        <input type="submit" name="create" value="Create" />
+        <input type="submit" name="create" class="action-btn" value="Registrar" />
       <% } else { %>
-        <input type="submit" name="update" value="Update" />
+        <input type="submit" name="update" class="action-btn" value="Actualizar" />
       <% } %>
     </div>
   </form>

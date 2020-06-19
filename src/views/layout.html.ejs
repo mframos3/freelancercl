@@ -12,28 +12,21 @@
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
   <div class=divnavbar>
     <ul class="topnav" id="topnav">
-    <li><a class="active" href="/"><img src="https://freelancercl.sfo2.digitaloceanspaces.com/freelancer.png" class="logo"></a></li>
-    <li><a href="/offeringPosts">Publicaciones de Oferta</a></li>
-    <li><a href="/searchingPosts">Publicaciones de Búsqueda</a></li>
-
+    <li><a class="active" href="/"><img name="logo" src="https://freelancercl.sfo2.digitaloceanspaces.com/kisspng-freelancer-com-upwork-freelance-marketplace-job-5b0f9b85d56c14.5550701815277495098742.png"/></a></li>
+    <li><a href="/offeringPosts"><img src="https://img.icons8.com/pastel-glyph/64/000000/offer-hot-price.png"/>Ofertas</a></li>
+    <li><a href="/searchingPosts"><img src="https://img.icons8.com/pastel-glyph/64/000000/search--v2.png"/>Búsquedas</a></li>
+      
     <% if (currentUser) { %>
       <% if( currentUser.isAdmin) { %>
-        <li><a href="/reports">Denuncias</a></li>
+        <li><a href="/reports"><img src="https://img.icons8.com/material-rounded/24/000000/break.png"/>Denuncias</a></li>
         <% } %>
-      <li><a href="/messages">Mensajes</a></li>
-      <li><a href="<%='/users/'+ currentUser.id %>">Mi Perfil</a></li>        
+      <li><a href="/messages"><img src="https://img.icons8.com/ios-filled/50/000000/multiple-messages.png"/>Mensajes</a></li>
+      <li><a href="<%='/users/'+ currentUser.id %>"><img src="https://img.icons8.com/ios-glyphs/30/000000/gender-neutral-user.png"/>Mi Perfil</a></li>        
     <% }%>
     <% if (!currentUser) { %>
-      <li class="right"><a href="<%= newSessionPath %>">Iniciar sesión</a></li>
-      <li class="right"><a href="<%= newRegisterPath %>">Registrarse</a></li>
+      <li class="right"><a href="<%= newSessionPath %>"><img src="https://img.icons8.com/ios-glyphs/30/000000/enter-2.png"/>Login</a></li>
+      <li class="right"><a href="<%= newRegisterPath %>"><img src="https://img.icons8.com/ios-glyphs/30/000000/edit-user-male.png"/>Registrarse</a></li>
 
-    <% } else { %>
-      <form action="<%= destroySessionPath %>" method="post">
-        <input type="hidden" name="_method" value="delete" />
-        <li class="right">
-          <input type="submit" value="Logout" />
-        </li>
-      </form> 
     <% } %>
   </ul>
 </div>

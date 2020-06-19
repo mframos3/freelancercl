@@ -1,8 +1,13 @@
 $freelancer-color: rgb(63, 152, 211);
 
+.btn-link:hover {
+  color:$freelancer-color;
+} 
+
 .center-head {
   margin: auto;
   text-align: center;
+	margin-top: 10%;
 }
 
 .divnavbar {
@@ -30,21 +35,6 @@ html, body {
 // body { 
 //   margin: 0.5%;
 // }
-
-#freelancer-logo {
-  border-top-left-radius: 30% 30%;
-  border-top-right-radius: 30% 30%;
-  border-bottom-right-radius: 30% 30%;
-  border-bottom-left-radius: 30% 30%;
-  padding: 30px;
-  width: 150px;
-  height: auto;
-}
-
-h2{
-    color: #4a4a4a;
-    font-weight: bolder;
-}
 
 // body{
 //   margin: 40px;
@@ -196,7 +186,6 @@ h2{
   }
 }
 
-
 ////////Dropdown
 .dropbtn {
   background-color: $freelancer-color;
@@ -207,31 +196,10 @@ h2{
   cursor: pointer;
 }
 
-
-////////// href
-
-
-.enlaceboton{
-  text-decoration: none;
-  padding: 3px;
-  padding-left: 10px;
-  padding-right: 10px;
-  font-weight: 300;
-  font-style: italic;
-  color: #ffffff;
-  background-color: $freelancer-color;
-  border-radius: 15px;
-  border: 3px double  #4a4a4a;
-}
-.enlaceboton:hover{
-  opacity: 0.6;
-  text-decoration: none;
-}
-
-
 //errores
 .validationError {
   color: #D8000C;
+  text-align: center;
   // background-image: url('../images/error.png');
 }
 
@@ -253,20 +221,35 @@ ul.topnav li {
   text-align: center;
 }
 
+ul.topnav li img{
+  float: left;
+  height: 30px;
+  margin-right: 10px;
+  top: 0;
+
+  
+}
+
+ul.topnav li img:not([name="logo"]) {
+  filter: brightness(0) invert(1);
+}
+
 ul.topnav li a {
-  display: block;
+  float: right;
+  // display: block;
   color: white;
+  vertical-align: middle;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
   margin: auto;
-  text-align: center;
+  font-size: 1.2em;
 
 }
 
 ul.topnav li a:hover:not(.active) {background-color: #111;}
 
-ul.topnav li a.active {background-color: $freelancer-color;}
+ul.topnav li a.active {background-color: white;}
 
 ul.topnav li.right {float: right; background-color: $freelancer-color;}
 
