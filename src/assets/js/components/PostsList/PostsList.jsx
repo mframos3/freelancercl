@@ -15,14 +15,16 @@ const PostsList = ({ contentType }) => {
   const [preSearch, setPreSearch] = useState([]);
   const [category, setCategory] = useState('');
 
+  const DEV = false;
+  const ENDPOINT = (DEV) ? 'http://localhost:3000' : 'https://freelancercl.herokuapp.com';
+
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
-      const res = await fetch(`http://localhost:3000/api/posts/${contentType}`);
+      const res = await fetch(`${ENDPOINT}/api/posts/${contentType}`);
       const data = await res.json();
       setPosts(data.data);
       setPreSearch([...data.data]);
-      console.log(data.data);
       setCategory('Todo');
       setLoading(false);
     };
