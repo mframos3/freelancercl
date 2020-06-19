@@ -30,9 +30,11 @@ Consideraciones a tener:
 
 * Creamos un sistema de rating que funciona por medio de los reviews de los offering post. El rating de cada usuario es el promedio de todos las valoraciones de los reviews puestos en los offering post que le pertenecen. A su vez cada offering post tiene un promedio de sus ratings.
 
+* Desde esta entrega el log out se encuentra en el perfil.
+
 * Extrañamente al iniciar sesión en Firefox y Google Chrome, la página se cae. Pero en Safari no hay problemas. Intentamos de arreglarlo pero no supimos bien cómo hacerlo.
 
-* Otro problema que tuvimos con los navegadores, y de nuevo solo funciona en Safari, es para la vista previa de las fotos a subir. En los otros navegadores solo se encuentra el botón.
+* Otro problema que tuvimos con los navegadores, y de nuevo solo funciona en Safari, es para la vista previa de las fotos a subir. En los otros navegadores solo se encuentra el botón. Además en Google Chrome se descrga automáticamente la foto.
 
 * Básicamente, está todo lo que se esperaba para esta entrega de la App y más!!! Espero seas feliz navegando por ella.
 
