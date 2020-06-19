@@ -64,8 +64,6 @@ async function computeFollowers(ctx) {
   const followedList = await ctx.orm.follow.findAll({ where: { followerId: user.id } });
   const followersCU = await ctx.orm.follow.findAll({ where: { followedId: currentUser.id } });
   const followedCU = await ctx.orm.follow.findAll({ where: { followerId: currentUser.id } });
-  // console.log(typeof (followersList));
-  // console.log(followedList.length);
   currentUser.cFollowers = followersCU.length;
   currentUser.cFollowed = followedCU.length;
   user.cFollowers = followersList.length;
@@ -138,24 +136,24 @@ router.post('users.create', '/', async (ctx) => {
       await user.save({
         name, email, cryptPassword, occupation,
       });
-      // msg.to = email;
-      // console.log(11111111);
-      // // sgMail.send(msg).then(() => {}, (error) => {
-      // //   if (error.response) {
-      // //     console.error(error.response.body);
-      // //   }
-      // console.log(222222222);
-      // });
-      // (async () => {
-      //   try {
-      //     await sgMail.send(msg);
-      //   } catch (error) {
-      //     console.error(error);
-      //     if (error.response) {
-      //       console.error(error.response.body);
-      //     }
-      //   }
-      // })();
+      msg.to = email;
+      console.log(11111111);
+      sgMail.send(msg).then(() => {}, (error) => {
+        if (error.response) {
+          console.error(error.response.body);
+        }
+      console.log(222222222);
+      });
+      (async () => {
+        try {
+          await sgMail.send(msg);
+        } catch (error) {
+          console.error(error);
+          if (error.response) {
+            console.error(error.response.body);
+          }
+        }
+      })();
       ctx.session.userId = user.id;
       ctx.redirect(ctx.router.url('index.landing'));
     } else {
