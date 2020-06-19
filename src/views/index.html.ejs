@@ -19,31 +19,14 @@
   <% if (!offeringPostsList.length) { %>
     
       <h2>No tienes Publicaciones de Oferta</h2>
-      <td><a href="#popupOffer" class="action-btn">Haz tu primera publicación de Oferta</a></td>
-      <div class="container-all" id="popupOffer"> 
-        <div class="popup">
-            <div class="container-text">
-              <%- include('offeringPosts/new') %>
-            </div>
-            <a href="#" class="btn-close-popup">X</a>
-        </div>
-        
-      </div>
-    
+      <td><a href="offeringPosts/new" class="action-btn">Haz tu primera publicación de Oferta</a></td>
+  
   <% } %>
 
   <% if (!searchingPostsList.length) { %>
       <h2>No tienes Publicaciones de Búsqueda</h2>      
-      <td><a href="#popupSearch" class="action-btn">Haz tu primera publicación de Búsqueda</a></td>
-      <div class="container-all" id="popupSearch"> 
-        <div class="popup">
-            <div class="container-text">
-              <%- include('searchingPosts/new') %>
-            </div>
-            <a href="#" class="btn-close-popup">X</a>
-        </div>
-        
-      </div>
+      <td><a href="searchingPosts/new" class="action-btn">Haz tu primera publicación de Búsqueda</a></td>
+
   <% } %>
   <% } %>
   
