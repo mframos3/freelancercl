@@ -252,20 +252,35 @@ ul.topnav li {
   text-align: center;
 }
 
+ul.topnav li img{
+  float: left;
+  height: 30px;
+  margin-right: 10px;
+  top: 0;
+
+  
+}
+
+ul.topnav li img:not([name="logo"]) {
+  filter: brightness(0) invert(1);
+}
+
 ul.topnav li a {
-  display: block;
+  float: right;
+  // display: block;
   color: white;
+  vertical-align: middle;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
   margin: auto;
-  text-align: center;
+  font-size: 1.2em;
 
 }
 
 ul.topnav li a:hover:not(.active) {background-color: #111;}
 
-ul.topnav li a.active {background-color: $freelancer-color;}
+ul.topnav li a.active {background-color: white;}
 
 ul.topnav li.right {float: right; background-color: $freelancer-color;}
 
