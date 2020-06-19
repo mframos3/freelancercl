@@ -1,7 +1,7 @@
 const KoaRouter = require('koa-router');
+const Sequelize = require('sequelize');
 const pkg = require('../../package.json');
 
-const Sequelize = require('sequelize');
 const { Op } = Sequelize;
 
 const router = new KoaRouter();
@@ -12,25 +12,54 @@ router.get('index.landing', '/', async (ctx) => {
   let offeringPostsList = [];
   let searchingPostsList = [];
   if (isUser) {
-    offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: { [Op.eq]: isUser.id } } });
-    searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.eq]: isUser.id } } });
+    offeringPostsList = await ctx.orm.offeringPost.findAll({
+      where: { userId: { [Op.eq]: isUser.id } },
+    });
+    searchingPostsList = await ctx.orm.searchingPost.findAll({
+      where: { userId: { [Op.eq]: isUser.id } },
+    });
   }
   const bestUsers = await ctx.orm.user.findAll({ order: [['cFollowers', 'DESC']], limit: 3 });
-  const bestOfferingPosts = await ctx.orm.offeringPost.findAll({ order: [['rating', 'DESC']], limit: 3 });
+  const auxBestOfferingPosts = await ctx.orm.offeringPost.findAll({ order: [['rating', 'DESC']], limit: 3 });
+  const promisesBestOfferingPosts = auxBestOfferingPosts.map(async (element) => {
+    const newElement = element;
+    const aux1 = await newElement.getReviews();
+    const aux2 = await newElement.getApplications();
+    newElement.reviewsCount = aux1.length;
+    newElement.applicationsCount = aux2.length;
+    return newElement;
+  });
+  const bestOfferingPosts = await Promise.all(promisesBestOfferingPosts);
   let followingIds = '';
   if (currentUser) {
     const following = await ctx.orm.follow.findAll({
-      where: { followerId: { [Op.eq]: currentUser.id } } });
-    followingIds = following.map(function(x) {
-         return x.followedId;
-      });
+      where: {
+        followerId: { [Op.eq]: currentUser.id },
+      },
+    });
+    followingIds = following.map((x) => x.followedId);
   }
-  const offeringPostsFollowing = await ctx.orm.offeringPost.findAll({ where: { userId: { [Op.in]: followingIds } } });
-  const searchingPostsFollowing = await ctx.orm.searchingPost.findAll({ where: { userId: { [Op.in]: followingIds } } });
+  const auxOfferingPostsFollowing = await ctx.orm.offeringPost.findAll({
+    where: { userId: { [Op.in]: followingIds } },
+    limit: 3,
+  });
+  const promisesOfferingPostsFollowing = auxOfferingPostsFollowing.map(async (element) => {
+    const newElement = element;
+    const aux1 = await newElement.getReviews();
+    const aux2 = await newElement.getApplications();
+    newElement.reviewsCount = aux1.length;
+    newElement.applicationsCount = aux2.length;
+    return newElement;
+  });
+  const offeringPostsFollowing = await Promise.all(promisesOfferingPostsFollowing);
+  const searchingPostsFollowing = await ctx.orm.searchingPost.findAll({
+    where: { userId: { [Op.in]: followingIds } },
+    limit: 3,
+  });
   const showOfferingPostPath = (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.id });
   const showSearchingPostPath = (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id });
 
-  //Para popUp
+  // Para popUp
   const user = ctx.orm.user.build();
   const searchingPost = ctx.orm.searchingPost.build(ctx.request.body);
   const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
@@ -45,7 +74,7 @@ router.get('index.landing', '/', async (ctx) => {
     newRegisterPath: ctx.router.url('users.new'),
     notice: ctx.flashMessage.notice,
     submitUserPath: ctx.router.url('users.create'),
-    //Para popUp
+    // Para popUp
     user,
     searchingPost,
     offeringPost,

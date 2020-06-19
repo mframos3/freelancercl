@@ -66,7 +66,7 @@
           
           <div class="clash-card barbarian">
             <div class="clash-card__image clash-card__image--barbarian">
-              <img src="<%=user.imagePath%>" alt="UserImage" />
+              <img src="<%=user.imagePath%>" alt="UserImage"/>
             </div>
             <div class="clash-card__level clash-card__level--barbarian"><%= user.occupation %></div>
             <div class="clash-card__unit-name"><a href="<%= showUserPath(user) %>"><%= user.name %></a></div>
@@ -76,13 +76,13 @@
       
             <div class="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix">
               <div class="one-third">
-                <div class="stat"> <%= user.cFollowers %></div>
-                <div class="stat-value">Seguidores</div>
+                <div class="stat"><%= user.rating %></div>
+                <div class="stat-value">Rating</div>
               </div>
       
               <div class="one-third">
-                <div class="stat"><%= user.rating %></div>
-                <div class="stat-value">Rating</div>
+                <div class="stat"><%= user.cFollowers %></div>
+                <div class="stat-value">Seguidores</div>
               </div>
       
               <div class="one-third no-border">
@@ -121,13 +121,13 @@
                       </div>
               
                       <div class="one-third">
-                        <div class="stat"></div>
-                        <div class="stat-value">Rating</div>
+                        <div class="stat"><%= post.reviewsCount %></div>
+                        <div class="stat-value">Reseñas</div>
                       </div>
               
                       <div class="one-third no-border">
-                        <div class="stat"></div>
-                        <div class="stat-value">Seguidos</div>
+                        <div class="stat"><%= post.applicationsCount %></div>
+                        <div class="stat-value">Postulaciones</div>
                       </div>
               
                     </div>
@@ -144,42 +144,79 @@
 
   <% if (offeringPostsFollowing.length) { %>
     <h1 class="titles">Ofertas de quienes sigues:</h1>
-    <div class="cards">
+    <div class="slide-container">
       <% offeringPostsFollowing.forEach((post) => { %>
-        <div class="card">
-          <img class="card__image" src="<%=post.img%>" alt="OfferingPost" />
-          <div class="card__content">
-            <div class="card__link">
-              <a href="<%= showOfferingPostPath(post) %>"><%= post.name %></a>
-            </div>
-            <p>
-              <%= post.rating %>
-              <%= post.category %>
-            </p>
+      <div class="wrapper">     
+        <div class="clash-card barbarian">
+          <div class="clash-card__image clash-card__image--barbarian">
+            <img src="<%= post.img%>" alt="UserImage" />
           </div>
-          <div class="card__info">
-            <div>
-              <img src="https://img.icons8.com/material-sharp/24/000000/star.png"/>
-              <%= post.rating %>
-            </div>
-            <div>
-              <%= post.category %>
-            </div>
+          <div class="clash-card__level clash-card__level--barbarian"><%= post.category %></div>
+          <div class="clash-card__unit-name"><a href="<%= showOfferingPostPath(post) %> "><%= post.name %></a></div>
+          <div class="clash-card__unit-description">
+            <!-- The Barbarian is a kilt-clad Scottish warrior with an angry, battle-ready expression, hungry for destruction. He has Killer yellow horseshoe mustache. -->
           </div>
-        </div>
-        <% }) %>
-    </div>
+    
+          <div class="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix">
+            <div class="one-third">
+              <div class="stat"> <%= post.rating %></div>
+              <div class="stat-value">Rating</div>
+            </div>
+    
+            <div class="one-third">
+              <div class="stat"><%= post.reviewsCount %></div>
+              <div class="stat-value">Reseñas</div>
+            </div>
+    
+            <div class="one-third no-border">
+              <div class="stat"><%= post.applicationsCount %></div>
+              <div class="stat-value">Postulaciones</div>
+            </div>
+    
+          </div>
+        </div> <!-- end clash-card barbarian-->
+      </div> <!-- end wrapper -->
+      <% }) %>
+    </div> <!-- end container -->
+
     <% } %>
     <% if (searchingPostsFollowing.length) { %>
       <h1 class="titles" >Búsquedas de empleo de quienes sigues:</h1>
-            <% searchingPostsFollowing.forEach((post) => { %>
-              <div id="users-list"></div>
-                <ol class="listHorizontal">
-                  <li><% if (post.img) { %> <img class="user" src="<%= post.img%>"> <% } %></li>
-                  <li><a href="<%= showSearchingPostPath(post) %> "><%= post.name %></a></li>
-                  <li>Categoría: <%= post.category %></li>
-                </ol>
+      <div class="slide-container">
+        <% searchingPostsFollowing.forEach((post) => { %>
+        <div class="wrapper">
+          
+          <div class="clash-card barbarian">
+            <div class="clash-card__image clash-card__image--barbarian">
+              <img src="<%= post.img%>" alt="UserImage" />
+            </div>
+            <div class="clash-card__level clash-card__level--barbarian"><%= post.category %></div>
+            <div class="clash-card__unit-name"><a href="<%= showOfferingPostPath(post) %> "><%= post.name %></a></div>
+            <div class="clash-card__unit-description">
+              <%= post.description %>
+            </div>
+<!--       
+            <div class="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix">
+              <div class="one-third">
+                <div class="stat"></div>
+                <div class="stat-value"></div>
               </div>
+              <div class="one-third">
+                <div class="stat"></div>
+                <div class="stat-value"></div>
+              </div>
+      
+              <div class="one-third no-border">
+                <div class="stat"></div>
+                <div class="stat-value"></div>
+              </div>
+      
+            </div> -->
+      
+          </div> <!-- end clash-card barbarian-->
+        </div> <!-- end wrapper -->
+        <% }) %>
+      </div> <!-- end container -->
               <br>
             <% }) %>        
       <% } %>
@@ -225,6 +262,7 @@
           <% }) %>
         </div> <!-- end container -->
         <% } %>
+
       <% } %>
 <% } %>
 </div>
