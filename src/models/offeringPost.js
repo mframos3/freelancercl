@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     img: {
       type: DataTypes.STRING,
+      defaultValue: 'https://freelancercl.sfo2.digitaloceanspaces.com/default-post.jpg',
     },
     category: {
       type: DataTypes.STRING,

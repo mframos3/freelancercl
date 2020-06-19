@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
       },
-      defaultValue: 'https://freelancercl.sfo2.digitaloceanspaces.com/avatar.png',
+      defaultValue: 'https://freelancercl.sfo2.digitaloceanspaces.com/default-user-img.jpg',
     },
     occupation: {
       type: DataTypes.STRING,
