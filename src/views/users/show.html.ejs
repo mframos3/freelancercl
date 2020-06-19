@@ -35,7 +35,7 @@
           <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
             <a href="<%= editUserPath %>">Editar</a>
           <% } %>
-          <% if (currentUser && currentUser.id != user.id && !follow) { %>
+          <!-- <% if (currentUser && currentUser.id != user.id && !follow) { %>
               <form action="<%= followPath %>" method="post">
                   <input type="submit" value="Seguir" />
               </form>
@@ -43,7 +43,7 @@
               <form action="<%= followPath %>" method="post">
                   <input type="submit" value="Dejar de Seguir" />
               </form>
-          <% } %>
+          <% } %> -->
 				</div>
 			</div>
 			<div class="tab-panel-main">
@@ -53,7 +53,8 @@
 					<li class="tab-link" data-tab="Portfolio">Búsquedas</li>
 				</ul>
 				<div id="Basic-detail" class="tab-content current">
-					<div class="skill-box">
+          <div id="react-follower" ></div>
+					<!-- <div class="skill-box">
 					  <ul>
               <li><strong>Ocupación:</strong></li>
               <li><%= user.occupation %></li>
@@ -69,8 +70,9 @@
               <li><%= user.cFollowers %></li>
               <li><strong>Seguidos:</strong></li>
               <li><%= user.cFollowed %></li>
+              <div id="react-follower" ></div>
             </ul>		
-					</div>
+          </div> -->
 					<div class="bio-box">
 						<div class="heading">
 							<p>Información de Contacto
