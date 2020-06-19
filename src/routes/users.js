@@ -1,6 +1,5 @@
 const KoaRouter = require('koa-router');
 const Sequelize = require('sequelize');
-
 const bcrypt = require('bcrypt');
 
 const PASSWORD_SALT = 10;
@@ -15,10 +14,6 @@ const msg = require('../mailers/login-email-Api');
 const router = new KoaRouter();
 
 let passwordError = '';
-
-const index = require('../routes/index');
-
-router.use('/', index.routes());
 
 async function loadUser(ctx, next) {
   ctx.state.user = await ctx.orm.user.findByPk(ctx.params.id);
@@ -120,8 +115,6 @@ router.get('users.new', '/new', async (ctx) => {
 
 router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
-  ctx.redirect(ctx.router.url('index.landing'));
-
   try {
     const password1 = ctx.request.body.password;
     const { password2 } = ctx.request.body;
@@ -138,24 +131,22 @@ router.post('users.create', '/', async (ctx) => {
       await user.save({
         name, email, cryptPassword, occupation,
       });
-      // msg.to = email;
-      // console.log(11111111);
-      // // sgMail.send(msg).then(() => {}, (error) => {
-      // //   if (error.response) {
-      // //     console.error(error.response.body);
-      // //   }
-      // console.log(222222222);
-      // });
-      // (async () => {
-      //   try {
-      //     await sgMail.send(msg);
-      //   } catch (error) {
-      //     console.error(error);
-      //     if (error.response) {
-      //       console.error(error.response.body);
-      //     }
-      //   }
-      // })();
+      msg.to = email;
+      sgMail.send(msg).then(() => {}, (error) => {
+        if (error.response) {
+          console.error(error.response.body);
+        }
+      });
+      (async () => {
+        try {
+          await sgMail.send(msg);
+        } catch (error) {
+          console.error(error);
+          if (error.response) {
+            console.error(error.response.body);
+          }
+        }
+      })();
       ctx.session.userId = user.id;
       ctx.redirect(ctx.router.url('index.landing'));
     } else {
@@ -166,8 +157,6 @@ router.post('users.create', '/', async (ctx) => {
       });
     }
   } catch (validationError) {
-    console.log(33333333);
-
     await ctx.render('users/new', {
       user,
       errors: validationError.errors,
@@ -196,7 +185,7 @@ router.patch('users.update', '/:id', loadUser, async (ctx) => {
     await user.update({
       name, password, email, occupation,
     });
-    ctx.redirect(ctx.router.url('users.show'));
+    ctx.redirect(ctx.router.url('users.list'));
   } catch (validationError) {
     await ctx.render('users/edit', {
       user,
@@ -210,7 +199,7 @@ router.patch('users.update', '/:id', loadUser, async (ctx) => {
 router.del('users.delete', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   await user.destroy();
-  ctx.redirect(ctx.router.url('index.landing'));
+  ctx.redirect(ctx.router.url('users.list'));
 });
 
 router.get('users.show', '/:id', loadUser, async (ctx) => {
@@ -241,6 +230,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
     sendMessagePath: ctx.router.url('messages.new', { id: user.id }),
     followPath: ctx.router.url('users.follow', { id: user.id }),
     deleteUserPath: ctx.router.url('users.delete', { id: user.id }),
+    backPath: ctx.router.url('users.list'),
     showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.id }),
     showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
     newSearchingPostPath: ctx.router.url('searchingPosts.new'),
@@ -277,5 +267,4 @@ router.post('users.follow', '/:id/follow', loadUser, async (ctx) => {
   }
   ctx.redirect(ctx.router.url('users.show', { id: user.id }));
 });
-
 module.exports = router;

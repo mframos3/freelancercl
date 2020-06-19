@@ -1,5 +1,5 @@
-<div class="form-center">
-    <!-- <% if (locals.errors) { %>
+<div>
+    <% if (locals.errors) { %>
       <div class="errors">
         Tienes que solucionar los siguientes errores:
         <ul>
@@ -8,12 +8,15 @@
           <% }); %>
         </ul>
       </div>
-    <% } %> -->
+    <% } %>
     <form class="form-style-1" action="<%= submitOfferingPostPath %>" method="post">
       <% if (!offeringPost.isNewRecord) { %>
         <input type="hidden" name="_method" value="patch" />
       <% } %>
-      <div id="react-name" data-name="<%= offeringPost.name %>"> </div>
+      <div  class="field">
+        <label for="name">Nombre</label>
+        <input type="text" name="name" value="<%= offeringPost.name %>" />
+      </div>
       <div  class="field">
         <label for="category">Categoría</label>
         <select name="category" id="category">
@@ -33,19 +36,31 @@
 
         </select>
       </div>
-      <div id="react-description" data-description="<%= offeringPost.description %>"></div>
-      <div id="react-price" data-price="<%= offeringPost.price %>"></div>
-      <div id="react-endsAt"></div> 
-
+      <div  class="field">
+        <label for="description">Descripción</label>
+        <textarea type="text" name="description"><%= offeringPost.description %></textarea>
+      </div>
+      <div  class="field">
+        <label for="price">Precio</label>
+        <textarea type="number" name="price"><%= offeringPost.price %></textarea>
+      </div>
+      <div  class="field">
+        <label for="endsAt">Fecha de Término</label>
+        <input type="date" name="endsAt"></input>
+      </div>
       <div  class="field">
         <input type="hidden" name="userId" value=<%= currentUser.id %>></input>
       </div>
       <div  class="field">
         <% if (offeringPost.isNewRecord) { %>
-          <input type="submit" name="create" class="action-btn" value="Create" />
+          <input type="submit" name="create" value="Create" />
         <% } else { %>
-          <input type="submit" name="update" class="action-btn" value="Update" />
+          <input type="submit" name="update" value="Update" />
         <% } %>
       </div>
     </form>
   </div>
+
+  <form action="<%= backPath %>" method="get">
+    <input type="submit" value="Back" />
+  </form>

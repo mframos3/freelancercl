@@ -1,8 +1,62 @@
 <div class="general">
 <div class="center-head">
   <h2>Publicaciones de Búsqueda</h2>
+  <div class="search-container">
+    <form action="/searchingPosts" class="search-form">
+      <div class="dropdown">
+        <select class="dropbtn" name="category" id="category" class="custom-select sources" placeholder="Categoría">
+          <option value="Todo">Todas las categorías</option>
+          <option value="General">General</option>
+          <option value="Hogar">Hogar</option>
+          <option value="Educación">Educación</option>
+          <option value="Música">Música</option>
+          <option value="Entretenimiento">Entretenimiento</option>
+          <option value="Deportes">Deportes</option>
+          <option value="Artes">Artes</option>
+          <option value="Tele Trabajo">Tele Trabajo</option>
+          <option value="Emprendimiento">Emprendimiento</option>
+          <option value="Investigación">Investigación</option>
+          <option value="Salud">Salud</option>
+          <option value="Asesoría">Asesoría</option>
+          <option value="Otros">Otros</option>
+  
+        </select>
+      </div>
+        <br><br>
+      <input type="text" name="search" placeholder="Buscar Post...">
+      <div type="submit" value="Search" class="search"></div>
+    </form>
+  </div>
 </div>
-<div id="react-posts-search"></div>
+
+
+
+
+<% if (!searchResult.length) { %>
+  <p>No hay resultados</p>
+<% } else { %>
+  <br>
+  <div class="offeringPosts-list">
+    <% searchResult.forEach((searchingPost) => { %>
+      <div class="offeringPost">
+        <% if (searchingPost.item.image) { %> <img class="offeringPost__image" src="<%= searchingPost.item.image%>"> <% } %>
+        <div class="name-content">
+          <div class="offeringPost__name">
+              <a href="<%= showSearchingPostPath(searchingPost) %> "><%= searchingPost.item.name %></a>
+          </div>
+          <div class="offeringPost__content">
+            <%= searchingPost.item.description %>
+          </div>
+      </div>
+        <div class="offeringPost__extras">
+          <%= searchingPost.item.category %>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+  <br>
+<% } %>
+
 <% if (currentUser) { %><a href="<%= newSearchingPostPath %>" class="enlaceboton">Nuevo post de búsqueda</a> <% } %>
 </div>
 

@@ -1,10 +1,3 @@
-//CV
-.cvPdf {
-  margin: 30px auto;
-  width: 500px;
-  padding-bottom: 10px;
-}
-
 //Profile
 .action-btn, #delete-post > input[type=submit], 
  #upload > input[type=submit],
@@ -27,23 +20,18 @@
 .profile-main{
   margin: 10px auto;
   width: 750px;
-
   border: 1px solid #aed5e2;
   padding-bottom: 10px;
-  
-
 }
 .profile-header{
   height: 200px;
   width: 100%;
   background-color: #EBF6FA;
   border-bottom: 2px solid #E2F3FB;
-  
 }
 .user-detail{
   position: relative;
   width: 75%;
-  height: 1%;
   margin: 0 auto;
   height: 100%;
 }
@@ -144,7 +132,7 @@
 
 /*tab*/
 .tab-panel-main{
-  width: 90%;
+  width: 75%;
   margin: 0 auto;
 }
 ul.tabs{
@@ -154,7 +142,7 @@ ul.tabs{
   display: flex;
   position: absolute;
   top: 207px;
-  left: 55%;
+  right: 400px;
 }
 ul.tabs li{
   color: #222;
@@ -218,20 +206,16 @@ ul.tabs li.current{
 }
 .bio-box{
   float: left;
-  width: 70%;
+  width: 56%;
   border:1px solid #ededed;
   border-radius: 4px;
-  display: flex;
 }
 .detail-box{
   float: right;
-  width: 20%;
+  width: 32%;
   border:1px solid #ededed;
   padding: 13px;
   border-radius: 4px;
-  display: inline;
-  text-align: right;
-
 }
 .bio-box .heading{
   padding: 10px 0px 10px 10px;
@@ -251,9 +235,9 @@ ul.tabs li.current{
 }
 .bio-box .desc{
   padding: 10px 10px 10px 10px;
+  text-align: justify;
   color: #838383;
   font-size: 13px;
-  
 }
 .detail-box{
   padding: 10px;
@@ -369,7 +353,6 @@ ul.tabs li.current{
   }
   .profile-header{
     height: 250px;
-    display: flex;
   }
   .bio-box{
     width: 100%;

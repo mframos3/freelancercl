@@ -1,5 +1,5 @@
-<div class="form-center">
-  <!-- <% if (locals.errors) { %>
+<div>
+  <% if (locals.errors) { %>
     <div class="errors">
       TIenes que solucionar los siguientes errores:
       <ul>
@@ -8,13 +8,19 @@
         <% }); %>
       </ul>
     </div>
-  <% } %> -->
+  <% } %>
   <form class="form-style-1" action="<%= submitReportPath %>" method="post">
     <% if (!report.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
-    <div id="react-title" data-title="<%= report.title %>"> </div>
-    <div id="react-content" data-content="<%= report.content %>"> </div>
+    <div  class="field">
+      <label for="title">Título</label>
+      <input type="text" name="title" value="<%= report.title %>" />
+    </div>
+    <div  class="field">
+      <label for="content">Contenido</label>
+      <input type="text" name="content" value="<%= report.content %>" />
+    </div>
     <div  class="field">
       <input type="hidden" name="reportingUserId" value="<%=currentUser.id%>"></input>
     </div>
@@ -26,9 +32,9 @@
     </div>
     <div  class="field">
       <% if (report.isNewRecord) { %>
-        <input type="submit" name="create" class="action-btn" value="Create" />
+        <input type="submit" name="create" value="Create" />
       <% } else { %>
-        <input type="submit" name="update" class="action-btn" value="Update" />
+        <input type="submit" name="update" value="Update" />
       <% } %>
     </div>
   </form>

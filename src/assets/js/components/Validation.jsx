@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { IoMdCloseCircleOutline } from 'react-icons/io';
 
 export default class Validation extends Component {
   constructor(props) {
@@ -35,7 +34,7 @@ export default class Validation extends Component {
       pass2 = 1;
     }
     if (pass !== value && this.state.password2.length + pass2 > 0) {
-      this.setState({ currentError: 'Las contraseñas no coinciden' });
+      this.setState({ currentError: 'Las contraseñas no coinciden.' });
     } else {
       this.setState({ currentError: '' });
     }
@@ -43,12 +42,6 @@ export default class Validation extends Component {
 
   render() {
     const { currentError } = this.state;
-    let alert;
-    if (currentError) {
-      alert = <span visibility="hidden" className="errorMessage" style={{ color: 'red' }}>{currentError} <IoMdCloseCircleOutline /></span>;
-    } else {
-      alert = '';
-    }
     return (
       <div>
         <div className="field">
@@ -56,10 +49,11 @@ export default class Validation extends Component {
           <input type="password" name="password" onChange={this.handleError} />
         </div>
         <div className="field">
-          <label htmlFor="password2">Confirmar contraseña</label>
+          <p htmlFor="password2">Confirmar contraseña</p>
           <input type="password" name="password2" onChange={this.handleError} />
         </div>
-        {alert}
+        <span className="errorMessage" style={{ color: 'red' }}>{currentError}</span>
+        <br></br>
       </div>
     );
   }

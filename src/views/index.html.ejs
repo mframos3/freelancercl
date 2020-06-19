@@ -4,21 +4,21 @@
   <% if (env !== 'development') { %>
     <link rel="stylesheet" href="<%= assetPath('app.css') %>">
   <% } %>
+  
 </head>
   <header>
       <!-- <div id="logo">
         <img id="freelancer-logo" src="<%= assetPath('logo.png') %>" alt="Logo" />
       </div> -->
-     
+      <img id="freelancer-fondo" src=https://freelancercl.sfo2.digitaloceanspaces.com/banner.png />
   </header>
-
 <body class="cover">
-<img id="freelancer-fondo" src=https://freelancercl.sfo2.digitaloceanspaces.com/banner.png />
+  <h1 id="welcome">Bienvenido a freelancerCL</h1>     
+
   <% if (currentUser) { %>
   <% if (!offeringPostsList.length) { %>
-    <div id="main-banner">
       <h2>No tienes Publicaciones de Oferta</h2>
-      <td><a href="#popupOffer" class="action-btn">Haz tu primera publicación de Oferta</a></td>
+      <td><a href="#popupOffer" class="enlaceboton">Haz tu primera publicación de Oferta</a></td>
       <div class="container-all" id="popupOffer"> 
         <div class="popup">
             <div class="container-text">
@@ -32,7 +32,7 @@
 
   <% if (!searchingPostsList.length) { %>
       <h2>No tienes Publicaciones de Búsqueda</h2>      
-      <td><a href="#popupSearch" class="action-btn">Haz tu primera publicación de Búsqueda</a></td>
+      <td><a href="#popupSearch" class="enlaceboton">Haz tu primera publicación de Búsqueda</a></td>
       <div class="container-all" id="popupSearch"> 
         <div class="popup">
             <div class="container-text">
@@ -42,100 +42,73 @@
         </div>
         
       </div>
-    </div>
 
 
 
   <% }; %>
   <% } %>
 
-<div id="second-banner">
+
   <% if (!currentUser) { %>
-      <h1>Estás solo a un click de expandir tu mundo laboral ¡Qué esperas!</h1>
-      <td><a href="/users/new" class="action-btn">Registrarse</a></td>
+      <h4>Estás solo a un click de expandir tu mundo laboral, ¡Qué esperas!</h4>
+      <td><a href="#popupRegister" class="enlaceboton">Registrarse</a></td>
+      <div class="container-all" id="popupRegister"> 
+        <div class="popup">
+            <div class="container-text">
+              <%- include('users/new') %>
+            </div>
+            <a href="#" class="btn-close-popup">X</a>
+        </div>
+      </div>
 
-      <h2>Si ya tienes una cuenta, inicia sesión.</h2>
-      <td><a href="/session/new" class="action-btn">Iniciar Sesión</a></td>
-    <% if (bestUsers.length) { %>
       <br>
-      <h1 class="titles">En freelancercl Podrás interactuar con:</h1>
+      <h4>Si ya tienes una cuenta, inicia sesión!</h4>
+      <td><a href="#popupUser" class="enlaceboton">Iniciar Sesión</a></td>
+      <div class="container-all" id="popupUser"> 
+        <div class="popup">
+            <div class="container-text">
+              <%- include('session/new') %>
+            </div>
+            <a href="#" class="btn-close-popup">X</a>
+        </div>
+        
+    </div>
 
-      <div class="slide-container">
-        <% bestUsers.forEach((user) => { %>
-        <div class="wrapper">
-          
-          <div class="clash-card barbarian">
-            <div class="clash-card__image clash-card__image--barbarian">
-              <img src="<%=user.imagePath%>" alt="UserImage" />
-            </div>
-            <div class="clash-card__level clash-card__level--barbarian"><%= user.occupation %></div>
-            <div class="clash-card__unit-name"><a href="<%= showUserPath(user) %>"><%= user.name %></a></div>
-            <div class="clash-card__unit-description">
-              <!-- The Barbarian is a kilt-clad Scottish warrior with an angry, battle-ready expression, hungry for destruction. He has Killer yellow horseshoe mustache. -->
-            </div>
-      
-            <div class="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix">
-              <div class="one-third">
-                <div class="stat"> <%= user.cFollowers %></div>
-                <div class="stat-value">Seguidores</div>
+    <% if (bestUsers.length) { %>
+      <div class="list">
+      <h2>En freelancercl Podrás interactuar con:</h2>
+            <% bestUsers.forEach((user) => { %>
+              <div class="list-element">
+                <div id="left">
+                  <img class="user" src="<%= user.img%>">
+                </div>
+                <div id="center">
+                  <div class="element-user">
+                  <a href="<%= showUserPath(user) %> "><%= user.name %></a>
+                  </div>
+                </div>
+                <div id="right">
+                <div class="review-rating">
+                  Seguidores:<%= user.cFollowers %>
+                </div>
               </div>
-      
-              <div class="one-third">
-                <div class="stat"><%= user.rating %></div>
-                <div class="stat-value">Rating</div>
               </div>
-      
-              <div class="one-third no-border">
-                <div class="stat"><%= user.cFollowed %></div>
-                <div class="stat-value">Seguidos</div>
-              </div>
-      
+
+            <% }) %>
             </div>
-      
-          </div> <!-- end clash-card barbarian-->
-        </div> <!-- end wrapper -->
-        <% }) %>
-      </div> <!-- end container -->
       <% } %>
 
       <% if (bestOfferingPosts.length) { %>
-        <h1 class="titles">... y encontrar las mejores Ofertas de empleo:</h1>
-              <div class="slide-container">
-                <% bestOfferingPosts.forEach((post) => { %>
-                <div class="wrapper">
-                  
-                  <div class="clash-card barbarian">
-                    <div class="clash-card__image clash-card__image--barbarian">
-                      <img src="<%= post.img%>" alt="UserImage" />
-                    </div>
-                    <div class="clash-card__level clash-card__level--barbarian"><%= post.category %></div>
-                    <div class="clash-card__unit-name"><a href="<%= showOfferingPostPath(post) %> "><%= post.name %></a></div>
-                    <div class="clash-card__unit-description">
-                      <!-- The Barbarian is a kilt-clad Scottish warrior with an angry, battle-ready expression, hungry for destruction. He has Killer yellow horseshoe mustache. -->
-                    </div>
-              
-                    <div class="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix">
-                      <div class="one-third">
-                        <div class="stat"> <%= post.rating %></div>
-                        <div class="stat-value">Rating</div>
-                      </div>
-              
-                      <div class="one-third">
-                        <div class="stat"></div>
-                        <div class="stat-value">Rating</div>
-                      </div>
-              
-                      <div class="one-third no-border">
-                        <div class="stat"></div>
-                        <div class="stat-value">Seguidos</div>
-                      </div>
-              
-                    </div>
-              
-                  </div> <!-- end clash-card barbarian-->
-                </div> <!-- end wrapper -->
-                <% }) %>
-              </div> <!-- end container -->
+        <h2>... Y encontrar las mejores Ofertas de empleo:</h2>
+              <% bestOfferingPosts.forEach((post) => { %>
+                <div id="users-list"></div>
+                  <ol class="listHorizontal">
+                    <li><% if (post.img) { %> <img class="user" src="<%= post.img%>"> <% } %></li>
+                    <li><a href="<%= showOfferingPostPath(post) %> "><%= post.name %></a></li>
+                    <li>Rating: <%= post.rating %></li>
+                  </ol>
+                </div>
+              <% }) %>
         <% } %>
 
 
@@ -143,35 +116,20 @@
   <br><br>
 
   <% if (offeringPostsFollowing.length) { %>
-    <h1 class="titles">Ofertas de quienes sigues:</h1>
-    <div class="cards">
-      <% offeringPostsFollowing.forEach((post) => { %>
-        <div class="card">
-          <img class="card__image" src="<%=post.img%>" alt="OfferingPost" />
-          <div class="card__content">
-            <div class="card__link">
-              <a href="<%= showOfferingPostPath(post) %>"><%= post.name %></a>
+    <h2>Ofertas de quienes sigues:</h2>
+          <% offeringPostsFollowing.forEach((post) => { %>
+            <div id="users-list"></div>
+              <ol class="listHorizontal">
+                <li><% if (post.img) { %> <img class="user" src="<%= post.img%>"> <% } %></li>
+                <li><a href="<%= showOfferingPostPath(post) %> "><%= post.name %></a></li>
+                <li>Rating: <%= post.rating %></li>
+                <li>Categoría: <%= post.category %></li>
+              </ol>
             </div>
-            <p>
-              <%= post.rating %>
-              <%= post.category %>
-            </p>
-          </div>
-          <div class="card__info">
-            <div>
-              <img src="https://img.icons8.com/material-sharp/24/000000/star.png"/>
-              <%= post.rating %>
-            </div>
-            <div>
-              <%= post.category %>
-            </div>
-          </div>
-        </div>
-        <% }) %>
-    </div>
+          <% }) %>
     <% } %>
     <% if (searchingPostsFollowing.length) { %>
-      <h1 class="titles" >Búsquedas de empleo de quienes sigues:</h1>
+      <h2>Búsquedas de empleo de quienes sigues:</h2>
             <% searchingPostsFollowing.forEach((post) => { %>
               <div id="users-list"></div>
                 <ol class="listHorizontal">
@@ -181,51 +139,8 @@
                 </ol>
               </div>
               <br>
-            <% }) %>        
-      <% } %>
-
-      <% if (!(offeringPostsFollowing || searchingPostsFollowing.length) || !(offeringPostsList.length && searchingPostsList.length)) { %>
-      <% if (bestUsers.length) { %>
-        <h1 class="titles">¡Sigue a otros freelancers!</h1>
-
-        <div class="slide-container">
-          <% bestUsers.forEach((user) => { %>
-          <div class="wrapper">
-            
-            <div class="clash-card barbarian">
-              <div class="clash-card__image clash-card__image--barbarian">
-                <img src="<%=user.imagePath%>" alt="UserImage" />
-              </div>
-              <div class="clash-card__level clash-card__level--barbarian"><%= user.occupation %></div>
-              <div class="clash-card__unit-name"><a href="<%= showUserPath(user) %>"><%= user.name %></a></div>
-              <div class="clash-card__unit-description">
-                <!-- The Barbarian is a kilt-clad Scottish warrior with an angry, battle-ready expression, hungry for destruction. He has Killer yellow horseshoe mustache. -->
-              </div>
+            <% }) %>
         
-              <div class="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix">
-                <div class="one-third">
-                  <div class="stat"> <%= user.cFollowers %></div>
-                  <div class="stat-value">Seguidores</div>
-                </div>
-        
-                <div class="one-third">
-                  <div class="stat"><%= user.rating %></div>
-                  <div class="stat-value">Rating</div>
-                </div>
-        
-                <div class="one-third no-border">
-                  <div class="stat"><%= user.cFollowed %></div>
-                  <div class="stat-value">Seguidos</div>
-                </div>
-        
-              </div>
-        
-            </div> <!-- end clash-card barbarian-->
-          </div> <!-- end wrapper -->
-          <% }) %>
-        </div> <!-- end container -->
-        <% } %>
       <% } %>
 <% } %>
-</div>
 </body>

@@ -2,24 +2,6 @@
 <!DOCTYPE html>
 <head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script type="text/javascript">
-      function PreviewImage() {
-          pdffile=document.getElementById("CV").files[0];
-          console.log(pdffile)
-          if (pdffile){
-            pdffile_url=URL.createObjectURL(pdffile);
-            console.log(pdffile_url);
-            $('#viewer').attr('src', pdffile_url);
-            $('#viewerDefault').attr('height', '0');
-
-          } else {
-            $('#viewerDefault').attr('src', 'https://freelancercl.sfo2.digitaloceanspaces.com/noFile.png');
-            $('#viewer').attr('height', '0');
-
-          }
-      }
-  </script>
 </head>
 <body>
 	<div class="profile-main">
@@ -35,13 +17,7 @@
           <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
             <a href="<%= editUserPath %>">Editar</a>
           <% } %>
-          <% if (currentUser.id == user.id) { %>
-          <form action="<%= destroySessionPath %>" method="post">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" class="action-btn" value="Logout" />
-          </form> 
-          <% } %>
-          <!-- <% if (currentUser && currentUser.id != user.id && !follow) { %>
+          <% if (currentUser && currentUser.id != user.id && !follow) { %>
               <form action="<%= followPath %>" method="post">
                   <input type="submit" value="Seguir" />
               </form>
@@ -49,7 +25,7 @@
               <form action="<%= followPath %>" method="post">
                   <input type="submit" value="Dejar de Seguir" />
               </form>
-          <% } %> -->
+          <% } %>
 				</div>
 			</div>
 			<div class="tab-panel-main">
@@ -59,8 +35,7 @@
 					<li class="tab-link" data-tab="Portfolio">Búsquedas</li>
 				</ul>
 				<div id="Basic-detail" class="tab-content current">
-          <div id="react-follower" ></div>
-					<!-- <div class="skill-box">
+					<div class="skill-box">
 					  <ul>
               <li><strong>Ocupación:</strong></li>
               <li><%= user.occupation %></li>
@@ -76,9 +51,8 @@
               <li><%= user.cFollowers %></li>
               <li><strong>Seguidos:</strong></li>
               <li><%= user.cFollowed %></li>
-              <div id="react-follower" ></div>
             </ul>		
-          </div> -->
+					</div>
 					<div class="bio-box">
 						<div class="heading">
 							<p>Información de Contacto
@@ -88,36 +62,25 @@
             <% if (currentUser && currentUser.id == user.id) { %>
               <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
                 <div class="field">
-                  <% if (currentUser.cvPath) {%>
-                    <label for="CV">Actualizar CV</label>
-                  <% } else {%>
-                    <label for="CV">Seleccionar CV</label>
-                  <% } %>
-                  <input type="file" name="CV" id="CV"/>
-                  <a href="#popupSearch" value="Vista Previa" type="button" onclick="PreviewImage();"> Vista Previa</a>
+                  <label for="CV">Selecciona CV</label>
+                  <input type="file" name="CV" />
                 </div>
-
                 <div class="field">
-                  <% if (currentUser.imagePath) {%>
-                    <label for="CV">Actualizar Foto de Perfil</label>
-                  <% } else {%>
-                    <label for="CV">Seleccionar Foto de Perfil</label>
-                  <% } %>                  
+                  <label for="img">Selecciona foto de perfil</label>
                   <input type="file" name="img" />
                 </div>
                 <div class="field">
-                  <input class="action-btn"type="submit" name="uploadFile" value="Subir" />
+                  <input class="action-btn"type="submit" name="uploadFile" value="Upload" />
                 </div>
                 </form> 
             <% } %>
           </div>
 					</div>
 					<div class="detail-box">
-            <p><a href="<%= user.cvPath %>">Descargar CV</a></p>
+						<p>Descargar Currículum</p>
 						<ul class="ul-first">
               <% if (user.cvPath) { %> 
-                <embed src="<%= user.cvPath %>" type="application/pdf" width="100%" height="65px"/>
-     
+                <li><a href="<%= user.cvPath %>">Descargar CV</a></li> 
               <% } else {%>
                 <li>Sin Currículum </li>
               <% } %>
@@ -175,23 +138,7 @@
 		</div>
 		<div style="clear: both;"></div>
 
-  </div>
-  
-<!-- VISTA PREVIA PDF -->
-
- <div class="container-all" id="popupSearch"> 
-   <div class="popup" id="popupCv">
-       <div class="container-text">
-        <div style="clear:both" class="cvPdf" margin= "auto" display="block" margin-left="auto" margin-right="auto">
-          <iframe id="viewer" frameborder="0" scrolling="no" height="400px" width="300px"></iframe>
-          <img id="viewerDefault" height="400px" ></img>
-       </div>
-       </div>
-       <a href="#" class="btn-close-popup">X</a>
-   </div>
-   
- </div>
-
+	</div>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('ul.tabs li').click(function(){
