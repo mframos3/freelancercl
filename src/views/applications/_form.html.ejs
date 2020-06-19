@@ -1,4 +1,4 @@
-<div>
+<div class="form-center">
   <!-- <% if (locals.errors) { %>
     <div class="errors">
       Tienes que solucionar los siguientes problemas:
@@ -19,9 +19,9 @@
     <input type="hidden" name="userId" value="<%=currentUser.id%>"></input>
     <div  class="field">
       <% if (application.isNewRecord) { %>
-        <input type="submit" name="create" value="Create" />
+        <input type="submit" name="create" class="action-btn" value="Create" />
       <% } else { %>
-        <input type="submit" name="update" value="Update" />
+        <input type="submit" name="update" class="action-btn" value="Update" />
       <% } %>
     </div>
   </form>

@@ -1,9 +1,9 @@
-<div>
+<div class="form-center">
     <% if (locals.notice) { %>
       <div className="notice"><%= notice %></div>
     <% } %>
     <div class="center-head">
-        <h2>Login</h2>
+        <h2>Iniciar Sesión</h2>
     </div>
     
     <!-- <% if (locals.error) { %>
@@ -13,7 +13,7 @@
     <% } %> -->
     <form class="form-style-1" action="<%= createSessionPath %>" method="post">
         <input type="hidden" name="_method" value="put" />
-        <div  class="field">
+        <div class="field">
             <label for="email">Email</label>
             <input type="email" name="email" value="<%= locals.email %>" />
         </div>
@@ -22,7 +22,7 @@
             <input type="password" name="password" value="<%= locals.password %>" />
         </div>
         <div  class="field">
-            <input type="submit" name="sign-in" value="Login" />
+            <input class="action-btn" type="submit" name="sign-in" value="Login" />
         </div>
     </form>
 

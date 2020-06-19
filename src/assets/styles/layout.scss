@@ -1,8 +1,13 @@
 $freelancer-color: rgb(63, 152, 211);
 
+.btn-link:hover {
+  color:$freelancer-color;
+} 
+
 .center-head {
   margin: auto;
   text-align: center;
+	margin-top: 10%;
 }
 
 .divnavbar {
@@ -30,21 +35,6 @@ html, body {
 // body { 
 //   margin: 0.5%;
 // }
-
-#freelancer-logo {
-  border-top-left-radius: 30% 30%;
-  border-top-right-radius: 30% 30%;
-  border-bottom-right-radius: 30% 30%;
-  border-bottom-left-radius: 30% 30%;
-  padding: 30px;
-  width: 150px;
-  height: auto;
-}
-
-h2{
-    color: #4a4a4a;
-    font-weight: bolder;
-}
 
 // body{
 //   margin: 40px;
@@ -205,26 +195,6 @@ h2{
   border: none;
   cursor: pointer;
 }
-
-
-////////// href
-.enlaceboton{
-  text-decoration: none;
-  padding: 3px;
-  padding-left: 10px;
-  padding-right: 10px;
-  font-weight: 300;
-  font-style: italic;
-  color: #ffffff;
-  background-color: $freelancer-color;
-  border-radius: 15px;
-  border: 3px double  #4a4a4a;
-}
-.enlaceboton:hover{
-  opacity: 0.6;
-  text-decoration: none;
-}
-
 
 //errores
 .validationError {
