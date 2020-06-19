@@ -14,9 +14,10 @@
 
 <body class="cover">
 <img id="freelancer-fondo" src=https://freelancercl.sfo2.digitaloceanspaces.com/banner.png />
+<div id="main-banner">
   <% if (currentUser) { %>
   <% if (!offeringPostsList.length) { %>
-    <div id="main-banner">
+    
       <h2>No tienes Publicaciones de Oferta</h2>
       <td><a href="#popupOffer" class="action-btn">Haz tu primera publicación de Oferta</a></td>
       <div class="container-all" id="popupOffer"> 
@@ -28,7 +29,8 @@
         </div>
         
       </div>
-  <% }; %>
+    
+  <% } %>
 
   <% if (!searchingPostsList.length) { %>
       <h2>No tienes Publicaciones de Búsqueda</h2>      
@@ -42,28 +44,27 @@
         </div>
         
       </div>
-    </div>
-
-
-
-  <% }; %>
   <% } %>
-
-<div id="second-banner">
+  <% } %>
+  
   <% if (!currentUser) { %>
       <h1>Estás solo a un click de expandir tu mundo laboral ¡Qué esperas!</h1>
       <td><a href="/users/new" class="action-btn">Registrarse</a></td>
 
       <h2>Si ya tienes una cuenta, inicia sesión.</h2>
       <td><a href="/session/new" class="action-btn">Iniciar Sesión</a></td>
-    <% if (bestUsers.length) { %>
+  <% } %>
+</div>
+<div id="second-banner">
+  <% if (!currentUser) { %>
+    <% if (bestUsers.length) { %>  
       <br>
       <h1 class="titles">En freelancercl Podrás interactuar con:</h1>
 
       <div class="slide-container">
         <% bestUsers.forEach((user) => { %>
         <div class="wrapper">
-          
+
           <div class="clash-card barbarian">
             <div class="clash-card__image clash-card__image--barbarian">
               <img src="<%=user.imagePath%>" alt="UserImage"/>
@@ -140,7 +141,7 @@
 
 
   <% } else {%>
-  <br><br>
+  <br>
 
   <% if (offeringPostsFollowing.length) { %>
     <h1 class="titles">Ofertas de quienes sigues:</h1>
@@ -195,30 +196,11 @@
             <div class="clash-card__unit-description">
               <%= post.description %>
             </div>
-<!--       
-            <div class="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix">
-              <div class="one-third">
-                <div class="stat"></div>
-                <div class="stat-value"></div>
-              </div>
-              <div class="one-third">
-                <div class="stat"></div>
-                <div class="stat-value"></div>
-              </div>
-      
-              <div class="one-third no-border">
-                <div class="stat"></div>
-                <div class="stat-value"></div>
-              </div>
-      
-            </div> -->
       
           </div> <!-- end clash-card barbarian-->
         </div> <!-- end wrapper -->
         <% }) %>
-      </div> <!-- end container -->
-              <br>
-            <% }) %>        
+      </div> <!-- end container -->        
       <% } %>
 
       <% if (!(offeringPostsFollowing || searchingPostsFollowing.length) || !(offeringPostsList.length && searchingPostsList.length)) { %>
