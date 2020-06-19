@@ -51,7 +51,8 @@ if (posts) {
 
 if (searchPosts) {
   ReactDOM.render(<PostsList contentType="searchingPosts" />, searchPosts);
-  
+}
+
 if (email) {
   ReactDOM.render(<Email serverData={email.dataset} />, email);
 }

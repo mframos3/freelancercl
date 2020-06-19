@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { IoMdCloseCircleOutline } from 'react-icons/io';
 
 const moment = require('moment'); // require
 
@@ -32,13 +33,19 @@ export default class Validation extends Component {
 
   render() {
     const { currentError } = this.state;
+    let alert;
+    if (currentError) {
+      alert = <span visibility="hidden" className="errorMessage" style={{ color: 'red' }}>{currentError} <IoMdCloseCircleOutline /></span>;
+    } else {
+      alert = '';
+    }
     return (
       <div>
         <div className="field">
           <label htmlFor="endsAt" > Fecha de Término</label>
           <input type="date" name="endsAt" onChange={this.handleError} />
         </div>
-        <span className="errorMessage" style={{ color: 'red' }}>{currentError}</span>
+        {alert}
       </div>
     );
   }
