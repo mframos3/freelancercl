@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+function isNumber(n) { return /^-?[\d]+(?:e-?\d+)?$/.test(n); }
+
 
 export default class Validation extends Component {
   constructor(props) {
@@ -15,13 +17,13 @@ export default class Validation extends Component {
     event.preventDefault();
     const { name, value } = event.target;
     this.setState({ [name]: value });
-    this.props.serverData.name = value;
+    this.props.serverData.price = value;
     this.throwError(name, value);
   }
 
   throwError(name, value) {
-    if (!value) {
-      this.currentError = 'Debes ingresar un nombre';
+    if (!isNumber(value)) {
+      this.currentError = 'Debes ingresar un valor numérico.';
     } else {
       this.currentError = '';
     }
@@ -33,8 +35,8 @@ export default class Validation extends Component {
     return (
       <div>
         <div className="field">
-          <label htmlFor="name" > Nombre</label>
-          <input type="text" name="name" value={this.props.serverData.name} onChange={this.handleError} />
+          <label htmlFor="price" > Precio </label>
+          <input type="text" name="price" value={this.props.serverData.price} onChange={this.handleError} />
         </div>
         <span className="errorMessage" style={{ color: 'red' }}>{currentError}</span>
       </div>

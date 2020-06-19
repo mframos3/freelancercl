@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 export default class Validation extends Component {
   constructor(props) {
     super(props);
@@ -15,13 +14,13 @@ export default class Validation extends Component {
     event.preventDefault();
     const { name, value } = event.target;
     this.setState({ [name]: value });
-    this.props.serverData.name = value;
+    this.props.serverData.comment = value;
     this.throwError(name, value);
   }
 
   throwError(name, value) {
     if (!value) {
-      this.currentError = 'Debes ingresar un nombre';
+      this.currentError = 'Debes ingresar un comentario.';
     } else {
       this.currentError = '';
     }
@@ -33,8 +32,8 @@ export default class Validation extends Component {
     return (
       <div>
         <div className="field">
-          <label htmlFor="name" > Nombre</label>
-          <input type="text" name="name" value={this.props.serverData.name} onChange={this.handleError} />
+          <label htmlFor="comment"> Comentario </label>
+          <input type="text" name="comment" value={this.props.serverData.comment} onChange={this.handleError} />
         </div>
         <span className="errorMessage" style={{ color: 'red' }}>{currentError}</span>
       </div>

@@ -18,13 +18,14 @@ export default class Validation extends Component {
     event.preventDefault();
     const { name, value } = event.target;
     this.setState({ [name]: value });
+    this.props.serverData.email = value;
     this.throwError(name, value);
   }
 
   throwError(name, value) {
     this.currentError = emailRegex.test(value)
       ? ''
-      : 'invalid email address';
+      : 'Email inválido.';
     this.setState({ currentError: this.currentError });
   }
 
@@ -34,7 +35,7 @@ export default class Validation extends Component {
       <div>
         <div className="field">
           <label htmlFor="email">Email</label>
-          <input type="text" name="email" onChange={this.handleError} />
+          <input type="text" name="email" value={this.props.serverData.email} onChange={this.handleError} />
         </div>
         <span className="errorMessage" style={{ color: 'red' }}>{currentError}</span>
       </div>
