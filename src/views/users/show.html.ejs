@@ -35,6 +35,12 @@
           <% if (currentUser && (currentUser.id == user.id || currentUser.isAdmin)) { %>
             <a href="<%= editUserPath %>">Editar</a>
           <% } %>
+          <% if (currentUser.id == user.id) { %>
+          <form action="<%= destroySessionPath %>" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" class="action-btn" value="Logout" />
+          </form> 
+          <% } %>
           <!-- <% if (currentUser && currentUser.id != user.id && !follow) { %>
               <form action="<%= followPath %>" method="post">
                   <input type="submit" value="Seguir" />
@@ -110,7 +116,7 @@
             <p><a href="<%= user.cvPath %>">Descargar CV</a></p>
 						<ul class="ul-first">
               <% if (user.cvPath) { %> 
-                <embed src="<%= user.cvPath %>" type="application/pdf" width="100%" height="100px"/>
+                <embed src="<%= user.cvPath %>" type="application/pdf" width="100%" height="65px"/>
      
               <% } else {%>
                 <li>Sin Currículum </li>

@@ -9,7 +9,6 @@ $barbarian: rgb(63, 152, 211);
   background-image: url("https://freelancercl.sfo2.digitaloceanspaces.com/wallp.jpg");
   background-repeat: repeat;
   background-attachment: fixed;
-  margin-top: 20px;
 }
 
 #main-banner {
@@ -161,20 +160,13 @@ $barbarian: rgb(63, 152, 211);
 //Fondo
 #freelancer-fondo{
     max-width: 100%;
-    margin-bottom: 0;
 }
 
 //Bienvenida
 .cover{
     text-align: center;
-    color: #4a4a4a;
 }
 
-#welcome{
-    font-size: 50px;
-    font-weight: bold;
-    margin: 0;
-}
 #popupCv{
     width: 300px;
     height: 400px;
