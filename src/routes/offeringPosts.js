@@ -21,9 +21,7 @@ async function computeRating(ctx) {
   let sumValues = 0;
   const { offeringPost } = ctx.state;
   const reviewsList = await ctx.orm.review.findAll({ where: { id_post: offeringPost.id } });
-  console.log(reviewsList.length);
   if (reviewsList.length === 0) {
-    // console.log('entre!');
     offeringPost.rating = 0;
     offeringPost.save({ fields: ['rating'] });
   } else {
@@ -31,10 +29,7 @@ async function computeRating(ctx) {
       sumValues += review.rating;
     });
     const countReview = reviewsList.length;
-    // console.log(`Cantidad de reviews: ${countReview}`);
-    // console.log(`Suma de rating: ${sumValues}`);
     const mean = sumValues / countReview;
-    // console.log(`Promedio: ${mean.toFixed(1)}`);
     offeringPost.rating = mean.toFixed(1);
     offeringPost.save({ fields: ['rating'] });
   }
@@ -165,7 +160,11 @@ router.get('offeringPosts.show', '/:pid', loadOfferingPost, async (ctx) => {
     newElement.image = aux.imagePath;
     return newElement;
   });
+  const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   const applicationsList = await Promise.all(promisesApplications);
+  const applicationsUser = await ctx.orm.application.findAll({ where: { userId: { [Op.eq]: currentUser.id }, offeringPostId: { [Op.eq]: offeringPost.id } } });
+  const bestUsers = await ctx.orm.user.findAll({ order: [['cFollowers', 'DESC']], limit: 3 });
+  const today = new Date();
   await ctx.render('offeringPosts/show', {
     offeringPost,
     reviewsList,
@@ -183,6 +182,8 @@ router.get('offeringPosts.show', '/:pid', loadOfferingPost, async (ctx) => {
     submitFilePath: ctx.router.url('offeringPosts.uploadFile', { pid: offeringPost.id }),
     reportPostPath: ctx.router.url('reports.new', { pid: offeringPost.id }),
     backPath: ctx.router.url('offeringPosts.list'),
+    applicationsUser,
+    today,
   });
 });
 
