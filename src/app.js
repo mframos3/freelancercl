@@ -7,6 +7,7 @@ const koaStatic = require('koa-static');
 const render = require('koa-ejs');
 const session = require('koa-session');
 const override = require('koa-override-method');
+const jsonApiSerializer = require('jsonapi-serializer');
 
 // App constructor
 const app = new Koa();
@@ -29,6 +30,10 @@ app.keys = [
 
 // expose ORM through context's prototype
 app.context.orm = orm;
+
+app.context.jsonSerializer = function jsonSerializer(type, options) {
+  return new jsonApiSerializer.Serializer(type, options);
+};
 
 /**
  * Middlewares
