@@ -13,45 +13,44 @@ const sgMail = require('../config/emailApi');
 const msg = require('../mailers/login-email-Api');
 
 
-const https = require('https');
+// const https = require('https');
 
-const options = {
-  host: 'www.linkedin.com',
-  path: '/oauth/v2/accessToken',
-  method: 'POST',
-  headers: {
-    'content-type': 'application/x-www-form-urlencoded',
-  },
-  body: 'grant_type=client_credentials&client_id=77c56cbij2arr0&client_secret=C7oQMzl70UMzRmPy',
-  client_id: '77c56cbij2arr0',
-  client_secret: 'C7oQMzl70UMzRmPy',
-};
+// const options = {
+//   host: 'www.linkedin.com',
+//   path: '/oauth/v2/accessToken',
+//   method: 'POST',
+//   headers: {
+//     'content-type': 'application/x-www-form-urlencoded',
+//   },
+//   body: 'grant_type=client_credentials&client_id=77c56cbij2arr0&client_secret=C7oQMzl70UMzRmPy',
+//   client_id: '77c56cbij2arr0',
+//   client_secret: 'C7oQMzl70UMzRmPy',
+// };
 
-const accessTokenRequest = https.request(options, function( res ) {
-  let data = '';
-  res.on('data', (chunk) => {
-    data += chunk;
-  });
-  res.on('end', () => {
-    const accessToken = JSON.parse(data);
-    console.log('ACCESS TOKEN');
-    console.log(JSON.stringify(accessToken, 0, 2));  });
-});
-accessTokenRequest.end();
+// const accessTokenRequest = https.request(options, function( res ) {
+//   let data = '';
+//   res.on('data', (chunk) => {
+//     data += chunk;
+//   });
+//   res.on('end', () => {
+//     const accessToken = JSON.parse(data);
+//     console.log('ACCESS TOKEN');
+//     console.log(JSON.stringify(accessToken, 0, 2));  });
+// });
+// accessTokenRequest.end();
 
-// const querystring = require('querystring');
-// const axios = require('axios');
+const querystring = require('querystring');
+const axios = require('axios');
 
-// axios.post("https://www.linkedin.com/oauth/v2/accessToken", querystring.stringify({
-//       grant_type: 'client_credentials',
-//       // code: req.query.code,
-//       // redirect_uri: keys.linkedinCallbackURL,
-//       client_id: '77c56cbij2arr0',
-//       client_secret: 'C7oQMzl70UMzRmPy',
-//     })).then(function (response) {
-//       console.log('ACCESS TOKEN');
-//       console.log(response);
-//     })
+axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
+          'grant_type'  : 'authorization_code',
+          'redirect_uri' : 'http://localhost:3000/callback?network=linkedin',
+          'client_id' : '869t0gxl7pc2uk',
+          'client_secret' : 'YwIICg7ccOuo9ZcO'
+        })).then(response => {
+          console.log('ACCESS TOKEN');
+          console.log(response);
+        })
 
 
 
