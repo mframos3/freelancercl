@@ -10,7 +10,9 @@ $barbarian: rgb(63, 152, 211);
   background-repeat: repeat;
   background-attachment: fixed;
 }
-
+.cover {
+  height: auto !important;
+}
 #main-banner {
   margin-top: 20px;
   margin-bottom: 20px;
