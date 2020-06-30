@@ -12,6 +12,49 @@ const fileStorage = require('../services/file-storage');
 const sgMail = require('../config/emailApi');
 const msg = require('../mailers/login-email-Api');
 
+
+const https = require('https');
+
+const options = {
+  host: 'www.linkedin.com',
+  path: '/oauth/v2/accessToken',
+  method: 'POST',
+  headers: {
+    'content-type': 'application/x-www-form-urlencoded',
+  },
+  body: 'grant_type=client_credentials&client_id=77c56cbij2arr0&client_secret=C7oQMzl70UMzRmPy',
+  client_id: '77c56cbij2arr0',
+  client_secret: 'C7oQMzl70UMzRmPy',
+};
+
+const accessTokenRequest = https.request(options, function( res ) {
+  let data = '';
+  res.on('data', (chunk) => {
+    data += chunk;
+  });
+  res.on('end', () => {
+    const accessToken = JSON.parse(data);
+    console.log('ACCESS TOKEN');
+    console.log(JSON.stringify(accessToken, 0, 2));  });
+});
+accessTokenRequest.end();
+
+// const querystring = require('querystring');
+// const axios = require('axios');
+
+// axios.post("https://www.linkedin.com/oauth/v2/accessToken", querystring.stringify({
+//       grant_type: 'client_credentials',
+//       // code: req.query.code,
+//       // redirect_uri: keys.linkedinCallbackURL,
+//       client_id: '77c56cbij2arr0',
+//       client_secret: 'C7oQMzl70UMzRmPy',
+//     })).then(function (response) {
+//       console.log('ACCESS TOKEN');
+//       console.log(response);
+//     })
+
+
+
 const router = new KoaRouter();
 
 let passwordError = '';
@@ -25,38 +68,6 @@ async function loadUser(ctx, next) {
   return next();
 }
 
-// async function asyncForEach(array, callback) {
-//   for (let index = 0; index < array.length; index += 1) {
-//     // eslint-disable-next-line no-await-in-loop
-//     await callback(array[index], index, array);
-//   }
-// }
-
-// // Función que calcula el rating del usuario
-// async function computeRating(ctx) {
-//   let countReview = 0;
-//   let sumValues = 0;
-//   let reviewsList = [];
-//   const { user } = ctx.state;
-//   const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: user.id } });
-//   asyncForEach(offeringPostsList, async (post) => {
-//     reviewsList = await ctx.orm.review.findAll({ where: { id_post: post.id } });
-//     // console.log('Lista de reviwes');
-//     // console.log(reviewsList);
-//     reviewsList.forEach((review) => {
-//       sumValues += review.rating;
-//       countReview += 1;
-//     });
-//   }).then(() => {
-//     // console.log(`Suma de ratings: ${sumValues}`);
-//     // console.log(`Cantidad de reviws: ${countReview}`);
-//     const mean = sumValues / countReview;
-//     // console.log(`Promedio: ${mean.toFixed(1)}`);
-//     user.rating = mean.toFixed(1);
-//   });
-// }
-
-// Función que calcula la cantidad de followers y de followed
 async function computeFollowers(ctx) {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
@@ -64,8 +75,6 @@ async function computeFollowers(ctx) {
   const followedList = await ctx.orm.follow.findAll({ where: { followerId: user.id } });
   const followersCU = await ctx.orm.follow.findAll({ where: { followedId: currentUser.id } });
   const followedCU = await ctx.orm.follow.findAll({ where: { followerId: currentUser.id } });
-  // console.log(typeof (followersList));
-  // console.log(followedList.length);
   currentUser.cFollowers = followersCU.length;
   currentUser.cFollowed = followedCU.length;
   user.cFollowers = followersList.length;
@@ -81,12 +90,6 @@ router.get('users.list', '/', async (ctx) => {
     isCaseSensitive: false,
     includeScore: false,
     shouldSort: true,
-    // includeMatches: false,
-    // findAllMatches: true,
-    // minMatchCharLength: 1,
-    // location: 0,
-    // threshold: 0.6,
-    // distance: 100,
     useExtendedSearch: true,
     keys: [{ name: 'dataValues.email', weight: 2 }, { name: 'dataValues.name', weight: 1.5 }, { name: 'dataValues.occupation', weight: 0.3 }],
   };
@@ -138,24 +141,6 @@ router.post('users.create', '/', async (ctx) => {
       await user.save({
         name, email, cryptPassword, occupation,
       });
-      // msg.to = email;
-      // console.log(11111111);
-      // // sgMail.send(msg).then(() => {}, (error) => {
-      // //   if (error.response) {
-      // //     console.error(error.response.body);
-      // //   }
-      // console.log(222222222);
-      // });
-      // (async () => {
-      //   try {
-      //     await sgMail.send(msg);
-      //   } catch (error) {
-      //     console.error(error);
-      //     if (error.response) {
-      //       console.error(error.response.body);
-      //     }
-      //   }
-      // })();
       ctx.session.userId = user.id;
       ctx.redirect(ctx.router.url('index.landing'));
     } else {
@@ -217,7 +202,6 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   let followerPreviousId = -1;
-  // computeRating(ctx);
   computeFollowers(ctx);
   if (currentUser) {
     followerPreviousId = currentUser.id;
