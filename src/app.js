@@ -7,6 +7,7 @@ const koaStatic = require('koa-static');
 const render = require('koa-ejs');
 const session = require('koa-session');
 const override = require('koa-override-method');
+const cors = require('@koa/cors');
 const jsonApiSerializer = require('jsonapi-serializer');
 
 // App constructor
@@ -88,6 +89,11 @@ render(app, {
 
 mailer(app);
 
+const options = {
+  origin: '*',
+};
+
+app.use(cors(options));
 // Routing middleware
 app.use(routes.routes());
 
