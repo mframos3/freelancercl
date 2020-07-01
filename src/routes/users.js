@@ -13,8 +13,10 @@ const sgMail = require('../config/emailApi');
 const msg = require('../mailers/login-email-Api');
 
 
-// const https = require('https');
+const https = require('https');
 
+
+//AccesToken
 // const options = {
 //   host: 'www.linkedin.com',
 //   path: '/oauth/v2/accessToken',
@@ -22,9 +24,9 @@ const msg = require('../mailers/login-email-Api');
 //   headers: {
 //     'content-type': 'application/x-www-form-urlencoded',
 //   },
-//   body: 'grant_type=client_credentials&client_id=77c56cbij2arr0&client_secret=C7oQMzl70UMzRmPy',
-//   client_id: '77c56cbij2arr0',
-//   client_secret: 'C7oQMzl70UMzRmPy',
+//   form: {
+//     grant_type: 'authorization_code&code=AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ&redirect_uri=https://freelancercl.herokuapp.com&client_id=77c56cbij2arr0&client_secret=C7oQMzl70UMzRmPy',
+//   },
 // };
 
 // const accessTokenRequest = https.request(options, function( res ) {
@@ -34,23 +36,37 @@ const msg = require('../mailers/login-email-Api');
 //   });
 //   res.on('end', () => {
 //     const accessToken = JSON.parse(data);
-//     console.log('ACCESS TOKEN');
+//     console.log('ACCESS 2222');
 //     console.log(JSON.stringify(accessToken, 0, 2));  });
 // });
 // accessTokenRequest.end();
 
-const querystring = require('querystring');
-const axios = require('axios');
+// //Request
+// const optionsRequest = {
+//   host: 'api.linkedin.com',
+//   connection: 'Keep-Alive',
+//   method: 'GET',
+//   headers: {
+//     'content-type': 'application/json',
+//      authorization: 'Bearer ACCESS_TOKEN',
+//   },
+//   form: {
+//     grant_type: 'authorization_code&code=AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ&redirect_uri=https://freelancercl.herokuapp.com&client_id=77c56cbij2arr0&client_secret=C7oQMzl70UMzRmPy',
+//   },
+// };
 
-axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
-          'grant_type'  : 'authorization_code',
-          'redirect_uri' : 'http://localhost:3000/callback?network=linkedin',
-          'client_id' : '869t0gxl7pc2uk',
-          'client_secret' : 'YwIICg7ccOuo9ZcO'
-        })).then(response => {
-          console.log('ACCESS TOKEN');
-          console.log(response);
-        })
+// const requestLinkedin = https.request(options, function( res ) {
+//   let data = '';
+//   res.on('data', (chunk) => {
+//     data += chunk;
+//   });
+//   res.on('end', () => {
+//     const linke = JSON.parse(data);
+//     console.log('ACCESS 3333');
+//     console.log(JSON.stringify(linke, 0, 2));  });
+// });
+// requestLinkedin.end();
+
 
 
 
@@ -150,7 +166,6 @@ router.post('users.create', '/', async (ctx) => {
       });
     }
   } catch (validationError) {
-    console.log(33333333);
 
     await ctx.render('users/new', {
       user,
@@ -214,6 +229,9 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const searchingPostsList = await ctx.orm.searchingPost.findAll({
     where: { userId: { [Op.eq]: user.id } },
   });
+  const linkedin = 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77c56cbij2arr0&redirect_uri=https://freelancercl.herokuapp.com&scope=r_liteprofile';
+  console.log('AQUIII');
+  const code = ctx.query.code || false;
   await ctx.render('users/show', {
     user,
     follow,
@@ -228,6 +246,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
     showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
     newSearchingPostPath: ctx.router.url('searchingPosts.new'),
     newOfferingPostPath: ctx.router.url('offeringPosts.new'),
+    linkedin,
   });
 });
 
