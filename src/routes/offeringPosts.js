@@ -41,8 +41,6 @@ async function computeRating(ctx) {
 }
 
 router.get('offeringPosts.list', '/', async (ctx) => {
-  const perPage = 9;
-  let page = ctx.params.page || 1;
   const result = ctx.request.query;
   let [term, category] = [result.search, result.category];
   if (category === 'Todo') {
