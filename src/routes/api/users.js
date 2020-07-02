@@ -3,16 +3,14 @@ const KoaRouter = require('koa-router');
 const router = new KoaRouter();
 
 router.get('api.users.list', '/', async (ctx) => {
-  const postList = await ctx.orm.offeringPost.findAll();
+  const userList = await ctx.orm.user.findAll();
   ctx.body = ctx.jsonSerializer('user', {
     attributes: ['name', 'rating', 'occupation', 'cFollowers', 'cFollowed'],
     topLevelLinks: {
-      self: `${ctx.origin}${ctx.router.url('api.user.list')}`,
+      self: ${ctx.origin}${ctx.router.url('api.user.list')},
     },
     dataLinks: {
-      self: (dataset, user) => `${ctx.origin}/user/${user.id}`,
+      self: (dataset, user) => ${ctx.origin}/user/${user.id},
     },
-  }).serialize(postList);
+  }).serialize(userList);
 });
-
-module.exports = router;

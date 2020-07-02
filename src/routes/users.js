@@ -75,8 +75,6 @@ async function loadUser(ctx, next) {
   return next();
 }
 
-
-
 async function computeFollowers(ctx) {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
