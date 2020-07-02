@@ -24,17 +24,9 @@ async function linkedinApi(code, user) {
     client_secret: client_secret,
   }))
     .then((res2) => {
-      console.log('LINKEDIN RESPUESTA');
-      console.log(res2);
-      console.log('111111111');
-      console.log(res2.data.access_token);
-      console.log('22222222');
-      console.log(JSON.stringify(res2.data.access_token, 0, 2));
-      var accessToken = res2.data.access_token;
+      const accessToken = res2.data.access_token;
       return accessToken;
     }).then((accessToken) => {
-      console.log("ESTOOO");
-      console.log(accessToken);
     axios.get('https://api.linkedin.com/v2/me', {
       headers: {
         'Host': 'api.linkedin.com',
@@ -113,19 +105,21 @@ router.get('index.landing', '/', async (ctx) => {
   const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
   const passwordError = '';
 
+  console.log('ENTRAMO O NO LA WEA');
 
   //LINKEDIN
-  console.log('CODE:');
-  console.log(ctx.query);
-  console.log('CONTEXTO');
-  console.log(ctx);
   const code = ctx.query.code;
+  const linkedinData1 = await linkedinApi(code, currentUser);
+  console.log('LINKEDINDATA1111');
+  console.log(linkedinData1);
+  currentUser.linkedinData = linkedinData1;
   if (!user.linkedinData) {
-    const linkedinData = await linkedinApi(code, currentUser);
+    const linkedinData2 = await linkedinApi(code, currentUser);
     console.log('LINKEDINDATA1');
-    console.log(linkedinData);
-    currentUser.linkedinData = linkedinData;
+    console.log(linkedinData2);
+    currentUser.linkedinData = linkedinData2;
   }
+  console.log('PASAMO O NO LA WEA');
 
   await ctx.render('index', {
     appVersion: pkg.version,
