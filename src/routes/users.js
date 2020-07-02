@@ -12,11 +12,15 @@ const fileStorage = require('../services/file-storage');
 const sgMail = require('../config/emailApi');
 const msg = require('../mailers/login-email-Api');
 
+// const code = 'AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ';
+const client_id = '77c56cbij2arr0';
+const client_secret = 'C7oQMzl70UMzRmPy';
+const redirect = 'https://freelancercl.herokuapp.com';
 
-const https = require('https');
 
+// const https = require('https');
 
-//AccesToken
+// AccesToken
 // const options = {
 //   host: 'www.linkedin.com',
 //   path: '/oauth/v2/accessToken',
@@ -50,9 +54,6 @@ const https = require('https');
 //     'content-type': 'application/json',
 //      authorization: 'Bearer ACCESS_TOKEN',
 //   },
-//   form: {
-//     grant_type: 'authorization_code&code=AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ&redirect_uri=https://freelancercl.herokuapp.com&client_id=77c56cbij2arr0&client_secret=C7oQMzl70UMzRmPy',
-//   },
 // };
 
 // const requestLinkedin = https.request(options, function( res ) {
@@ -67,14 +68,16 @@ const https = require('https');
 // });
 // requestLinkedin.end();
 
-
-
+const axios = require('axios');
+const querystring = require('querystring');
 
 const router = new KoaRouter();
 
 let passwordError = '';
 
 const index = require('../routes/index');
+const { codePointAt } = require('core-js/fn/string');
+const { exitCode } = require('process');
 
 router.use('/', index.routes());
 
@@ -166,7 +169,6 @@ router.post('users.create', '/', async (ctx) => {
       });
     }
   } catch (validationError) {
-
     await ctx.render('users/new', {
       user,
       errors: validationError.errors,
@@ -230,8 +232,41 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
     where: { userId: { [Op.eq]: user.id } },
   });
   const linkedin = 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77c56cbij2arr0&redirect_uri=https://freelancercl.herokuapp.com&scope=r_liteprofile';
-  console.log('AQUIII');
+  console.log('CODE:');
+  console.log(ctx.query.code);
   const code = ctx.query.code || false;
+
+  axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: redirect,
+    client_id: client_id,
+    client_secret: client_secret,
+  }))
+    .then((res2) => {
+      console.log('LINKEDIN RESPUESTA');
+      console.log(JSON.stringify(res2.data, 0, 2));
+      const accessToken = JSON.stringify(res2.data, 0, 2);
+      return accessToken;
+    })
+    .then((accessToken) => {
+      axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
+        redirect_uri: redirect,
+        connection: 'Keep-Alive',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${accessToken}`,
+        },
+      }))
+        .then((res2) => {
+          console.log('LINKEDIN RESPUESTA');
+          console.log(res2.data);
+        })
+        .catch((error) => {
+          console.log('LINKEDIN ERROR');
+          console.log(error.data);
+        });
+    });
   await ctx.render('users/show', {
     user,
     follow,
