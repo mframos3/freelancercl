@@ -30,12 +30,12 @@ async function linkedinApi(code) {
       console.log(res2.data.access_token);
       console.log('22222222');
       console.log(JSON.stringify(res2.data.access_token, 0, 2));
-      var accessToken = JSON.stringify(res2.data.access_token, 0, 2)
+      var accessToken = res2.data.access_token;
       return accessToken;
     }).then((accessToken) => {
       console.log("ESTOOO");
       console.log(accessToken);
-    axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
+    axios.get('https://api.linkedin.com/v2/me', {
       accessToken: accessToken,
       oauth2_access_token: accessToken,
       headers: {
@@ -43,7 +43,7 @@ async function linkedinApi(code) {
         'Connection': 'Keep-Alive',
         'Authorization': `Bearer ${accessToken}`,
       },
-    }))
+    })
     .then((res2) => {
       console.log('LINKEDIN RESPUESTA FINAL');
       console.log(res2);
