@@ -30,14 +30,13 @@ async function linkedinApi(code) {
       console.log(res2.data.access_token);
       console.log('22222222');
       console.log(JSON.stringify(res2.data.access_token, 0, 2));
-      return res2.data.access_token;
+      var accessToken = res2.data.access_token;
+      return accessToken;
     }).then((accessToken) => {
     axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
-    access_token: accessToken,
-    redirect_uri: 'https://freelancercl.herokuapp.com',
-    connection: 'Keep-Alive',
     headers: {
-      'content-type': 'application/json',
+      'host': 'api.linkedin.com',
+      'connection': 'Keep-Alive',
       'authorization': `Bearer ${accessToken}`,
     },
   }))
