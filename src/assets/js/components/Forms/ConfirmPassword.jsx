@@ -29,7 +29,6 @@ export default class Validation extends Component {
     } else {
       pass = this.state.password;
     }
-    //Para que indique error solo si escribe en la confirmación de contraseña
     let pass2 = 0;
     if (name === 'password2') {
       pass2 = 1;
@@ -45,7 +44,13 @@ export default class Validation extends Component {
     const { currentError } = this.state;
     let alert;
     if (currentError) {
-      alert = <span visibility="hidden" className="errorMessage" style={{ color: 'red' }}>{currentError} <IoMdCloseCircleOutline /></span>;
+      alert = (
+        <span visibility="hidden" className="errorMessage" style={{ color: 'red' }}>
+          {currentError}
+          {' '}
+          <IoMdCloseCircleOutline />
+        </span>
+      );
     } else {
       alert = '';
     }

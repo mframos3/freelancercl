@@ -1,26 +1,5 @@
 <div class="general">
 <!DOCTYPE html>
-<head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script type="text/javascript">
-      function PreviewImage() {
-          pdffile=document.getElementById("CV").files[0];
-          console.log(pdffile)
-          if (pdffile){
-            pdffile_url=URL.createObjectURL(pdffile);
-            console.log(pdffile_url);
-            $('#viewer').attr('src', pdffile_url);
-            $('#viewerDefault').attr('height', '0');
-
-          } else {
-            $('#viewerDefault').attr('src', 'https://freelancercl.sfo2.digitaloceanspaces.com/noFile.png');
-            $('#viewer').attr('height', '0');
-
-          }
-      }
-  </script>
-</head>
 <body>
 	<div class="profile-main">
 		<div class="profile-header">
@@ -42,15 +21,6 @@
             <a href="<%= linkedin %>">Linkedin</a>
           </form> 
           <% } %>
-          <!-- <% if (currentUser && currentUser.id != user.id && !follow) { %>
-              <form action="<%= followPath %>" method="post">
-                  <input type="submit" value="Seguir" />
-              </form>
-          <% } else if (currentUser && currentUser.id != user.id && follow) { %>
-              <form action="<%= followPath %>" method="post">
-                  <input type="submit" value="Dejar de Seguir" />
-              </form>
-          <% } %> -->
 				</div>
 			</div>
 			<div class="tab-panel-main">
@@ -61,25 +31,6 @@
 				</ul>
 				<div id="Basic-detail" class="tab-content current">
           <div id="react-follower" ></div>
-					<!-- <div class="skill-box">
-					  <ul>
-              <li><strong>Ocupación:</strong></li>
-              <li><%= user.occupation %></li>
-              <li><strong>Valoración:</strong></li>
-              <% if (user.rating !== 0) {%>
-                <% for(let i=0; i < Math.round(user.rating); i++) {%>                
-                  <li><img class="star" src="https://img.icons8.com/color/2x/star.png"></img></li>
-                <% } %>
-              <% } else {%>
-                <li>Sin Valoraciones</li>
-              <% } %> 
-              <li><strong>Seguidores:</strong></li>
-              <li><%= user.cFollowers %></li>
-              <li><strong>Seguidos:</strong></li>
-              <li><%= user.cFollowed %></li>
-              <div id="react-follower" ></div>
-            </ul>		
-          </div> -->
 					<div class="bio-box">
 						<div class="heading">
 							<p>Información de Contacto
@@ -156,8 +107,7 @@
                   <span>No tienes Publicaciones de Búsqueda</span>
                   <a href="<%= newSearchingPostPath %> "> Haz tu primera publicación Buscando empleo!</a>
                   </ul>
-                  <% } else { %>
-                        
+                  <% } else { %>      
                        <% searchingPostsList.forEach((searchingPost) => { %>
                         <table>
                         <td><% if (searchingPost.img) { %> <img class="user" src="<%= searchingPost.img%>"> <% } %></td>
@@ -167,8 +117,6 @@
                         </table>
                       <% }) %>
                 <% } %>
-                
-
 					</div>
         </div>
 				
@@ -178,8 +126,6 @@
 
   </div>
   
-<!-- VISTA PREVIA PDF -->
-
  <div class="container-all" id="popupSearch"> 
    <div class="popup" id="popupCv">
        <div class="container-text">
@@ -191,20 +137,6 @@
        <a href="#" class="btn-close-popup">X</a>
    </div>
    
- </div>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('ul.tabs li').click(function(){
-			var tab_id = $(this).attr('data-tab');
-
-			$('ul.tabs li').removeClass('current');
-			$('.tab-content').removeClass('current');
-
-			$(this).addClass('current');
-			$("#"+tab_id).addClass('current');
-		});
-	});
-</script>
+  </div>
 </body>
 </div>

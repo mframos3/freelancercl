@@ -3,12 +3,6 @@ import './ChatUsers.scss';
 import PropTypes from 'prop-types';
 
 const ChatUsers = ({ users, userData, callback }) => {
-  // const isToday = (someDate) => {
-  //   const today = new Date();
-  //   return someDate.getDate() === today.getDate()
-  //    && someDate.getMonth() === today.getMonth()
-  //    && someDate.getFullYear() === today.getFullYear();
-  // };
   return (
     <div id="conversation-list">
       {users.map((item) => (
@@ -17,9 +11,6 @@ const ChatUsers = ({ users, userData, callback }) => {
           <div className="title-text">
             {item.username}
           </div>
-          {/* <div className="created-date">
-           {(isToday(item.))}
-          </div> */}
           <div className="conversation-message">
             Placeholder
           </div>

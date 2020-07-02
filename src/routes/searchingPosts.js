@@ -1,11 +1,5 @@
 const KoaRouter = require('koa-router');
 
-const Sequelize = require('sequelize');
-
-const { Op } = Sequelize;
-
-const Fuse = require('fuse.js');
-
 const router = new KoaRouter();
 
 
@@ -13,58 +7,20 @@ async function loadSearchingPost(ctx, next) {
   ctx.state.searchingPost = await ctx.orm.searchingPost.findByPk(ctx.params.id);
   return next();
 }
+
 router.get('searchingPosts.list', '/', async (ctx) => {
-  const result = ctx.request.query;
-  let [term, category] = [result.search, result.category];
-  if (category === 'Todo') {
-    category = '';
-  }
-  if (!category) {
-    category = '';
-  }
-  if (!term) {
-    term = '';
-  }
-  const options = {
-    isCaseSensitive: false,
-    // includeScore: false,
-    shouldSort: true,
-    // includeMatches: false,
-    findAllMatches: true,
-    // minMatchCharLength: 1,
-    // location: 0,
-    // threshold: 0.6,
-    // distance: 100,
-    // useExtendedSearch: true,
-    keys: ['dataValues.name'],
-  };
-  const searchingPostsList = await ctx.orm.searchingPost.findAll({ where: { category: { [Op.like]: `%${category}%` } } });
-  const fuse = new Fuse(searchingPostsList, options);
-  let searchResult = fuse.search(term);
-  if (!term) {
-    searchingPostsList.forEach((e) => {
-      e.item = e.dataValues;
-    });
-    searchResult = searchingPostsList;
-  }
-  const auxSearchResult = searchResult;
-  const promisesSearchResul = auxSearchResult.map(async (element) => {
-    const newElement = element;
-    const aux = await ctx.orm.user.findByPk(newElement.item.userId);
-    newElement.item.username = aux.name;
-    newElement.item.image = aux.imagePath;
-    return newElement;
-  });
-  searchResult = await Promise.all(promisesSearchResul);
-  await ctx.render('searchingPosts/index', {
-    searchResult,
-    userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
-    newSearchingPostPath: ctx.router.url('searchingPosts.new'),
-    editSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.edit', { id: searchingPost.item.id }),
-    showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.item.id }),
-    deleteSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.delete', { id: searchingPost.item.id }),
-  });
+  await ctx.render('searchingPosts/index');
 });
+
+
+router.get('/list', async (ctx) => {
+  const postList = await ctx.orm.searchingPost.findAll();
+  ctx.body = {
+    status: 'success',
+    data: postList,
+  };
+});
+
 
 router.get('searchingPosts.new', '/new', async (ctx) => {
   const searchingPost = ctx.orm.searchingPost.build();
@@ -77,8 +33,9 @@ router.get('searchingPosts.new', '/new', async (ctx) => {
 
 router.post('searchingPosts.create', '/', async (ctx) => {
   const searchingPost = ctx.orm.searchingPost.build(ctx.request.body);
+  searchingPost.img = 'https://freelancercl.sfo2.digitaloceanspaces.com/default-post.jpg';
   try {
-    await searchingPost.save({ fields: ['name', 'category', 'description', 'userId'] });
+    await searchingPost.save({ fields: ['name', 'category', 'description', 'userId', 'img'] });
     ctx.redirect(ctx.router.url('searchingPosts.list'));
   } catch (validationError) {
     await ctx.render('searchingPosts/new', {
