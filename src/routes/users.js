@@ -12,7 +12,6 @@ const { Op } = Sequelize;
 // const code = 'AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ';
 const client_id = '77c56cbij2arr0';
 const client_secret = 'C7oQMzl70UMzRmPy';
-const redirect = 'https://freelancercl.herokuapp.com';
 
 
 // const https = require('https');
@@ -81,7 +80,8 @@ async function loadUser(ctx, next) {
   return next();
 }
 
-async function linkedinApi(code) {
+async function linkedinApi(code, user) {
+  var redirect = `https://freelancercl.herokuapp.com/users/${user.id}`;
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
@@ -92,13 +92,12 @@ async function linkedinApi(code) {
     .then((res2) => {
       console.log('LINKEDIN RESPUESTA');
       console.log(res2);
-      console.log(JSON.stringify(res2.data, 0, 2));
       const accessToken = JSON.stringify(res2.access_token, 0, 2);
       return accessToken;
     })
     .catch((error) => {
       console.log('LINKEDIN ERROR');
-      console.log(error.data);
+      console.log(error);
     });
 }
 // .then((accessToken) => {
@@ -279,7 +278,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   console.log('CONTEXTO');
   console.log(ctx);
   const code = 'AQT-86dAqATI1AH3iaHelim5_0RUUW9LOL9aal7NVFWD7Jx0fno6mvGx5igesY93606Dj51h-7r47IWzfZglXvGyRcOmsN1YgZMtJMwGadbFhw4c6Ra2jXkWlFoqyuh2hp82BbKrAVKkp2ZDXaNNouKX-W4e2tbzvOtOhBjKFa5D0ZMjo826MVKCqV2MPQ';
-  await linkedinApi(code);
+  await linkedinApi(code, user);
 
   await ctx.render('users/show', {
     user,
