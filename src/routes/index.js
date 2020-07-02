@@ -115,7 +115,7 @@ router.get('index.landing', '/', async (ctx) => {
   // }
   if (code) {
     // console.log(linkedinFirstName);
-    await linkedinApi(code, currentUser);
+    await linkedinApi(code, ctx);
     console.log('PASAMO O NO LA WEA');
     console.log(currentUser.linkedinFirstName);
     console.log('CUUUURRENT2');
