@@ -14,7 +14,8 @@ const { Validator } = require('sequelize');
 const clientId = '77c56cbij2arr0';
 const clientSecret = 'C7oQMzl70UMzRmPy';
 
-async function linkedinApi(code, currentUser) {
+async function linkedinApi(code, ctx) {
+  const currentUser2 = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
@@ -36,8 +37,8 @@ async function linkedinApi(code, currentUser) {
         .then((res2) => {
           console.log("DATA FINAL");
           // currentUser.linkedinLastName = res2.data.localizedLastName;
-          currentUser.linkedinFirstName = res2.data.localizedFirstName;
-          currentUser.save({ fields: ['linkedinFirstName'] });
+          currentUser2.linkedinFirstName = res2.data.localizedFirstName;
+          currentUser2.save({ fields: ['linkedinFirstName'] });
         }).catch((res) => {
           console.log('FFFFFF');
           console.log(res);
@@ -45,7 +46,6 @@ async function linkedinApi(code, currentUser) {
         });
     });
 }
-
 
 router.get('index.landing', '/', async (ctx) => {
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
