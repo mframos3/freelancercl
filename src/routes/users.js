@@ -81,7 +81,6 @@ async function loadUser(ctx, next) {
 }
 
 async function linkedinApi(code, user) {
-  var redirect = `https://freelancercl.herokuapp.com/users/${user.id}`;
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
@@ -272,12 +271,13 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const searchingPostsList = await ctx.orm.searchingPost.findAll({
     where: { userId: { [Op.eq]: user.id } },
   });
-  const linkedin = 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77c56cbij2arr0&redirect_uri=https://freelancercl.herokuapp.com&scope=r_liteprofile';
+  var redirect = `https://freelancercl.herokuapp.com/users/${user.id}`;
+  const linkedin = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77c56cbij2arr0&redirect_uri=${redirect}&scope=r_liteprofile`;
   console.log('CODE:');
   console.log(ctx.query);
   console.log('CONTEXTO');
   console.log(ctx);
-  const code = 'AQT-86dAqATI1AH3iaHelim5_0RUUW9LOL9aal7NVFWD7Jx0fno6mvGx5igesY93606Dj51h-7r47IWzfZglXvGyRcOmsN1YgZMtJMwGadbFhw4c6Ra2jXkWlFoqyuh2hp82BbKrAVKkp2ZDXaNNouKX-W4e2tbzvOtOhBjKFa5D0ZMjo826MVKCqV2MPQ';
+  const code = ctx.query.code;
   await linkedinApi(code, user);
 
   await ctx.render('users/show', {
