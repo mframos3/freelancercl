@@ -35,7 +35,7 @@
 						<div class="heading">
 							<p>Información de Contacto
               <label><%= user.email %></label></p>
-              <% if (currentUser && currentUser.id == user.id && user.linkedinData) { %>
+              <% if (currentUser && currentUser.id == user.id && user.linkedinFirstName) { %>
                 <h2>Información de Linkedin</h2>
                 <p><%= user.linkedinData%></p>
               <% } %>

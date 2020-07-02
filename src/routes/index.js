@@ -38,13 +38,14 @@ async function linkedinApi(code, ctx) {
           console.log("DATA FINAL");
           // currentUser.linkedinLastName = res2.data.localizedLastName;
           currentUser2.linkedinFirstName = res2.data.localizedFirstName;
-          currentUser2.save({ fields: ['linkedinFirstName'] });
+          // currentUser2.save({ fields: ['linkedinFirstName'] });
         }).catch((res) => {
           console.log('FFFFFF');
           console.log(res);
           return res;
         });
     });
+  return currentUser2;
 }
 
 router.get('index.landing', '/', async (ctx) => {
@@ -115,12 +116,10 @@ router.get('index.landing', '/', async (ctx) => {
   // }
   if (code) {
     // console.log(linkedinFirstName);
-    await linkedinApi(code, ctx);
+    const userLinkedin = await linkedinApi(code, ctx);
+    await userLinkedin.save({ fields: ['linkedinFirstName'] });
     console.log('PASAMO O NO LA WEA');
-    console.log(currentUser.linkedinFirstName);
-    console.log('CUUUURRENT2');
-    await currentUser.save({ fields: ['linkedinFirstName'] });
-    console.log(currentUser.linkedinFirstName);
+    console.log(userLinkedin.linkedinFirstName);
   }
   await ctx.render('index', {
     appVersion: pkg.version,
