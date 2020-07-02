@@ -38,12 +38,12 @@ async function linkedinApi(code, ctx) {
           console.log("DATA FINAL");
           // currentUser.linkedinLastName = res2.data.localizedLastName;
           currentUser2.linkedinFirstName = res2.data.localizedFirstName.toString();
-          return currentUser2;
+          console.log(res2.data.localizedFirstName.toString());
+          currentUser2.update({ fields: ['linkedinFirstName'] });
           // currentUser2.save({ fields: ['linkedinFirstName'] });
         }).catch((res) => {
           console.log('FFFFFF');
           console.log(res);
-          return res;
         });
     });
   return currentUser2;
