@@ -7,10 +7,10 @@ router.get('api.users.list', '/', async (ctx) => {
   ctx.body = ctx.jsonSerializer('user', {
     attributes: ['name', 'rating', 'occupation', 'cFollowers', 'cFollowed'],
     topLevelLinks: {
-      self: ${ctx.origin}${ctx.router.url('api.user.list')},
+      self: `${ctx.origin}${ctx.router.url('api.user.list')}`,
     },
     dataLinks: {
-      self: (dataset, user) => ${ctx.origin}/user/${user.id},
+      self: (dataset, user) => `${ctx.origin}/user/${user.id}`,
     },
   }).serialize(userList);
 });
