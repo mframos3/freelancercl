@@ -9,10 +9,6 @@ const msg = require('../mailers/login-email-Api');
 const PASSWORD_SALT = 10;
 const { Op } = Sequelize;
 
-// const code = 'AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ';
-const client_id = '77c56cbij2arr0';
-const client_secret = 'C7oQMzl70UMzRmPy';
-
 
 // const https = require('https');
 
@@ -64,8 +60,7 @@ const client_secret = 'C7oQMzl70UMzRmPy';
 // });
 // requestLinkedin.end();
 
-const axios = require('axios');
-const querystring = require('querystring');
+
 
 const router = new KoaRouter();
 
@@ -80,25 +75,6 @@ async function loadUser(ctx, next) {
   return next();
 }
 
-async function linkedinApi(code, user) {
-  axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
-    grant_type: 'authorization_code',
-    code: code,
-    redirect_uri: `https://freelancercl.herokuapp.com/users/${user.id}`,
-    client_id: client_id,
-    client_secret: client_secret,
-  }))
-    .then((res2) => {
-      console.log('LINKEDIN RESPUESTA');
-      console.log(res2);
-      const accessToken = JSON.stringify(res2.access_token, 0, 2);
-      return accessToken;
-    })
-    .catch((error) => {
-      console.log('LINKEDIN ERROR');
-      console.log(error);
-    });
-}
 // .then((accessToken) => {
 //   axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
 //     redirect_uri: redirect,
@@ -271,14 +247,8 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const searchingPostsList = await ctx.orm.searchingPost.findAll({
     where: { userId: { [Op.eq]: user.id } },
   });
-  var redirect = `https://freelancercl.herokuapp.com/users/${user.id}`;
+  const redirect = 'https://freelancercl.herokuapp.com';
   const linkedin = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77c56cbij2arr0&redirect_uri=${redirect}&scope=r_liteprofile`;
-  console.log('CODE:');
-  console.log(ctx.query);
-  console.log('CONTEXTO');
-  console.log(ctx);
-  const code = ctx.query.code;
-  await linkedinApi(code, user);
 
   await ctx.render('users/show', {
     user,

@@ -6,6 +6,36 @@ const { Op } = Sequelize;
 
 const router = new KoaRouter();
 
+
+const axios = require('axios');
+const querystring = require('querystring');
+
+
+// const code = 'AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ';
+const client_id = '77c56cbij2arr0';
+const client_secret = 'C7oQMzl70UMzRmPy';
+
+async function linkedinApi(code) {
+  axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: 'https://freelancercl.herokuapp.com',
+    client_id: client_id,
+    client_secret: client_secret,
+  }))
+    .then((res2) => {
+      console.log('LINKEDIN RESPUESTA');
+      console.log(res2);
+      const accessToken = JSON.stringify(res2.access_token, 0, 2);
+      return accessToken;
+    })
+    .catch((error) => {
+      console.log('LINKEDIN ERROR');
+      console.log(error);
+    });
+}
+
+
 router.get('index.landing', '/', async (ctx) => {
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   const isUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
@@ -64,6 +94,17 @@ router.get('index.landing', '/', async (ctx) => {
   const searchingPost = ctx.orm.searchingPost.build(ctx.request.body);
   const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
   const passwordError = '';
+
+
+  //LINKEDIN
+  console.log('CODE:');
+  console.log(ctx.query);
+  console.log('CONTEXTO');
+  console.log(ctx);
+  const code = ctx.query.code;
+  await linkedinApi(code, user);
+
+
   await ctx.render('index', {
     appVersion: pkg.version,
     offeringPostsList,
