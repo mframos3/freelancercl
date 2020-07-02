@@ -36,8 +36,6 @@ async function linkedinApi(code) {
       console.log("ESTOOO");
       console.log(accessToken);
     axios.get('https://api.linkedin.com/v2/me', {
-      accessToken: accessToken,
-      oauth2_access_token: accessToken,
       headers: {
         'Host': 'api.linkedin.com',
         'Connection': 'Keep-Alive',
@@ -47,6 +45,7 @@ async function linkedinApi(code) {
     .then((res2) => {
       console.log('LINKEDIN RESPUESTA FINAL');
       console.log(res2);
+      return res2.data;
     }).catch((res) => {
       console.log('FFFFFF');
       console.log(res);
@@ -121,8 +120,8 @@ router.get('index.landing', '/', async (ctx) => {
   console.log('CONTEXTO');
   console.log(ctx);
   const code = ctx.query.code;
-  await linkedinApi(code, user);
-
+  const linkedinData = await linkedinApi(code);
+  currentUser.linkedinData = linkedinData;
 
   await ctx.render('index', {
     appVersion: pkg.version,
