@@ -43,6 +43,8 @@ async function linkedinApi(code, user) {
       },
     })
     .then((res2) => {
+      console.log("DATA FINAL");
+      console.log(res2.data);
       return res2.data;
     }).catch((res) => {
       console.log('FFFFFF');
