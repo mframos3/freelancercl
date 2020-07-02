@@ -81,6 +81,7 @@ async function loadUser(ctx, next) {
 }
 
 async function linkedinApi(code, user) {
+  var redirect = `https://freelancercl.herokuapp.com/users/${user.id}`;
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
