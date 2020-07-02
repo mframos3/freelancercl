@@ -118,13 +118,12 @@ router.get('index.landing', '/', async (ctx) => {
   console.log('CONTEXTO');
   console.log(ctx);
   const code = ctx.query.code;
-  const linkedinData = await linkedinApi(code, currentUser);
-  console.log('LINKEDINDATA1');
-  console.log(linkedinData);
-  // currentUser.linkedinData = linkedinData;
-
-  console.log('LINKEDINDATA');
-  currenUser.linkedinData = linkedinData;
+  if (!user.linkedinData) {
+    const linkedinData = await linkedinApi(code, currentUser);
+    console.log('LINKEDINDATA1');
+    console.log(linkedinData);
+    currentUser.linkedinData = linkedinData;
+  }
 
   await ctx.render('index', {
     appVersion: pkg.version,
