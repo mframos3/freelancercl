@@ -158,7 +158,6 @@ router.get('index.landing', '/', async (ctx) => {
     notice: ctx.flashMessage.notice,
     submitUserPath: ctx.router.url('users.create'),
     // Para popUp
-    // user,
     searchingPost,
     offeringPost,
     submitSearchingPostPath: ctx.router.url('searchingPosts.create'),
