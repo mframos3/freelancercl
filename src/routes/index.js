@@ -6,22 +6,20 @@ const { Op } = Sequelize;
 
 const router = new KoaRouter();
 
-
 const axios = require('axios');
 const querystring = require('querystring');
 
 
-// const code = 'AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ';
-const client_id = '77c56cbij2arr0';
-const client_secret = 'C7oQMzl70UMzRmPy';
+const clientId = '77c56cbij2arr0';
+const clientSecret = 'C7oQMzl70UMzRmPy';
 
 async function linkedinApi(code, user) {
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
     redirect_uri: 'https://freelancercl.herokuapp.com',
-    client_id: client_id,
-    client_secret: client_secret,
+    client_id: clientId,
+    client_secret: clientSecret,
   }))
     .then((res2) => {
       const accessToken = res2.data.access_token;
@@ -118,8 +116,8 @@ router.get('index.landing', '/', async (ctx) => {
     grant_type: 'authorization_code',
     code: code,
     redirect_uri: 'https://freelancercl.herokuapp.com',
-    client_id: client_id,
-    client_secret: client_secret,
+    client_id: clientId,
+    client_secret: clientSecret,
   }))
     .then((res2) => {
       const accessToken = res2.data.access_token;
@@ -160,7 +158,7 @@ router.get('index.landing', '/', async (ctx) => {
     notice: ctx.flashMessage.notice,
     submitUserPath: ctx.router.url('users.create'),
     // Para popUp
-    user,
+    // user,
     searchingPost,
     offeringPost,
     submitSearchingPostPath: ctx.router.url('searchingPosts.create'),
