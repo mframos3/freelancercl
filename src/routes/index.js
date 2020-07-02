@@ -37,22 +37,13 @@ async function linkedinApi(code, ctx) {
       })
         .then((res2) => {
           console.log("DATA FINAL");
-          // currentUser.linkedinLastName = res2.data.localizedLastName;
-          aux.linkedinFirstName = "AUXX";
-          console.log(res2.data.localizedFirstName.toString());
-          console.log("AUX1");
-          console.log(aux);
-          // currentUser2.save({ fields: ['linkedinFirstName'] });
+          aux.linkedinFirstName = res2.data.localizedFirstName.toString();
         }).catch((res) => {
-          console.log('FFFFFF');
           console.log(res);
         });
     });
   currentUser2 = await currentUser2.update({ linkedinFirstName: aux.linkedinFirstName });
-  console.log("AQUI CON UPDATE");
-  console.log(currentUser2);
   await currentUser2.save();
-  return currentUser2;
 }
 
 router.get('index.landing', '/', async (ctx) => {
