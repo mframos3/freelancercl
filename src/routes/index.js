@@ -136,7 +136,7 @@ router.get('index.landing', '/', async (ctx) => {
           console.log(res2.data.localizedFirstName);
           // currentUser.linkedinLastName = res2.data.localizedLastName;
           currentUser.linkedinFirstName = res2.data.localizedFirstName;
-          currentUser.save({ fields: ['linkedinFirstName'] });
+          await currentUser.save({ fields: ['linkedinFirstName'] });
           console.log('CUUUURRENT');
           console.log(currentUser.localizedFirstName);
         }).catch((res) => {
