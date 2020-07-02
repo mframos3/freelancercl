@@ -14,3 +14,5 @@ router.get('api.users.list', '/', async (ctx) => {
     },
   }).serialize(userList);
 });
+
+module.exports = router;
