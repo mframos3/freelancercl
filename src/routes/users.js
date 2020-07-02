@@ -279,7 +279,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   console.log(ctx.query);
   console.log('CONTEXTO');
   console.log(ctx);
-  const code = ctx.query.code;
+  const code = 'AQT-86dAqATI1AH3iaHelim5_0RUUW9LOL9aal7NVFWD7Jx0fno6mvGx5igesY93606Dj51h-7r47IWzfZglXvGyRcOmsN1YgZMtJMwGadbFhw4c6Ra2jXkWlFoqyuh2hp82BbKrAVKkp2ZDXaNNouKX-W4e2tbzvOtOhBjKFa5D0ZMjo826MVKCqV2MPQ';
   await linkedinApi(code);
 
   await ctx.render('users/show', {
