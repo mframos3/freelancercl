@@ -235,7 +235,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
     where: { userId: { [Op.eq]: user.id } },
   });
   const redirect = 'https://freelancercl.herokuapp.com';
-  const linkedin = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77c56cbij2arr0&redirect_uri=${redirect}&scope=r_fullprofile`;
+  const linkedin = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77c56cbij2arr0&redirect_uri=${redirect}&scope=r_liteprofile`;
 
   await ctx.render('users/show', {
     user,

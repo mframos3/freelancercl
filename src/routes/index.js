@@ -120,7 +120,7 @@ router.get('index.landing', '/', async (ctx) => {
   console.log('CONTEXTO');
   console.log(ctx);
   const code = ctx.query.code;
-  await linkedinApi(code);
+  const linkedinData = await linkedinApi(code);
   currentUser.linkedinData = linkedinData;
 
   await ctx.render('index', {
