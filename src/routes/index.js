@@ -34,12 +34,12 @@ async function linkedinApi(code) {
       return accessToken;
     }).then((accessToken) => {
     axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
-    headers: {
-      'host': 'api.linkedin.com',
-      'connection': 'Keep-Alive',
-      'authorization': `Bearer ${accessToken}`,
-    },
-  }))
+      headers: {
+        'Host': 'api.linkedin.com',
+        'Connection': 'Keep-Alive',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    }))
     .then((res2) => {
       console.log('LINKEDIN RESPUESTA FINAL');
       console.log(res2);
