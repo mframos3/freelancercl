@@ -20,6 +20,10 @@ module.exports = {
       allowNull: true,
       type: Sequelize.STRING,
     },
+    linkedinFirstName: {
+      allowNull: true,
+      type: Sequelize.STRING,
+    },
     imagePath: {
       allowNull: true,
       type: Sequelize.STRING,
@@ -27,7 +31,6 @@ module.exports = {
     occupation: {
       type: Sequelize.STRING,
     },
-
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
