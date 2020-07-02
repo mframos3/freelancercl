@@ -22,7 +22,7 @@ const ChatWindow = () => {
   const [isBusy, setBusy] = useState(true);
 
 
-  const DEV = true;
+  const DEV = false;
   const ENDPOINT = (DEV) ? 'http://localhost:3000' : 'https://freelancercl.herokuapp.com';
 
   async function fetchData() {

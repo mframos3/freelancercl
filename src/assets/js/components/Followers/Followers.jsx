@@ -11,10 +11,12 @@ const Followers = () => {
   const [userId, setUserId] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(false);
 
+  const DEV = false;
+  const ENDPOINT = (DEV) ? 'http://localhost:3000' : 'https://freelancercl.herokuapp.com';
+
   useEffect(() => {
-    console.log('UseEffect');
     const fetchFollow = async () => {
-      const res = await fetch(`http://localhost:3000/api/follow/${window.location.href.split('/').reverse()[0]}`);
+      const res = await fetch(`${ENDPOINT}/api/follow/${window.location.href.split('/').reverse()[0]}`);
       const data = await res.json();
       if (data.data[0]) {
         setIsFollowed(true);
@@ -33,23 +35,12 @@ const Followers = () => {
 
   const follow = () => {
     const fetchBackServer = async () => {
-      console.log(typeof (window.location.href.split('/').reverse()[0]));
-      const res = await fetch(`http://localhost:3000/api/follow/${window.location.href.split('/').reverse()[0]}`);
+      const res = await fetch(`${ENDPOINT}/api/follow/${window.location.href.split('/').reverse()[0]}`);
       const data = await res.json();
-      // console.log('Holaa');
-      // console.log(data);
-      // console.log(data.data);
       const idUser = data.data[1].id.toString();
-      // const idUser = data.data[1].id;
-      console.log(typeof (idUser));
-      console.log(idUser);
-      const res2 = await fetch(`http://localhost:3000/api/follow/${idUser}/follow`);
-      console.log('pase el fetch');
+      const res2 = await fetch(`${ENDPOINT}/api/follow/${idUser}/follow`);
       const data2 = await res2.json();
-      console.log(data2);
-      console.log(data2.data);
       if (data2.data[0]) {
-        // console.log('La sigo y dejaré de seguirla');
         setIsFollowed(true);
         setFollowers(data2.data[1].cFollowers + 1);
       } else {

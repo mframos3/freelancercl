@@ -38,6 +38,7 @@
     "webpack-manifest-plugin": "^2.2.0"
   },
   "dependencies": {
+    "@koa/cors": "^3.1.0",
     "@sendgrid/mail": "^7.0.1",
     "bcrypt": "^4.0.1",
     "core-js": "^3.6.4",

@@ -5,6 +5,8 @@ const authApi = require('./auth');
 const chatApi = require('./chat');
 const followApi = require('./follow');
 const postsApi = require('./posts');
+const usersApi = require('./users');
+const reviewsApi = require('./reviews');
 
 const router = new KoaRouter();
 
@@ -21,4 +23,6 @@ router.use(async (ctx, next) => {
 router.use('/chat', chatApi.routes());
 router.use('/follow', followApi.routes());
 router.use('/posts', postsApi.routes());
+router.use('/users', usersApi.routes());
+router.user('/reviews', reviewsApi.routes());
 module.exports = router;
