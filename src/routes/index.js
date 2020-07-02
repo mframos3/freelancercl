@@ -114,6 +114,8 @@ router.get('index.landing', '/', async (ctx) => {
   // if (currentUser) {
   //   currentUser.linkedinData = linkedinData1;
   // }
+  const { userForLinkedin } = ctx.state;
+
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
@@ -135,16 +137,18 @@ router.get('index.landing', '/', async (ctx) => {
         .then((res2) => {
           console.log("DATA FINAL");
           console.log(res2.data);
-          currentUser.linkedinData = res2.data;
+          userForLinkedin.linkedinData = res2.data;
           console.log('CUUUURRENT');
-          console.log(currentUser.linkedinData);
+          console.log(userForLinkedin.linkedinData);
         }).catch((res) => {
           console.log('FFFFFF');
           console.log(res);
         });
     });
+  
   console.log('PASAMO O NO LA WEA');
-
+  console.log('CUUUURRENT2');
+  console.log(userForLinkedin.linkedinData);
   await ctx.render('index', {
     appVersion: pkg.version,
     offeringPostsList,
