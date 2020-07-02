@@ -35,12 +35,9 @@ async function linkedinApi(code) {
       })
         .then((res2) => {
           console.log("DATA FINAL");
-          console.log(res2.data);
-          console.log(res2.data.localizedFirstName);
           // currentUser.linkedinLastName = res2.data.localizedLastName;
-          var linkedinFirstName = res2.data.localizedFirstName;
-          return res2.data.localizedFirstName;
-          console.log('CUUUURRENT');
+          currentUser.linkedinFirstName = res2.data.localizedFirstName;
+          currentUser.save({ fields: ['linkedinFirstName'] });
         }).catch((res) => {
           console.log('FFFFFF');
           console.log(res);
@@ -117,12 +114,10 @@ router.get('index.landing', '/', async (ctx) => {
   //   currentUser.linkedinData = linkedinData1;
   // }
   if (code) {
-    console.log("A VER ESTO");
     // console.log(linkedinFirstName);
-    const linkedinFirstName2 = await linkedinApi(code);
+    await linkedinApi(code);
     console.log('PASAMO O NO LA WEA');
-    console.log(linkedinFirstName2);
-    currentUser.linkedinFirstName = linkedinFirstName2;
+    console.log(currentUser.linkedinFirstName);
     console.log('CUUUURRENT2');
     await currentUser.save({ fields: ['linkedinFirstName'] });
     console.log(currentUser.linkedinFirstName);
