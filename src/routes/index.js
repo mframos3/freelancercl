@@ -159,13 +159,13 @@ router.get('index.landing', '/', async (ctx) => {
     submitUserPath: ctx.router.url('users.create'),
     // Para popUp
     // user,
-    searchingPost,
-    offeringPost,
+    // searchingPost,
+    // offeringPost,
     submitSearchingPostPath: ctx.router.url('searchingPosts.create'),
     submitOfferingPostPath: ctx.router.url('offeringPosts.create'),
     backPath: ctx.router.url('searchingPosts.list'),
     //
-    passwordError,
+    // passwordError,
     bestUsers,
     bestOfferingPosts,
     offeringPostsFollowing,
