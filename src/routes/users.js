@@ -81,9 +81,10 @@ async function loadUser(ctx, next) {
   return next();
 }
 
-async function linkedinApi() {
+async function linkedinApi(code) {
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
+    code: code,
     redirect_uri: redirect,
     client_id: client_id,
     client_secret: client_secret,
@@ -279,7 +280,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   console.log('CONTEXTO');
   console.log(ctx);
   const code = ctx.query.code;
-  await linkedinApi();
+  await linkedinApi(code);
 
   await ctx.render('users/show', {
     user,
