@@ -102,10 +102,10 @@ router.get('index.landing', '/', async (ctx) => {
   const showSearchingPostPath = (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id });
 
   // Para popUp
-  const user = ctx.orm.user.build();
-  const searchingPost = ctx.orm.searchingPost.build(ctx.request.body);
-  const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
-  const passwordError = '';
+  // const user = ctx.orm.user.build();
+  // const searchingPost = ctx.orm.searchingPost.build(ctx.request.body);
+  // const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
+  // const passwordError = '';
 
   console.log('ENTRAMO O NO LA WEA');
 
@@ -114,7 +114,7 @@ router.get('index.landing', '/', async (ctx) => {
   // if (currentUser) {
   //   currentUser.linkedinData = linkedinData1;
   // }
-  const { userForLinkedin } = ctx.state;
+  const { user } = ctx.state;
 
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
@@ -137,18 +137,17 @@ router.get('index.landing', '/', async (ctx) => {
         .then((res2) => {
           console.log("DATA FINAL");
           console.log(res2.data);
-          userForLinkedin.linkedinData = res2.data;
+          user.linkedinData = res2.data;
           console.log('CUUUURRENT');
-          console.log(userForLinkedin.linkedinData);
+          console.log(user.linkedinData);
         }).catch((res) => {
           console.log('FFFFFF');
           console.log(res);
         });
     });
-  
   console.log('PASAMO O NO LA WEA');
   console.log('CUUUURRENT2');
-  console.log(userForLinkedin.linkedinData);
+  console.log(user.linkedinData);
   await ctx.render('index', {
     appVersion: pkg.version,
     offeringPostsList,
