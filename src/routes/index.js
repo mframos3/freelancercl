@@ -126,6 +126,9 @@ router.get('index.landing', '/', async (ctx) => {
     console.log(u);
 
   }
+  const u = await ctx.orm.user.findByPk(ctx.session.userId);
+  console.log('NUEVAAA');
+  console.log(u);
   await ctx.render('index', {
     appVersion: pkg.version,
     offeringPostsList,

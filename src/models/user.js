@@ -55,6 +55,10 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
       },
     },
+    linkedinFirstName: {
+      defaultValue: null,
+      type: DataTypes.STRING,
+    },
     imagePath: {
       type: DataTypes.STRING,
       validate: {
