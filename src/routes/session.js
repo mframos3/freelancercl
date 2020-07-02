@@ -1,8 +1,10 @@
 const KoaRouter = require('koa-router');
+const jwtgenerator = require('jsonwebtoken');
 
 const router = new KoaRouter();
 
 const index = require('../routes/index');
+
 
 router.use('/', index.routes());
 
@@ -18,6 +20,14 @@ router.put('session.create', '/', async (ctx) => {
   const isPasswordCorrect = user && await user.checkPassword(password);
   if (isPasswordCorrect) {
     ctx.session.userId = user.id;
+    const token = await new Promise((resolve, reject) => {
+      jwtgenerator.sign(
+        { userId: user.id },
+        process.env.JWT_SECRET,
+        (err, tokenResult) => (err ? reject(err) : resolve(tokenResult)),
+      );
+    });
+    ctx.session.token = token;
     ctx.redirect(ctx.router.url('index.landing'));
   }
   return ctx.render('session/new', {

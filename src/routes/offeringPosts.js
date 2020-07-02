@@ -1,16 +1,9 @@
 const KoaRouter = require('koa-router');
-
-const Sequelize = require('sequelize');
-
-const { Op } = Sequelize;
-
-const Fuse = require('fuse.js');
-
-
-const router = new KoaRouter();
 const reviews = require('./reviews');
 const applications = require('./applications');
 const fileStorage = require('../services/file-storage');
+
+const router = new KoaRouter();
 
 async function loadOfferingPost(ctx, next) {
   ctx.state.offeringPost = await ctx.orm.offeringPost.findByPk(ctx.params.pid);
@@ -36,45 +29,15 @@ async function computeRating(ctx) {
 }
 
 router.get('offeringPosts.list', '/', async (ctx) => {
-  const result = ctx.request.query;
-  let [term, category] = [result.search, result.category];
-  if (category === 'Todo') {
-    category = '';
-  }
-  if (!category) {
-    category = '';
-  }
-  if (!term) {
-    term = '';
-  }
-  const options = {
-    isCaseSensitive: false,
-    // includeScore: false,
-    shouldSort: true,
-    // includeMatches: false,
-    findAllMatches: true,
-    // minMatchCharLength: 1,
-    // location: 0,
-    // threshold: 0.6,
-    // distance: 100,
-    // useExtendedSearch: true,
-    keys: ['dataValues.name'],
+  await ctx.render('offeringPosts/index');
+});
+
+router.get('/list', async (ctx) => {
+  const postList = await ctx.orm.offeringPost.findAll();
+  ctx.body = {
+    status: 'success',
+    data: postList,
   };
-  const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { category: { [Op.like]: `%${category}%` } } });
-  const fuse = new Fuse(offeringPostsList, options);
-  let searchResult = fuse.search(term);
-  if (!term) {
-    offeringPostsList.forEach((e) => {
-      e.item = e.dataValues;
-    });
-    searchResult = offeringPostsList;
-  }
-  await ctx.render('offeringPosts/index', {
-    searchResult,
-    userProfilePath: (userId) => ctx.router.url('users.show', { id: userId }),
-    newOfferingPostPath: ctx.router.url('offeringPosts.new'),
-    showOfferingPostPath: (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.item.id }),
-  });
 });
 
 
@@ -89,8 +52,9 @@ router.get('offeringPosts.new', '/new', async (ctx) => {
 
 router.post('offeringPosts.create', '/', async (ctx) => {
   const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
+  offeringPost.img = 'https://freelancercl.sfo2.digitaloceanspaces.com/default-post.jpg';
   try {
-    await offeringPost.save({ fields: ['name', 'category', 'description', 'price', 'userId', 'endsAt'] });
+    await offeringPost.save({ fields: ['name', 'category', 'description', 'price', 'userId', 'endsAt', 'img'] });
     ctx.redirect(ctx.router.url('offeringPosts.list'));
   } catch (validationError) {
     await ctx.render('offeringPosts/new', {

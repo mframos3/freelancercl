@@ -1,16 +1,13 @@
 const KoaRouter = require('koa-router');
 const Sequelize = require('sequelize');
-
 const bcrypt = require('bcrypt');
-
-const PASSWORD_SALT = 10;
-const { Op } = Sequelize;
-
 const Fuse = require('fuse.js');
-
 const fileStorage = require('../services/file-storage');
 const sgMail = require('../config/emailApi');
 const msg = require('../mailers/login-email-Api');
+
+const PASSWORD_SALT = 10;
+const { Op } = Sequelize;
 
 // const code = 'AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ';
 const client_id = '77c56cbij2arr0';
@@ -76,8 +73,6 @@ const router = new KoaRouter();
 let passwordError = '';
 
 const index = require('../routes/index');
-const { codePointAt } = require('core-js/fn/string');
-const { exitCode } = require('process');
 
 router.use('/', index.routes());
 
@@ -142,6 +137,7 @@ router.get('users.new', '/new', async (ctx) => {
 router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
   ctx.redirect(ctx.router.url('index.landing'));
+  user.imagePath = 'https://freelancercl.sfo2.digitaloceanspaces.com/default-user-img.jpg';
 
   try {
     const password1 = ctx.request.body.password;
@@ -159,6 +155,17 @@ router.post('users.create', '/', async (ctx) => {
       await user.save({
         name, email, cryptPassword, occupation,
       });
+      msg.to = email;
+      (async () => {
+        try {
+          await sgMail.send(msg);
+        } catch (error) {
+          console.error(error);
+          if (error.response) {
+            console.error(error.response.body);
+          }
+        }
+      })()
       ctx.session.userId = user.id;
       ctx.redirect(ctx.router.url('index.landing'));
     } else {

@@ -1,3 +1,2 @@
-import '../images/logo.png';
-import '../code/example';
-
+import './code/preview';
+import './code/tabs';

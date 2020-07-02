@@ -15,13 +15,13 @@ const PostsList = ({ contentType }) => {
   const [preSearch, setPreSearch] = useState([]);
   const [category, setCategory] = useState('');
 
-  const DEV = false;
+  const DEV = true;
   const ENDPOINT = (DEV) ? 'http://localhost:3000' : 'https://freelancercl.herokuapp.com';
 
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
-      const res = await fetch(`${ENDPOINT}/api/posts/${contentType}`);
+      const res = await fetch(`${ENDPOINT}/${contentType}/list`);
       const data = await res.json();
       setPosts(data.data);
       setPreSearch([...data.data]);
@@ -43,7 +43,8 @@ const PostsList = ({ contentType }) => {
     if (category === 'Todo') {
       filteredPosts = preSearch.filter((i) => i.name.toLowerCase().includes(search.toLowerCase()));
     } else {
-      filteredPosts = preSearch.filter((i) => i.name.toLowerCase().includes(search.toLowerCase()) && i.category === category);
+      filteredPosts = preSearch.filter((i) => i.name.toLowerCase().includes(search.toLowerCase()) 
+      && i.category === category);
     }
     setPosts(filteredPosts);
   };
