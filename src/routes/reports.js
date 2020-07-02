@@ -7,16 +7,6 @@ async function loadReport(ctx, next) {
   return next();
 }
 
-// router.get('reviews.new', '/new', async (ctx) => {
-//   const review = ctx.orm.review.build();
-//   const postId = ctx.state.offeringPost.id;
-//   await ctx.render('reviews/new', {
-//     review,
-//     postId,
-//     currentUser: await ctx.state.currentUser,
-//     submitReviewPath: ctx.router.url('reviews.create', { pid: postId }),
-//   });
-// });
 router.get('reports.list', '/', async (ctx) => {
   const reportsList = await ctx.orm.report.findAll();
   await ctx.render('reports/index', {

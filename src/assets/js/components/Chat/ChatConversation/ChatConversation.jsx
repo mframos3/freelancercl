@@ -6,6 +6,7 @@ import Message from '../ChatMessage/ChatMessage';
 const ChatConversation = ({ messages, userData, myId }) => (
   <div id="chat-message-list">
     {messages.map((message, i) => (
+      // eslint-disable-next-line react/no-array-index-key
       <div key={i}>
         <Message message={message} userData={userData} myId={myId} />
       </div>

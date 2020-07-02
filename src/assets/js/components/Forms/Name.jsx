@@ -41,7 +41,6 @@ export default class Validation extends Component {
         <div className="field">
           <label htmlFor="name" > Nombre</label>
           <input type="text" name="name" value={this.props.serverData.name} onChange={this.handleError} />
-          <br></br>
           {alert}
         </div>
       </div>

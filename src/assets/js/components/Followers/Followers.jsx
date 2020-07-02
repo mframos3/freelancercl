@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import PropTypes from 'prop-types';
 import './Followers.scss';
 
 const Followers = () => {
@@ -64,13 +63,6 @@ const Followers = () => {
           <li>{(occupation)}</li>
           <li><strong>Valoración:</strong></li>
           <li>{(rating)}</li>
-          {/* <% if (user.rating !== 0) {%>
-            <% for(let i=0; i < Math.round(user.rating); i++) {%>
-              <li><img class="star" src="https://img.icons8.com/color/2x/star.png"></img></li>
-            <% } %>
-          <% } else {%>
-            <li>Sin Valoraciones</li>
-          <% } %>  */}
           <li><strong>Seguidores:</strong></li>
           <li>{(followers)}</li>
           <li><strong>Seguidos:</strong></li>
@@ -84,20 +76,8 @@ const Followers = () => {
           </li>
         </ul>
       </div>
-      {/* <p><strong>Seguidores:</strong></p>
-      <p>{(followers)}</p>
-      <p><strong>Seguidos:</strong></p>
-      <p><%= user.cFollowed =%></p> */}
     </div>
   );
 };
 
 export default Followers;
-
-// Followers.propTypes = {
-//   contentType: PropTypes.string,
-// };
-
-// Followers.defaultProps = {
-//   contentType: '',
-// };

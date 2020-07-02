@@ -24,5 +24,5 @@ router.use('/chat', chatApi.routes());
 router.use('/follow', followApi.routes());
 router.use('/posts', postsApi.routes());
 router.use('/users', usersApi.routes());
-router.user('/reviews', reviewsApi.routes());
+router.use('/reviews', reviewsApi.routes());
 module.exports = router;

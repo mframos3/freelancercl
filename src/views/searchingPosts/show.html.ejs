@@ -5,11 +5,8 @@
     <img src="<%= searchingPost.image%>">
   </div>
 
-
-  <!-- Right Column -->
   <div class="right-column">
 
-    <!-- Product Description -->
     <div class="post-description">
       <span>
         <a href="<%= userProfilePath(searchingPost.userId) %>">@<%= searchingPost.username %></a></span>
@@ -20,7 +17,6 @@
 
     </div>
 
-    <!-- Product Configuration -->
     <div class="post-info">
 
       <div class="product-categories">
@@ -29,8 +25,6 @@
         </ul>
       </div>
 
-
-      <!-- product-color -->
       <div class="post-dates">
         <span>Creado el:
           <%= searchingPost.createdAt.getDate() + '-' + searchingPost.createdAt.getMonth() + '-' + searchingPost.createdAt.getFullYear() %></span>

@@ -1,17 +1,13 @@
 const KoaRouter = require('koa-router');
 const Sequelize = require('sequelize');
-
 const bcrypt = require('bcrypt');
-
-const PASSWORD_SALT = 10;
-const { Op } = Sequelize;
-
 const Fuse = require('fuse.js');
-
 const fileStorage = require('../services/file-storage');
 const sgMail = require('../config/emailApi');
 const msg = require('../mailers/login-email-Api');
 
+const PASSWORD_SALT = 10;
+const { Op } = Sequelize;
 const router = new KoaRouter();
 
 let passwordError = '';
@@ -25,37 +21,6 @@ async function loadUser(ctx, next) {
   return next();
 }
 
-// async function asyncForEach(array, callback) {
-//   for (let index = 0; index < array.length; index += 1) {
-//     // eslint-disable-next-line no-await-in-loop
-//     await callback(array[index], index, array);
-//   }
-// }
-
-// // Función que calcula el rating del usuario
-// async function computeRating(ctx) {
-//   let countReview = 0;
-//   let sumValues = 0;
-//   let reviewsList = [];
-//   const { user } = ctx.state;
-//   const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: user.id } });
-//   asyncForEach(offeringPostsList, async (post) => {
-//     reviewsList = await ctx.orm.review.findAll({ where: { id_post: post.id } });
-//     // console.log('Lista de reviwes');
-//     // console.log(reviewsList);
-//     reviewsList.forEach((review) => {
-//       sumValues += review.rating;
-//       countReview += 1;
-//     });
-//   }).then(() => {
-//     // console.log(`Suma de ratings: ${sumValues}`);
-//     // console.log(`Cantidad de reviws: ${countReview}`);
-//     const mean = sumValues / countReview;
-//     // console.log(`Promedio: ${mean.toFixed(1)}`);
-//     user.rating = mean.toFixed(1);
-//   });
-// }
-
 // Función que calcula la cantidad de followers y de followed
 async function computeFollowers(ctx) {
   const { user } = ctx.state;
@@ -64,8 +29,6 @@ async function computeFollowers(ctx) {
   const followedList = await ctx.orm.follow.findAll({ where: { followerId: user.id } });
   const followersCU = await ctx.orm.follow.findAll({ where: { followedId: currentUser.id } });
   const followedCU = await ctx.orm.follow.findAll({ where: { followerId: currentUser.id } });
-  // console.log(typeof (followersList));
-  // console.log(followedList.length);
   currentUser.cFollowers = followersCU.length;
   currentUser.cFollowed = followedCU.length;
   user.cFollowers = followersList.length;
@@ -81,12 +44,6 @@ router.get('users.list', '/', async (ctx) => {
     isCaseSensitive: false,
     includeScore: false,
     shouldSort: true,
-    // includeMatches: false,
-    // findAllMatches: true,
-    // minMatchCharLength: 1,
-    // location: 0,
-    // threshold: 0.6,
-    // distance: 100,
     useExtendedSearch: true,
     keys: [{ name: 'dataValues.email', weight: 2 }, { name: 'dataValues.name', weight: 1.5 }, { name: 'dataValues.occupation', weight: 0.3 }],
   };
@@ -121,6 +78,7 @@ router.get('users.new', '/new', async (ctx) => {
 router.post('users.create', '/', async (ctx) => {
   const user = ctx.orm.user.build(ctx.request.body);
   ctx.redirect(ctx.router.url('index.landing'));
+  user.imagePath = 'https://freelancercl.sfo2.digitaloceanspaces.com/default-user-img.jpg';
 
   try {
     const password1 = ctx.request.body.password;
@@ -138,24 +96,17 @@ router.post('users.create', '/', async (ctx) => {
       await user.save({
         name, email, cryptPassword, occupation,
       });
-      // msg.to = email;
-      // console.log(11111111);
-      // // sgMail.send(msg).then(() => {}, (error) => {
-      // //   if (error.response) {
-      // //     console.error(error.response.body);
-      // //   }
-      // console.log(222222222);
-      // });
-      // (async () => {
-      //   try {
-      //     await sgMail.send(msg);
-      //   } catch (error) {
-      //     console.error(error);
-      //     if (error.response) {
-      //       console.error(error.response.body);
-      //     }
-      //   }
-      // })();
+      msg.to = email;
+      (async () => {
+        try {
+          await sgMail.send(msg);
+        } catch (error) {
+          console.error(error);
+          if (error.response) {
+            console.error(error.response.body);
+          }
+        }
+      })();
       ctx.session.userId = user.id;
       ctx.redirect(ctx.router.url('index.landing'));
     } else {
@@ -166,8 +117,6 @@ router.post('users.create', '/', async (ctx) => {
       });
     }
   } catch (validationError) {
-    console.log(33333333);
-
     await ctx.render('users/new', {
       user,
       errors: validationError.errors,
@@ -217,7 +166,6 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   let followerPreviousId = -1;
-  // computeRating(ctx);
   computeFollowers(ctx);
   if (currentUser) {
     followerPreviousId = currentUser.id;
