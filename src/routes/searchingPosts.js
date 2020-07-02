@@ -2,7 +2,6 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
-
 async function loadSearchingPost(ctx, next) {
   ctx.state.searchingPost = await ctx.orm.searchingPost.findByPk(ctx.params.id);
   return next();

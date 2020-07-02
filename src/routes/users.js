@@ -81,6 +81,41 @@ async function loadUser(ctx, next) {
   return next();
 }
 
+async function linkedinApi() {
+  axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: redirect,
+    client_id: client_id,
+    client_secret: client_secret,
+  }))
+    .then((res2) => {
+      console.log('LINKEDIN RESPUESTA');
+      console.log(JSON.stringify(res2.data, 0, 2));
+      const accessToken = JSON.stringify(res2.data, 0, 2);
+      return accessToken;
+    })
+    .then((accessToken) => {
+      axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
+        redirect_uri: redirect,
+        connection: 'Keep-Alive',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${accessToken}`,
+        },
+      }))
+        .then((res2) => {
+          console.log('LINKEDIN RESPUESTA');
+          console.log(res2.data);
+        })
+        .catch((error) => {
+          console.log('LINKEDIN ERROR');
+          console.log(error.data);
+        });
+    });
+}
+
+
 async function computeFollowers(ctx) {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
@@ -240,40 +275,12 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   });
   const linkedin = 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77c56cbij2arr0&redirect_uri=https://freelancercl.herokuapp.com&scope=r_liteprofile';
   console.log('CODE:');
-  console.log(ctx.query.code);
-  const code = ctx.query.code || false;
+  console.log(ctx.query);
+  console.log('CONTEXTO');
+  console.log(ctx);
+  const code = ctx.query.code;
+  await linkedinApi();
 
-  axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
-    grant_type: 'authorization_code',
-    code: code,
-    redirect_uri: redirect,
-    client_id: client_id,
-    client_secret: client_secret,
-  }))
-    .then((res2) => {
-      console.log('LINKEDIN RESPUESTA');
-      console.log(JSON.stringify(res2.data, 0, 2));
-      const accessToken = JSON.stringify(res2.data, 0, 2);
-      return accessToken;
-    })
-    .then((accessToken) => {
-      axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
-        redirect_uri: redirect,
-        connection: 'Keep-Alive',
-        headers: {
-          'content-type': 'application/json',
-          authorization: `Bearer ${accessToken}`,
-        },
-      }))
-        .then((res2) => {
-          console.log('LINKEDIN RESPUESTA');
-          console.log(res2.data);
-        })
-        .catch((error) => {
-          console.log('LINKEDIN ERROR');
-          console.log(error.data);
-        });
-    });
   await ctx.render('users/show', {
     user,
     follow,

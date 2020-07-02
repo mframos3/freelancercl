@@ -1,9 +1,14 @@
 const KoaRouter = require('koa-router');
+const Sequelize = require('sequelize');
+
 const reviews = require('./reviews');
 const applications = require('./applications');
 const fileStorage = require('../services/file-storage');
 
 const router = new KoaRouter();
+
+const { Op } = Sequelize;
+
 
 async function loadOfferingPost(ctx, next) {
   ctx.state.offeringPost = await ctx.orm.offeringPost.findByPk(ctx.params.pid);
@@ -102,6 +107,8 @@ router.del('offeringPosts.delete', '/:pid', loadOfferingPost, async (ctx) => {
 });
 
 router.get('offeringPosts.show', '/:pid', loadOfferingPost, async (ctx) => {
+  console.log("queryy");
+  console.log(ctx.query);
   const { offeringPost } = ctx.state;
   computeRating(ctx);
   offeringPost.username = (await ctx.orm.user.findByPk(offeringPost.userId)).name;
