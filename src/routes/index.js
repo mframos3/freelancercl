@@ -39,13 +39,13 @@ async function linkedinApi(code, ctx) {
           // currentUser.linkedinLastName = res2.data.localizedLastName;
           currentUser2.linkedinFirstName = res2.data.localizedFirstName.toString();
           console.log(res2.data.localizedFirstName.toString());
-          currentUser2.update({ fields: ['linkedinFirstName'] });
           // currentUser2.save({ fields: ['linkedinFirstName'] });
         }).catch((res) => {
           console.log('FFFFFF');
           console.log(res);
         });
     });
+  currentUser2.save({ fields: ['linkedinFirstName'] });
   return currentUser2;
 }
 
@@ -108,8 +108,6 @@ router.get('index.landing', '/', async (ctx) => {
   // const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
   // const passwordError = '';
 
-  console.log('ENTRAMO O NO LA WEA');
-
   //LINKEDIN
   const code = ctx.query.code;
   // if (currentUser) {
@@ -118,7 +116,6 @@ router.get('index.landing', '/', async (ctx) => {
   if (code) {
     // console.log(linkedinFirstName);
     const userLinkedin = await linkedinApi(code, ctx);
-    await userLinkedin.save({ fields: ['linkedinFirstName'] });
     console.log('PASAMO O NO LA WEA');
     console.log(userLinkedin.linkedinFirstName);
     const u = await ctx.orm.user.findByPk(ctx.session.userId);
