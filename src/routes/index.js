@@ -123,6 +123,9 @@ router.get('index.landing', '/', async (ctx) => {
   const linkedinData = await linkedinApi(code);
   currentUser.linkedinData = linkedinData;
 
+  console.log('LINKEDINDATA');
+  console.log(currentUser.linkedinData);
+
   await ctx.render('index', {
     appVersion: pkg.version,
     offeringPostsList,

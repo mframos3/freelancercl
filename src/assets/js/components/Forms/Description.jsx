@@ -15,6 +15,7 @@ export default class Validation extends Component {
     event.preventDefault();
     const { name, value } = event.target;
     this.setState({ [name]: value });
+    const {serverData} = this.props;
     this.props.serverData.description = value;
     this.throwError(name, value);
   }
