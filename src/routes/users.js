@@ -84,15 +84,15 @@ async function loadUser(ctx, next) {
 async function linkedinApi() {
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
-    code: code,
     redirect_uri: redirect,
     client_id: client_id,
     client_secret: client_secret,
   }))
     .then((res2) => {
       console.log('LINKEDIN RESPUESTA');
+      console.log(res2);
       console.log(JSON.stringify(res2.data, 0, 2));
-      const accessToken = JSON.stringify(res2.data, 0, 2);
+      const accessToken = JSON.stringify(res2.access_token, 0, 2);
       return accessToken;
     })
     .then((accessToken) => {
