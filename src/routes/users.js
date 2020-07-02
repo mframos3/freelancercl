@@ -12,11 +12,72 @@ const fileStorage = require('../services/file-storage');
 const sgMail = require('../config/emailApi');
 const msg = require('../mailers/login-email-Api');
 
+// const code = 'AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ';
+const client_id = '77c56cbij2arr0';
+const client_secret = 'C7oQMzl70UMzRmPy';
+const redirect = 'https://freelancercl.herokuapp.com';
+
+
+// const https = require('https');
+
+// AccesToken
+// const options = {
+//   host: 'www.linkedin.com',
+//   path: '/oauth/v2/accessToken',
+//   method: 'POST',
+//   headers: {
+//     'content-type': 'application/x-www-form-urlencoded',
+//   },
+//   form: {
+//     grant_type: 'authorization_code&code=AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ&redirect_uri=https://freelancercl.herokuapp.com&client_id=77c56cbij2arr0&client_secret=C7oQMzl70UMzRmPy',
+//   },
+// };
+
+// const accessTokenRequest = https.request(options, function( res ) {
+//   let data = '';
+//   res.on('data', (chunk) => {
+//     data += chunk;
+//   });
+//   res.on('end', () => {
+//     const accessToken = JSON.parse(data);
+//     console.log('ACCESS 2222');
+//     console.log(JSON.stringify(accessToken, 0, 2));  });
+// });
+// accessTokenRequest.end();
+
+// //Request
+// const optionsRequest = {
+//   host: 'api.linkedin.com',
+//   connection: 'Keep-Alive',
+//   method: 'GET',
+//   headers: {
+//     'content-type': 'application/json',
+//      authorization: 'Bearer ACCESS_TOKEN',
+//   },
+// };
+
+// const requestLinkedin = https.request(options, function( res ) {
+//   let data = '';
+//   res.on('data', (chunk) => {
+//     data += chunk;
+//   });
+//   res.on('end', () => {
+//     const linke = JSON.parse(data);
+//     console.log('ACCESS 3333');
+//     console.log(JSON.stringify(linke, 0, 2));  });
+// });
+// requestLinkedin.end();
+
+const axios = require('axios');
+const querystring = require('querystring');
+
 const router = new KoaRouter();
 
 let passwordError = '';
 
 const index = require('../routes/index');
+const { codePointAt } = require('core-js/fn/string');
+const { exitCode } = require('process');
 
 router.use('/', index.routes());
 
@@ -25,38 +86,6 @@ async function loadUser(ctx, next) {
   return next();
 }
 
-// async function asyncForEach(array, callback) {
-//   for (let index = 0; index < array.length; index += 1) {
-//     // eslint-disable-next-line no-await-in-loop
-//     await callback(array[index], index, array);
-//   }
-// }
-
-// // Función que calcula el rating del usuario
-// async function computeRating(ctx) {
-//   let countReview = 0;
-//   let sumValues = 0;
-//   let reviewsList = [];
-//   const { user } = ctx.state;
-//   const offeringPostsList = await ctx.orm.offeringPost.findAll({ where: { userId: user.id } });
-//   asyncForEach(offeringPostsList, async (post) => {
-//     reviewsList = await ctx.orm.review.findAll({ where: { id_post: post.id } });
-//     // console.log('Lista de reviwes');
-//     // console.log(reviewsList);
-//     reviewsList.forEach((review) => {
-//       sumValues += review.rating;
-//       countReview += 1;
-//     });
-//   }).then(() => {
-//     // console.log(`Suma de ratings: ${sumValues}`);
-//     // console.log(`Cantidad de reviws: ${countReview}`);
-//     const mean = sumValues / countReview;
-//     // console.log(`Promedio: ${mean.toFixed(1)}`);
-//     user.rating = mean.toFixed(1);
-//   });
-// }
-
-// Función que calcula la cantidad de followers y de followed
 async function computeFollowers(ctx) {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
@@ -64,8 +93,6 @@ async function computeFollowers(ctx) {
   const followedList = await ctx.orm.follow.findAll({ where: { followerId: user.id } });
   const followersCU = await ctx.orm.follow.findAll({ where: { followedId: currentUser.id } });
   const followedCU = await ctx.orm.follow.findAll({ where: { followerId: currentUser.id } });
-  // console.log(typeof (followersList));
-  // console.log(followedList.length);
   currentUser.cFollowers = followersCU.length;
   currentUser.cFollowed = followedCU.length;
   user.cFollowers = followersList.length;
@@ -81,12 +108,6 @@ router.get('users.list', '/', async (ctx) => {
     isCaseSensitive: false,
     includeScore: false,
     shouldSort: true,
-    // includeMatches: false,
-    // findAllMatches: true,
-    // minMatchCharLength: 1,
-    // location: 0,
-    // threshold: 0.6,
-    // distance: 100,
     useExtendedSearch: true,
     keys: [{ name: 'dataValues.email', weight: 2 }, { name: 'dataValues.name', weight: 1.5 }, { name: 'dataValues.occupation', weight: 0.3 }],
   };
@@ -138,24 +159,6 @@ router.post('users.create', '/', async (ctx) => {
       await user.save({
         name, email, cryptPassword, occupation,
       });
-      // msg.to = email;
-      // console.log(11111111);
-      // // sgMail.send(msg).then(() => {}, (error) => {
-      // //   if (error.response) {
-      // //     console.error(error.response.body);
-      // //   }
-      // console.log(222222222);
-      // });
-      // (async () => {
-      //   try {
-      //     await sgMail.send(msg);
-      //   } catch (error) {
-      //     console.error(error);
-      //     if (error.response) {
-      //       console.error(error.response.body);
-      //     }
-      //   }
-      // })();
       ctx.session.userId = user.id;
       ctx.redirect(ctx.router.url('index.landing'));
     } else {
@@ -166,8 +169,6 @@ router.post('users.create', '/', async (ctx) => {
       });
     }
   } catch (validationError) {
-    console.log(33333333);
-
     await ctx.render('users/new', {
       user,
       errors: validationError.errors,
@@ -217,7 +218,6 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
   let followerPreviousId = -1;
-  // computeRating(ctx);
   computeFollowers(ctx);
   if (currentUser) {
     followerPreviousId = currentUser.id;
@@ -231,6 +231,42 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const searchingPostsList = await ctx.orm.searchingPost.findAll({
     where: { userId: { [Op.eq]: user.id } },
   });
+  const linkedin = 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77c56cbij2arr0&redirect_uri=https://freelancercl.herokuapp.com&scope=r_liteprofile';
+  console.log('CODE:');
+  console.log(ctx.query.code);
+  const code = ctx.query.code || false;
+
+  axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: redirect,
+    client_id: client_id,
+    client_secret: client_secret,
+  }))
+    .then((res2) => {
+      console.log('LINKEDIN RESPUESTA');
+      console.log(JSON.stringify(res2.data, 0, 2));
+      const accessToken = JSON.stringify(res2.data, 0, 2);
+      return accessToken;
+    })
+    .then((accessToken) => {
+      axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
+        redirect_uri: redirect,
+        connection: 'Keep-Alive',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${accessToken}`,
+        },
+      }))
+        .then((res2) => {
+          console.log('LINKEDIN RESPUESTA');
+          console.log(res2.data);
+        })
+        .catch((error) => {
+          console.log('LINKEDIN ERROR');
+          console.log(error.data);
+        });
+    });
   await ctx.render('users/show', {
     user,
     follow,
@@ -245,6 +281,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
     showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
     newSearchingPostPath: ctx.router.url('searchingPosts.new'),
     newOfferingPostPath: ctx.router.url('offeringPosts.new'),
+    linkedin,
   });
 });
 
