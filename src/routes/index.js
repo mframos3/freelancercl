@@ -26,13 +26,29 @@ async function linkedinApi(code) {
     .then((res2) => {
       console.log('LINKEDIN RESPUESTA');
       console.log(res2);
+      console.log('111111111');
+      console.log(res2.access_token);
+      console.log('22222222');
+      console.log(JSON.stringify(res2.access_token, 0, 2));
       const accessToken = JSON.stringify(res2.access_token, 0, 2);
       return accessToken;
-    })
-    .catch((error) => {
-      console.log('LINKEDIN ERROR');
-      console.log(error);
+    }).then((accessToken) => {
+    axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
+    redirect_uri: redirect,
+    connection: 'Keep-Alive',
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${accessToken}`,
+    },
+  }))
+    .then((res2) => {
+      console.log('LINKEDIN RESPUESTA FINAL');
+      console.log(res2);
+    }).catch((res) => {
+      console.log('FFFFFF');
+      console.log(res);
     });
+});
 }
 
 

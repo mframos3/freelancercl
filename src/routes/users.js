@@ -75,20 +75,7 @@ async function loadUser(ctx, next) {
   return next();
 }
 
-// .then((accessToken) => {
-//   axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
-//     redirect_uri: redirect,
-//     connection: 'Keep-Alive',
-//     headers: {
-//       'content-type': 'application/json',
-//       authorization: `Bearer ${accessToken}`,
-//     },
-//   }))
-//     .then((res2) => {
-//       console.log('LINKEDIN RESPUESTA');
-//       console.log(res2.data);
-//     });
-// })
+
 
 async function computeFollowers(ctx) {
   const { user } = ctx.state;
