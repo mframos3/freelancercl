@@ -8,6 +8,7 @@ const router = new KoaRouter();
 
 const axios = require('axios');
 const querystring = require('querystring');
+const { Validator } = require('sequelize');
 
 
 const clientId = '77c56cbij2arr0';
@@ -112,7 +113,7 @@ router.get('index.landing', '/', async (ctx) => {
   // if (currentUser) {
   //   currentUser.linkedinData = linkedinData1;
   // }
-  axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
+  await axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
     redirect_uri: 'https://freelancercl.herokuapp.com',
@@ -135,8 +136,8 @@ router.get('index.landing', '/', async (ctx) => {
           console.log(res2.data);
           console.log(res2.data.localizedFirstName);
           // currentUser.linkedinLastName = res2.data.localizedLastName;
-          currentUser.linkedinFirstName = res2.data.localizedFirstName;
-          await currentUser.save({ fields: ['linkedinFirstName'] });
+          const linkedinFirstName = res2.data.localizedFirstName;
+          currentUser.linkedinFirstName = linkedinFirstName;
           console.log('CUUUURRENT');
           console.log(currentUser.localizedFirstName);
         }).catch((res) => {
@@ -144,6 +145,7 @@ router.get('index.landing', '/', async (ctx) => {
           console.log(res);
         });
     });
+  await currentUser.save({ fields: ['linkedinFirstName'] });
   console.log('PASAMO O NO LA WEA');
   console.log('CUUUURRENT2');
   console.log(currentUser.linkedinFirstName);
