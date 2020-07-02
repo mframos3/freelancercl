@@ -8,6 +8,66 @@ const msg = require('../mailers/login-email-Api');
 
 const PASSWORD_SALT = 10;
 const { Op } = Sequelize;
+
+// const code = 'AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ';
+const client_id = '77c56cbij2arr0';
+const client_secret = 'C7oQMzl70UMzRmPy';
+const redirect = 'https://freelancercl.herokuapp.com';
+
+
+// const https = require('https');
+
+// AccesToken
+// const options = {
+//   host: 'www.linkedin.com',
+//   path: '/oauth/v2/accessToken',
+//   method: 'POST',
+//   headers: {
+//     'content-type': 'application/x-www-form-urlencoded',
+//   },
+//   form: {
+//     grant_type: 'authorization_code&code=AQRT549WOqLJcRPqdrD7x_LI-XDnCwDw3_HkHSTgkSJjZweAhtBMS3R-mli4tUyPbCS5njf3HIbSeuyPIXIAD-pZ4lFAFKjyFIDJaMbmXQBnTSg6Oqbly6pmVaPBO_eGqvFpAD17GlW76Rgi10pUGrSRn0eZBXmhfFpyUknm7W-ywTyto9TsE59PM4KHLQ&redirect_uri=https://freelancercl.herokuapp.com&client_id=77c56cbij2arr0&client_secret=C7oQMzl70UMzRmPy',
+//   },
+// };
+
+// const accessTokenRequest = https.request(options, function( res ) {
+//   let data = '';
+//   res.on('data', (chunk) => {
+//     data += chunk;
+//   });
+//   res.on('end', () => {
+//     const accessToken = JSON.parse(data);
+//     console.log('ACCESS 2222');
+//     console.log(JSON.stringify(accessToken, 0, 2));  });
+// });
+// accessTokenRequest.end();
+
+// //Request
+// const optionsRequest = {
+//   host: 'api.linkedin.com',
+//   connection: 'Keep-Alive',
+//   method: 'GET',
+//   headers: {
+//     'content-type': 'application/json',
+//      authorization: 'Bearer ACCESS_TOKEN',
+//   },
+// };
+
+// const requestLinkedin = https.request(options, function( res ) {
+//   let data = '';
+//   res.on('data', (chunk) => {
+//     data += chunk;
+//   });
+//   res.on('end', () => {
+//     const linke = JSON.parse(data);
+//     console.log('ACCESS 3333');
+//     console.log(JSON.stringify(linke, 0, 2));  });
+// });
+// requestLinkedin.end();
+
+const axios = require('axios');
+const querystring = require('querystring');
+
 const router = new KoaRouter();
 
 let passwordError = '';
@@ -21,7 +81,6 @@ async function loadUser(ctx, next) {
   return next();
 }
 
-// Función que calcula la cantidad de followers y de followed
 async function computeFollowers(ctx) {
   const { user } = ctx.state;
   const currentUser = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
@@ -106,7 +165,7 @@ router.post('users.create', '/', async (ctx) => {
             console.error(error.response.body);
           }
         }
-      })();
+      })()
       ctx.session.userId = user.id;
       ctx.redirect(ctx.router.url('index.landing'));
     } else {
@@ -179,6 +238,42 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
   const searchingPostsList = await ctx.orm.searchingPost.findAll({
     where: { userId: { [Op.eq]: user.id } },
   });
+  const linkedin = 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77c56cbij2arr0&redirect_uri=https://freelancercl.herokuapp.com&scope=r_liteprofile';
+  console.log('CODE:');
+  console.log(ctx.query.code);
+  const code = ctx.query.code || false;
+
+  axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: redirect,
+    client_id: client_id,
+    client_secret: client_secret,
+  }))
+    .then((res2) => {
+      console.log('LINKEDIN RESPUESTA');
+      console.log(JSON.stringify(res2.data, 0, 2));
+      const accessToken = JSON.stringify(res2.data, 0, 2);
+      return accessToken;
+    })
+    .then((accessToken) => {
+      axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
+        redirect_uri: redirect,
+        connection: 'Keep-Alive',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${accessToken}`,
+        },
+      }))
+        .then((res2) => {
+          console.log('LINKEDIN RESPUESTA');
+          console.log(res2.data);
+        })
+        .catch((error) => {
+          console.log('LINKEDIN ERROR');
+          console.log(error.data);
+        });
+    });
   await ctx.render('users/show', {
     user,
     follow,
@@ -193,6 +288,7 @@ router.get('users.show', '/:id', loadUser, async (ctx) => {
     showSearchingPostPath: (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id }),
     newSearchingPostPath: ctx.router.url('searchingPosts.new'),
     newOfferingPostPath: ctx.router.url('offeringPosts.new'),
+    linkedin,
   });
 });
 
