@@ -14,7 +14,7 @@ const { Validator } = require('sequelize');
 const clientId = '77c56cbij2arr0';
 const clientSecret = 'C7oQMzl70UMzRmPy';
 
-async function linkedinApi(code) {
+async function linkedinApi(code, currentUser) {
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
@@ -115,7 +115,7 @@ router.get('index.landing', '/', async (ctx) => {
   // }
   if (code) {
     // console.log(linkedinFirstName);
-    await linkedinApi(code);
+    await linkedinApi(code, currentUser);
     console.log('PASAMO O NO LA WEA');
     console.log(currentUser.linkedinFirstName);
     console.log('CUUUURRENT2');
