@@ -33,7 +33,10 @@ async function linkedinApi(code) {
       var accessToken = res2.data.access_token;
       return accessToken;
     }).then((accessToken) => {
+      console.log(accessToken);
     axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
+      accessToken: accessToken,
+      oauth2_access_token: accessToken,
       headers: {
         'Host': 'api.linkedin.com',
         'Connection': 'Keep-Alive',
