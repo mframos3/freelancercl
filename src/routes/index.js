@@ -27,20 +27,20 @@ async function linkedinApi(code, user) {
       const accessToken = res2.data.access_token;
       return accessToken;
     }).then((accessToken) => {
-    axios.get('https://api.linkedin.com/v2/me', {
-      headers: {
-        'Host': 'api.linkedin.com',
-        'Connection': 'Keep-Alive',
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    })
-    .then((res2) => {
-      console.log("DATA FINAL");
-      console.log(res2.data);
-      user.linkedinData = res2.data;
-      console.log(user.linkedinData);
-      return res2.data;
-    }).catch((res) => {
+      axios.get('https://api.linkedin.com/v2/me', {
+        headers: {
+          'Host': 'api.linkedin.com',
+          'Connection': 'Keep-Alive',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      })
+        .then((res2) => {
+          console.log("DATA FINAL");
+          console.log(res2.data);
+          user.linkedinData = res2.data;
+          console.log(user.linkedinData);
+          return res2.data;
+      }).catch((res) => {
       console.log('FFFFFF');
       console.log(res);
     });
@@ -111,18 +111,38 @@ router.get('index.landing', '/', async (ctx) => {
 
   //LINKEDIN
   const code = ctx.query.code;
-  const linkedinData1 = await linkedinApi(code, currentUser);
-  console.log('LINKEDINDATA1111');
-  console.log(linkedinData1);
   // if (currentUser) {
   //   currentUser.linkedinData = linkedinData1;
   // }
-  if (!user.linkedinData) {
-    const linkedinData2 = await linkedinApi(code, currentUser);
-    console.log('LINKEDINDATA1');
-    console.log(linkedinData2);
-    currentUser.linkedinData = linkedinData2;
-  }
+  axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: 'https://freelancercl.herokuapp.com',
+    client_id: client_id,
+    client_secret: client_secret,
+  }))
+    .then((res2) => {
+      const accessToken = res2.data.access_token;
+      return accessToken;
+    }).then((accessToken) => {
+      axios.get('https://api.linkedin.com/v2/me', {
+        headers: {
+          'Host': 'api.linkedin.com',
+          'Connection': 'Keep-Alive',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      })
+        .then((res2) => {
+          console.log("DATA FINAL");
+          console.log(res2.data);
+          currentUser.linkedinData = res2.data;
+          console.log('CUUUURRENT');
+          console.log(currentUser.linkedinData);
+        }).catch((res) => {
+          console.log('FFFFFF');
+          console.log(res);
+        });
+    });
   console.log('PASAMO O NO LA WEA');
 
   await ctx.render('index', {
