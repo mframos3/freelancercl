@@ -48,7 +48,7 @@ async function linkedinApi(code, ctx) {
           console.log(res);
         });
     });
-  currentUser2 = await currentUser2.update({ linkedinFirstName: 'SE ACTUALIZO LA WEA' });
+  currentUser2 = await currentUser2.update({ linkedinFirstName: aux.linkedinFirstName });
   console.log("AQUI CON UPDATE");
   console.log(currentUser2);
   await currentUser2.save();
