@@ -15,7 +15,8 @@ const clientId = '77c56cbij2arr0';
 const clientSecret = 'C7oQMzl70UMzRmPy';
 
 async function linkedinApi(code, ctx) {
-  const currentUser2 = await ctx.orm.user.findByPk(ctx.session.userId);
+  let currentUser2 = await ctx.orm.user.findByPk(ctx.session.userId);
+  const aux = {};
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
@@ -37,16 +38,20 @@ async function linkedinApi(code, ctx) {
         .then((res2) => {
           console.log("DATA FINAL");
           // currentUser.linkedinLastName = res2.data.localizedLastName;
-          currentUser2.linkedinFirstName = 'WEEEENA COMPA';
-          currentUser2.save();
+          aux.linkedinFirstName = "AUXX";
           console.log(res2.data.localizedFirstName.toString());
+          console.log("AUX1");
+          console.log(aux);
           // currentUser2.save({ fields: ['linkedinFirstName'] });
         }).catch((res) => {
           console.log('FFFFFF');
           console.log(res);
         });
     });
-  currentUser2.save();
+  currentUser2 = await currentUser2.update({ linkedinFirstName: 'SE ACTUALIZO LA WEA' });
+  console.log("AQUI CON UPDATE");
+  console.log(currentUser2);
+  await currentUser2.save();
   return currentUser2;
 }
 
