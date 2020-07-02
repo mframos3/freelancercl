@@ -96,26 +96,25 @@ async function linkedinApi(code) {
       const accessToken = JSON.stringify(res2.access_token, 0, 2);
       return accessToken;
     })
-    .then((accessToken) => {
-      axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
-        redirect_uri: redirect,
-        connection: 'Keep-Alive',
-        headers: {
-          'content-type': 'application/json',
-          authorization: `Bearer ${accessToken}`,
-        },
-      }))
-        .then((res2) => {
-          console.log('LINKEDIN RESPUESTA');
-          console.log(res2.data);
-        })
-        .catch((error) => {
-          console.log('LINKEDIN ERROR');
-          console.log(error.data);
-        });
+    .catch((error) => {
+      console.log('LINKEDIN ERROR');
+      console.log(error.data);
     });
 }
-
+// .then((accessToken) => {
+//   axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
+//     redirect_uri: redirect,
+//     connection: 'Keep-Alive',
+//     headers: {
+//       'content-type': 'application/json',
+//       authorization: `Bearer ${accessToken}`,
+//     },
+//   }))
+//     .then((res2) => {
+//       console.log('LINKEDIN RESPUESTA');
+//       console.log(res2.data);
+//     });
+// })
 
 async function computeFollowers(ctx) {
   const { user } = ctx.state;
