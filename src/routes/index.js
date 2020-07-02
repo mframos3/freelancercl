@@ -30,9 +30,10 @@ async function linkedinApi(code) {
       console.log(res2.data.access_token);
       console.log('22222222');
       console.log(JSON.stringify(res2.data.access_token, 0, 2));
-      var accessToken = res2.data.access_token;
+      var accessToken = JSON.stringify(res2.data.access_token, 0, 2)
       return accessToken;
     }).then((accessToken) => {
+      console.log("ESTOOO");
       console.log(accessToken);
     axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
       accessToken: accessToken,
