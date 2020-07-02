@@ -33,6 +33,7 @@ async function linkedinApi(code) {
       return res2.data.access_token;
     }).then((accessToken) => {
     axios.get('https://api.linkedin.com/v2/me', querystring.stringify({
+    access_token: accessToken,
     redirect_uri: 'https://freelancercl.herokuapp.com',
     connection: 'Keep-Alive',
     headers: {
