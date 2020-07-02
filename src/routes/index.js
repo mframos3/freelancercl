@@ -37,7 +37,7 @@ async function linkedinApi(code, ctx) {
         .then((res2) => {
           console.log("DATA FINAL");
           // currentUser.linkedinLastName = res2.data.localizedLastName;
-          currentUser2.linkedinFirstName = res2.data.localizedFirstName.toString();
+          currentUser2.linkedinFirstName = 'WEEEENA COMPA';
           console.log(res2.data.localizedFirstName.toString());
           // currentUser2.save({ fields: ['linkedinFirstName'] });
         }).catch((res) => {
