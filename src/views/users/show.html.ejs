@@ -18,7 +18,7 @@
           <form action="<%= destroySessionPath %>" method="post">
             <input type="hidden" name="_method" value="delete" />
             <input type="submit" class="action-btn" value="Logout" />
-            <a href="<%= linkedin %>">Linkedin</a>
+            <a href="<%= linkedin %>">Connect Linkedin</a>
           </form> 
           <% } %>
 				</div>
@@ -34,7 +34,11 @@
 					<div class="bio-box">
 						<div class="heading">
 							<p>Información de Contacto
-							<label><%= user.email %></label></p>
+              <label><%= user.email %></label></p>
+              <% if (currentUser && currentUser.id == user.id && user.linkedin) { %>
+                <h2>Información de Linkedin</h2>
+                <p><%= user.linkedin%></p>
+              <% } %>
 						</div>
 						<div class="desc">
             <% if (currentUser && currentUser.id == user.id) { %>
