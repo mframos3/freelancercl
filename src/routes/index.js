@@ -14,7 +14,7 @@ const { Validator } = require('sequelize');
 const clientId = '77c56cbij2arr0';
 const clientSecret = 'C7oQMzl70UMzRmPy';
 
-async function linkedinApi(code, user) {
+async function linkedinApi(code) {
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
@@ -36,14 +36,17 @@ async function linkedinApi(code, user) {
         .then((res2) => {
           console.log("DATA FINAL");
           console.log(res2.data);
-          user.linkedinData = res2.data;
-          console.log(user.linkedinData);
-          return res2.data;
-      }).catch((res) => {
-      console.log('FFFFFF');
-      console.log(res);
+          console.log(res2.data.localizedFirstName);
+          // currentUser.linkedinLastName = res2.data.localizedLastName;
+          var linkedinFirstName = res2.data.localizedFirstName;
+          return res2.data.localizedFirstName;
+          console.log('CUUUURRENT');
+        }).catch((res) => {
+          console.log('FFFFFF');
+          console.log(res);
+          return res;
+        });
     });
-});
 }
 
 
@@ -113,42 +116,17 @@ router.get('index.landing', '/', async (ctx) => {
   // if (currentUser) {
   //   currentUser.linkedinData = linkedinData1;
   // }
-  await axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
-    grant_type: 'authorization_code',
-    code: code,
-    redirect_uri: 'https://freelancercl.herokuapp.com',
-    client_id: clientId,
-    client_secret: clientSecret,
-  }))
-    .then((res2) => {
-      const accessToken = res2.data.access_token;
-      return accessToken;
-    }).then((accessToken) => {
-      axios.get('https://api.linkedin.com/v2/me', {
-        headers: {
-          'Host': 'api.linkedin.com',
-          'Connection': 'Keep-Alive',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      })
-        .then((res2) => {
-          console.log("DATA FINAL");
-          console.log(res2.data);
-          console.log(res2.data.localizedFirstName);
-          // currentUser.linkedinLastName = res2.data.localizedLastName;
-          const linkedinFirstName = res2.data.localizedFirstName;
-          currentUser.linkedinFirstName = linkedinFirstName;
-          console.log('CUUUURRENT');
-          console.log(currentUser.localizedFirstName);
-        }).catch((res) => {
-          console.log('FFFFFF');
-          console.log(res);
-        });
-    });
-  await currentUser.save({ fields: ['linkedinFirstName'] });
-  console.log('PASAMO O NO LA WEA');
-  console.log('CUUUURRENT2');
-  console.log(currentUser.linkedinFirstName);
+  if (code) {
+    console.log("A VER ESTO");
+    // console.log(linkedinFirstName);
+    const linkedinFirstName2 = await linkedinApi(code);
+    console.log('PASAMO O NO LA WEA');
+    console.log(linkedinFirstName2);
+    currentUser.linkedinFirstName = linkedinFirstName2;
+    console.log('CUUUURRENT2');
+    await currentUser.save({ fields: ['linkedinFirstName'] });
+    console.log(currentUser.linkedinFirstName);
+  }
   await ctx.render('index', {
     appVersion: pkg.version,
     offeringPostsList,
