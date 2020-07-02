@@ -38,10 +38,13 @@ async function linkedinApi(code, ctx) {
         .then((res2) => {
           console.log("DATA FINAL");
           aux.linkedinFirstName = res2.data.localizedFirstName.toString();
+          console.log(aux);
         }).catch((res) => {
           console.log(res);
         });
     });
+  console.log("nuevo aux");
+  console.log(aux);
   currentUser2 = await currentUser2.update({ linkedinFirstName: aux.linkedinFirstName });
   await currentUser2.save();
 }
