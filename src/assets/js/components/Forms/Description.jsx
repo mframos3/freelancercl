@@ -9,14 +9,14 @@ export default class Validation extends Component {
     };
     this.throwError = this.throwError.bind(this);
     this.handleError = this.handleError.bind(this);
+    this.serverData = this.props;
   }
 
   handleError(event) {
     event.preventDefault();
     const { name, value } = event.target;
     this.setState({ [name]: value });
-    const {serverData} = this.props;
-    serverData.description = value;
+    this.serverData.description = value;
     this.throwError(name, value);
   }
 

@@ -43,11 +43,6 @@ async function linkedinApi(code, user) {
       },
     })
     .then((res2) => {
-      console.log('LINKEDIN RESPUESTA FINAL');
-      console.log(res2);
-      user.linkedinData = res2.data;
-      console.log("DENTRO");
-      console.log(user.linkedinData);
       return res2.data;
     }).catch((res) => {
       console.log('FFFFFF');
@@ -124,10 +119,12 @@ router.get('index.landing', '/', async (ctx) => {
   console.log(ctx);
   const code = ctx.query.code;
   const linkedinData = await linkedinApi(code, currentUser);
+  console.log('LINKEDINDATA1');
+  console.log(linkedinData);
   // currentUser.linkedinData = linkedinData;
 
   console.log('LINKEDINDATA');
-  console.log(linkedinData);
+  currenUser.linkedinData = linkedinData;
 
   await ctx.render('index', {
     appVersion: pkg.version,
