@@ -112,17 +112,12 @@ router.get('index.landing', '/', async (ctx) => {
   // }
   if (code) {
     // console.log(linkedinFirstName);
-    const userLinkedin = await linkedinApi(code, ctx);
+    await linkedinApi(code, ctx);
     console.log('PASAMO O NO LA WEA');
-    console.log(userLinkedin.linkedinFirstName);
     const u = await ctx.orm.user.findByPk(ctx.session.userId);
-    console.log('NUEVAAA');
     console.log(u);
 
   }
-  const u = await ctx.orm.user.findByPk(ctx.session.userId);
-  console.log('NUEVAAA');
-  console.log(u);
   await ctx.render('index', {
     appVersion: pkg.version,
     offeringPostsList,
