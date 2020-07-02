@@ -15,7 +15,7 @@ const querystring = require('querystring');
 const client_id = '77c56cbij2arr0';
 const client_secret = 'C7oQMzl70UMzRmPy';
 
-async function linkedinApi(code) {
+async function linkedinApi(code, user) {
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
@@ -45,6 +45,9 @@ async function linkedinApi(code) {
     .then((res2) => {
       console.log('LINKEDIN RESPUESTA FINAL');
       console.log(res2);
+      user.linkedinData = res2.data;
+      console.log("DENTRO");
+      console.log(user.linkedinData);
       return res2.data;
     }).catch((res) => {
       console.log('FFFFFF');
@@ -120,11 +123,11 @@ router.get('index.landing', '/', async (ctx) => {
   console.log('CONTEXTO');
   console.log(ctx);
   const code = ctx.query.code;
-  const linkedinData = await linkedinApi(code);
-  currentUser.linkedinData = linkedinData;
+  const linkedinData = await linkedinApi(code, currentUser);
+  // currentUser.linkedinData = linkedinData;
 
   console.log('LINKEDINDATA');
-  console.log(currentUser.linkedinData);
+  console.log(linkedinData);
 
   await ctx.render('index', {
     appVersion: pkg.version,
