@@ -35,7 +35,7 @@
 						<div class="heading">
 							<p>Información de Contacto
               <label><%= user.email %></label></p>
-              <% if (currentUser && currentUser.id == user.id && user.linkedin) { %>
+              <% if (currentUser && currentUser.id == user.id && user.linkedinData) { %>
                 <h2>Información de Linkedin</h2>
                 <p><%= user.linkedinData%></p>
               <% } %>
@@ -52,7 +52,6 @@
                   <input type="file" name="CV" id="CV"/>
                   <a href="#popupSearch" value="Vista Previa" type="button" onclick="PreviewImage();"> Vista Previa</a>
                 </div>
-
                 <div class="field">
                   <% if (currentUser.imagePath) {%>
                     <label for="CV">Actualizar Foto de Perfil</label>
