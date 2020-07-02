@@ -38,6 +38,7 @@ async function linkedinApi(code, ctx) {
           console.log("DATA FINAL");
           // currentUser.linkedinLastName = res2.data.localizedLastName;
           currentUser2.linkedinFirstName = 'WEEEENA COMPA';
+          currentUser2.save();
           console.log(res2.data.localizedFirstName.toString());
           // currentUser2.save({ fields: ['linkedinFirstName'] });
         }).catch((res) => {
@@ -45,7 +46,7 @@ async function linkedinApi(code, ctx) {
           console.log(res);
         });
     });
-  currentUser2.save({ fields: ['linkedinFirstName'] });
+  currentUser2.save();
   return currentUser2;
 }
 
