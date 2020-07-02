@@ -98,30 +98,25 @@ app.use(cors(options));
 app.use(routes.routes());
 
 io.on('connection', (socket) => {
-  console.log('CONNETINO!');
+  console.log('Connected!');
 
   socket.on('join', ({ myId, userId }) => {
-    console.log(`JOINETTI ${myId} : ${userId}`);
-    console.log([myId, userId].sort((a, b) => a - b).join(':'));
     socket.join([myId, userId].sort((a, b) => a - b).join(':'));
   });
 
   socket.on('sendMessage', (message, callback) => {
-    console.log(`MESAGETI ${message.sender}, ${message.receiver}: ${message.content}`);
-    console.log([message.sender, message.receiver].sort((a, b) => a - b).join(':'));
     io.to([message.sender, message.receiver].sort((a, b) => a - b).join(':')).emit('message',
       { sender_id: message.sender, content: message.content, createdAt: message.createdAt });
     callback();
   });
 
   socket.on('leave', ({ myId, userId }) => {
-    console.log(`LEAVES ${myId} : ${userId}`);
     socket.leave([myId, userId].sort((a, b) => a - b).join(':'));
   });
 
 
   socket.on('disconnect', () => {
-    console.log('DISCONETTI!');
+    console.log('Disconnected!');
   });
 });
 
