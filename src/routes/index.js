@@ -15,7 +15,7 @@ const clientId = '77c56cbij2arr0';
 const clientSecret = 'C7oQMzl70UMzRmPy';
 
 async function linkedinApi(code, ctx) {
-  const currentUser2 = await (ctx.session.userId && ctx.orm.user.findByPk(ctx.session.userId));
+  const currentUser2 = await ctx.orm.user.findByPk(ctx.session.userId);
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
@@ -37,7 +37,7 @@ async function linkedinApi(code, ctx) {
         .then((res2) => {
           console.log("DATA FINAL");
           // currentUser.linkedinLastName = res2.data.localizedLastName;
-          currentUser2.linkedinFirstName = res2.data.localizedFirstName;
+          currentUser2.linkedinFirstName = res2.data.localizedFirstName.toString();
           // currentUser2.save({ fields: ['linkedinFirstName'] });
         }).catch((res) => {
           console.log('FFFFFF');
@@ -120,6 +120,10 @@ router.get('index.landing', '/', async (ctx) => {
     await userLinkedin.save({ fields: ['linkedinFirstName'] });
     console.log('PASAMO O NO LA WEA');
     console.log(userLinkedin.linkedinFirstName);
+    const u = await ctx.orm.user.findByPk(ctx.session.userId);
+    console.log('NUEVAAA');
+    console.log(u);
+
   }
   await ctx.render('index', {
     appVersion: pkg.version,
