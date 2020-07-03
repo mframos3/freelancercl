@@ -11,8 +11,8 @@
           <p><%= user.occupation %></p>
           <div class="linkedin">
           <% if (currentUser && currentUser.id == user.id && !user.linkedinFirstName) { %>
-            <img src="https://img.icons8.com/cute-clipart/50/000000/linkedin.png "/>
-            <p><a href="<%= linkedin %>"> Mostrar información de Linkedin</a></p>
+            <p ><a href="<%= linkedin %>"><img class="linkedinIcon" src="https://img.icons8.com/cute-clipart/50/000000/linkedin.png "/>
+               Mostrar información de Linkedin</a></p>
           <% } %>
           <% if (currentUser && currentUser.id == user.id && user.linkedinFirstName) { %>
             <img src="https://img.icons8.com/cute-clipart/50/000000/linkedin.png "/>
