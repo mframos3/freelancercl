@@ -35,7 +35,7 @@ async function linkedinApi(code) {
         })
           .then((res2) => {
             console.log("INFORMACION");
-            console.log(res2.data);
+            console.log(res2);
             const linkedinFirstName = res2.data.localizedFirstName.toString();
             resolve(linkedinFirstName);
           });
