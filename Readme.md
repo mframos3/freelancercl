@@ -20,6 +20,12 @@ La cuarta versión de freelancercl ya está disponible en tu navegador, solo deb
 
 https://freelancercl.herokuapp.com
 
+Y puedes probar nuestra api en:  
+
+https://freelancercl2.herokuapp.com/  
+
+es una página que que usa la información de la API de freelancercl para hacer un poco de estadística
+
 Consideraciones a tener:
 
 * La versión 1.0.4 de esta App, presenta a todos los modelos que estarán presentes en una futura versión definitiva de freelancercl. Están ya muy cerca del css definitivo, esta bien avanzado y da una muy buena imágen de cómo va a terminar siendo. El index de Searching Post y Offering Post muestra las publicaciones en forma de grid, mostrando su foto, el título, su contenido y su categoría. Hay pop ups para el inicio de sesión y el register. 
