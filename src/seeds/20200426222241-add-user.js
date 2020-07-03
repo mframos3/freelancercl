@@ -14,6 +14,7 @@ for (let i = 1; i < 11; i += 1) {
     cvPath: '',
     linkedinFirstName: null,
     linkedinLastName: null,
+    imagePath: 'https://freelancercl.sfo2.digitaloceanspaces.com/default-user-img.jpg',
     rating: 0,
     occupation: faker.name.jobTitle(),
     isAdmin: (i === 1),

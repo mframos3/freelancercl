@@ -13,6 +13,7 @@ for (let i = 1; i < 11; i += 1) {
     category: categories[Math.floor(Math.random() * categories.length)],
     description: faker.lorem.paragraph(1),
     userId: i,
+    img: 'https://freelancercl.sfo2.digitaloceanspaces.com/default-post.jpg',
     endsAt: faker.date.future(1),
     price: Math.floor(Math.random() * (100000 - 20000 + 1)) + 200000,
     rating: 0,
