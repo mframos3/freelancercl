@@ -20,11 +20,11 @@ La cuarta versión de freelancercl ya está disponible en tu navegador, solo deb
 
 https://freelancercl.herokuapp.com
 
-Y puedes probar nuestra api en:  
+Y puedes probar nuestra API en:  
 
 https://freelancercl2.herokuapp.com/  
 
-es una página que que usa la información de la API de freelancercl para hacer un poco de estadística
+es una página que que usa la información de la API de freelancercl para hacer un poco de estadística.
 
 Consideraciones a tener:
 
