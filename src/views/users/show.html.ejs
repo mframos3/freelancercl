@@ -10,20 +10,22 @@
           <h5><%= user.email %></h5>
           <p><%= user.occupation %></p>
           <div class="linkedin">
-          <% if (currentUser && currentUser.id == user.id && !user.linkedinFirstName) { %>
+          <% if (currentUser && currentUser.id == user.id && user.linkedinFirstName) { %>
             <p ><a href="<%= linkedin %>"><img class="linkedinIcon" src="https://img.icons8.com/cute-clipart/50/000000/linkedin.png "/>
                Mostrar información de Linkedin</a></p>
           <% } %>
-          <% if (currentUser && currentUser.id == user.id && user.linkedinFirstName) { %>
-            <img src="https://img.icons8.com/cute-clipart/50/000000/linkedin.png "/>
-            <h6><%= `Linkedin: ${user.linkedinFirstName} ${user.linkedinLastName}` %></h6>
+          <% if (currentUser && currentUser.id == user.id && !user.linkedinFirstName) { %>
+            <h6><img src="https://img.icons8.com/cute-clipart/50/000000/linkedin.png "/>
+              <%= `Linkedin: ${user.linkedinFirstName} ${user.linkedinLastName}` %></h6>
           <% } %>
-          <% if (currentUser && currentUser.id == user.id) { %>
-          <form action="<%= destroySessionPath %>" method="post">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" class="action-btn" value="Logout" />
-          </form>
-          <% } %>
+          </div>
+          <div class="logout">
+            <% if (currentUser && currentUser.id == user.id) { %>
+              <form action="<%= destroySessionPath %>" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" class="action-btn" value="Logout" />
+              </form>
+              <% } %>
           </div>
 				</div>
       </div>
