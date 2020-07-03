@@ -71,7 +71,12 @@
   color: black;
   margin-right: 7px;
 }
-
+//Linkedin
+.linkedin {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
 /*tab*/
 .tab-panel-main{
@@ -84,7 +89,6 @@ ul.tabs{
   padding: 0px;
   list-style: none;
   display: flex;
-  position: absolute;
   bottom: 0px;
   right: 0px;
 }
@@ -588,3 +592,4 @@ iframe {
   left: 0;
   z-index: 1;
 }
+
