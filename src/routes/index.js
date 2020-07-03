@@ -1,6 +1,5 @@
 const KoaRouter = require('koa-router');
 const Sequelize = require('sequelize');
-const pkg = require('../../package.json');
 
 const { Op } = Sequelize;
 
@@ -9,44 +8,42 @@ const router = new KoaRouter();
 const axios = require('axios');
 const querystring = require('querystring');
 const { Validator } = require('sequelize');
+const pkg = require('../../package.json');
 
 
 const clientId = '77c56cbij2arr0';
 const clientSecret = 'C7oQMzl70UMzRmPy';
 
-async function linkedinApi(code, ctx) {
-  var aux = [];
-  let currentUser2 = await ctx.orm.user.findByPk(ctx.session.userId);
-  axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
-    grant_type: 'authorization_code',
-    code: code,
-    redirect_uri: 'https://freelancercl.herokuapp.com',
-    client_id: clientId,
-    client_secret: clientSecret,
-  }))
-    .then((res2) => {
-      const accessToken = res2.data.access_token;
-      return accessToken;
-    }).then((accessToken) => {
-      axios.get('https://api.linkedin.com/v2/me', {
-        headers: {
-          'Host': 'api.linkedin.com',
-          'Connection': 'Keep-Alive',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      })
-        .then((res2) => {
-          console.log("DATA FINAL");
-          const linkedinFirstName = res2.data.localizedFirstName.toString();
-          aux.push(linkedinFirstName);
-          console.log(aux);
-        });
-    });
+async function linkedinApi(code) {
+  return new Promise(((resolve, reject) => {
+    axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
+      grant_type: 'authorization_code',
+      code,
+      redirect_uri: 'https://freelancercl.herokuapp.com',
+      client_id: clientId,
+      client_secret: clientSecret,
+    }))
+      .then((res2) => {
+        const accessToken = res2.data.access_token;
+        return accessToken;
+      }).then((accessToken) => {
+        axios.get('https://api.linkedin.com/v2/me', {
+          headers: {
+            Host: 'api.linkedin.com',
+            Connection: 'Keep-Alive',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+          .then((res2) => {
+            const linkedinFirstName = res2.data.localizedFirstName.toString();
+            resolve(linkedinFirstName);
+          });
+      });
   // console.log("nuevo aux");
   // console.log(aux);
   // currentUser2 = await currentUser2.update({ linkedinFirstName: aux.linkedinFirstName });
   // await currentUser2.save();
-  return aux;
+  }));
 }
 
 router.get('index.landing', '/', async (ctx) => {
@@ -108,15 +105,15 @@ router.get('index.landing', '/', async (ctx) => {
   // const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
   // const passwordError = '';
 
-  //LINKEDIN
-  const code = ctx.query.code;
+  // LINKEDIN
+  const { code } = ctx.query;
   // if (currentUser) {
   //   currentUser.linkedinData = linkedinData1;
   // }
   if (code) {
     // console.log(linkedinFirstName);
-    const linke = await linkedinApi(code, ctx);
-    console.log("Aqui está la wea");
+    const linke = await linkedinApi(code);
+    console.log('Aqui está la wea');
     console.log(linke);
     console.log('PASAMO O NO LA WEA');
     const u = await ctx.orm.user.findByPk(ctx.session.userId);
