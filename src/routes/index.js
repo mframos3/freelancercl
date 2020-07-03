@@ -15,8 +15,8 @@ const clientId = '77c56cbij2arr0';
 const clientSecret = 'C7oQMzl70UMzRmPy';
 
 async function linkedinApi(code, ctx) {
+  var aux = [];
   let currentUser2 = await ctx.orm.user.findByPk(ctx.session.userId);
-  const aux = {};
   axios.post('https://www.linkedin.com/oauth/v2/accessToken', querystring.stringify({
     grant_type: 'authorization_code',
     code: code,
@@ -37,16 +37,16 @@ async function linkedinApi(code, ctx) {
       })
         .then((res2) => {
           console.log("DATA FINAL");
-          aux.linkedinFirstName = res2.data.localizedFirstName.toString();
+          const linkedinFirstName = res2.data.localizedFirstName.toString();
+          aux.push(linkedinFirstName);
           console.log(aux);
-        }).catch((res) => {
-          console.log(res);
         });
     });
-  console.log("nuevo aux");
-  console.log(aux);
-  currentUser2 = await currentUser2.update({ linkedinFirstName: aux.linkedinFirstName });
-  await currentUser2.save();
+  // console.log("nuevo aux");
+  // console.log(aux);
+  // currentUser2 = await currentUser2.update({ linkedinFirstName: aux.linkedinFirstName });
+  // await currentUser2.save();
+  return aux;
 }
 
 router.get('index.landing', '/', async (ctx) => {
@@ -115,11 +115,12 @@ router.get('index.landing', '/', async (ctx) => {
   // }
   if (code) {
     // console.log(linkedinFirstName);
-    await linkedinApi(code, ctx);
+    const linke = await linkedinApi(code, ctx);
+    console.log("Aqui está la wea");
+    console.log(linke);
     console.log('PASAMO O NO LA WEA');
     const u = await ctx.orm.user.findByPk(ctx.session.userId);
     console.log(u);
-
   }
   await ctx.render('index', {
     appVersion: pkg.version,
