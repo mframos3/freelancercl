@@ -24,6 +24,10 @@ module.exports = {
       allowNull: true,
       type: Sequelize.STRING,
     },
+    linkedinLastName: {
+      allowNull: true,
+      type: Sequelize.STRING,
+    },
     imagePath: {
       allowNull: true,
       type: Sequelize.STRING,

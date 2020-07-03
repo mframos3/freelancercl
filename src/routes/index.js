@@ -38,8 +38,7 @@ async function linkedinApi(code) {
           .then((res2) => {
             console.log("INFORMACION");
             console.log(res2);
-            const linkedinFirstName = res2.data.localizedFirstName.toString();
-            resolve(linkedinFirstName);
+            resolve(res2.data);
           });
       });
   }));
@@ -110,9 +109,11 @@ router.get('index.landing', '/', async (ctx) => {
   //   currentUser.linkedinData = linkedinData1;
   // }
   if (code) {
-    // console.log(linkedinFirstName);
     const linkedin = await linkedinApi(code);
-    currentUser.linkedinFirstName = linkedin;
+    currentUser.linkedinFirstName = linkedin.localizedFirstName;
+    currentUser.linkedinLastName = linkedin.localizedLastName;
+    await currentUser.update({ fields: ['linkedinFirstName', 'linkedinLastName'] });
+    await currentUser.save();
   }
   await ctx.render('index', {
     appVersion: pkg.version,
