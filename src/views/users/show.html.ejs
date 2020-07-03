@@ -11,9 +11,11 @@
           <p><%= user.occupation %></p>
           <div class="linkedin">
           <% if (currentUser && currentUser.id == user.id && !user.linkedinFirstName) { %>
+            <img src="https://img.icons8.com/cute-clipart/50/000000/linkedin.png "/>
             <p><a href="<%= linkedin %>"> Mostrar información de Linkedin</a></p>
           <% } %>
           <% if (currentUser && currentUser.id == user.id && user.linkedinFirstName) { %>
+            <img src="https://img.icons8.com/cute-clipart/50/000000/linkedin.png "/>
             <h6><%= `Linkedin: ${user.linkedinFirstName} ${user.linkedinLastName}` %></h6>
           <% } %>
           </div>
