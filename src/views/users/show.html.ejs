@@ -10,7 +10,7 @@
           <h5><%= user.email %></h5>
           <p><%= user.occupation %></p>
           <% if (currentUser && currentUser.id == user.id && !user.linkedinFirstName) { %>
-            <a href="<%= linkedin %>"> Mostrar información de Linkedin</a>
+            <p><a href="<%= linkedin %>"> Mostrar información de Linkedin</a></p>
           <% } %>
           <% if (currentUser && currentUser.id == user.id && user.linkedinFirstName) { %>
             <h5><%= user.linkedinFirstName%></h5>
@@ -28,8 +28,8 @@
 			<div class="tab-panel-main">
 				<div id="Basic-detail" class="tab-content current">
           <div id="react-follower" ></div>
+          <% if (currentUser && currentUser.id == user.id) { %>
 					<div class="bio-box">
-            <% if (currentUser && currentUser.id == user.id) { %>
               <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
                 <div class="field">
                   <% if (currentUser.cvPath) {%>
@@ -53,14 +53,14 @@
                   <input class="action-btn"type="submit" name="uploadFile" value="Subir" />
                 </div>
                 </form> 
-            <% } %>
-					</div>
-					<div class="detail-box">
-            <h3><a href="<%= user.cvPath %>">Descargar CV</h3></p>
+          </div>
+          <% } %>
+					<div class="detail-box"> 
             <% if (user.cvPath) { %> 
+              <h3><a href="<%= user.cvPath %>">Descargar CV</a></h3></p>
               <h3><a href="#openModal1">Ver Currículum</a></h3>
               <% } else {%>
-                <li>Sin Currículum </li>
+                <p>Sin Currículum </p>
               <% } %>
 					</div>
 				</div>
@@ -118,15 +118,18 @@
   </div>
   
   <div id="openModal1" class="modalDialog">
-      <a href="#close" title="Close" class="close">X</a>
+    <div class="frame-wrapper">
+      <a href="#" title="Close" class="close">X</a>
       <iframe src="<%= user.cvPath %>" type="application/pdf"></iframe>
+    </div>
+      
   </div>
 
   <div id="openModal2" class="modalDialog">
-    <div>
-      <a href="#close" title="Close" class="close">X</a>
+    <div class="frame-wrapper">
+      <a href="#" title="Close" class="close">X</a>
       <iframe id="viewer" src=""></iframe>
-    </div>
+    </div>    
   </div>
 
   </div>

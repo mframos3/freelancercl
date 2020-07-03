@@ -15,7 +15,7 @@ const PostsList = ({ contentType }) => {
   const [preSearch, setPreSearch] = useState([]);
   const [category, setCategory] = useState('');
 
-  const DEV = true;
+  const DEV = false;
   const ENDPOINT = (DEV) ? 'http://localhost:3000' : 'https://freelancercl.herokuapp.com';
 
   useEffect(() => {

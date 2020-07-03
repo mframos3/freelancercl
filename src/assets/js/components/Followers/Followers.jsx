@@ -15,7 +15,7 @@ const Followers = () => {
 
   useEffect(() => {
     const fetchFollow = async () => {
-      const res = await fetch(`${ENDPOINT}/api/follow/${window.location.href.split('/').reverse()[0]}`);
+      const res = await fetch(`${ENDPOINT}/follow/${window.location.href.split('/').reverse()[0]}`);
       const data = await res.json();
       if (data.data[0]) {
         setIsFollowed(true);
@@ -34,10 +34,10 @@ const Followers = () => {
 
   const follow = () => {
     const fetchBackServer = async () => {
-      const res = await fetch(`${ENDPOINT}/api/follow/${window.location.href.split('/').reverse()[0]}`);
+      const res = await fetch(`${ENDPOINT}/follow/${window.location.href.split('/').reverse()[0]}`);
       const data = await res.json();
       const idUser = data.data[1].id.toString();
-      const res2 = await fetch(`${ENDPOINT}/api/follow/${idUser}/follow`);
+      const res2 = await fetch(`${ENDPOINT}/follow/${idUser}/follow`);
       const data2 = await res2.json();
       if (data2.data[0]) {
         setIsFollowed(true);
@@ -72,7 +72,7 @@ const Followers = () => {
               <button type="button" id="followButton" onClick={() => follow()}>
                 {(isFollowed) ? 'Dejar de Seguir' : 'Seguir' }
               </button>
-            ) : (<li />)}
+            ) : (null)}
           </li>
         </ul>
       </div>
