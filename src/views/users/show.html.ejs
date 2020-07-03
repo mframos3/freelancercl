@@ -14,8 +14,7 @@
           <% } %>
           <% if (currentUser && currentUser.id == user.id && user.linkedinFirstName) { %>
           <% } %>
-          <h5>Linkedin</h5>
-          <p><%= `${user.linkedinFirstName} ${user.linkedinLastName}` %></p>
+          <h6><%= `Linkedin: ${user.linkedinFirstName} ${user.linkedinLastName}` %></h6>
 				</div>
       </div>
       <ul class="tabs">
