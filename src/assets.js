@@ -4,7 +4,6 @@ try {
   // eslint-disable-next-line global-require,import/no-unresolved
   manifest = require('../build/assets/manifest.json');
 } catch (err) {
-
   // noop
 }
 
