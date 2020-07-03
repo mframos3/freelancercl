@@ -13,8 +13,8 @@
             <p><a href="<%= linkedin %>"> Mostrar información de Linkedin</a></p>
           <% } %>
           <% if (currentUser && currentUser.id == user.id && user.linkedinFirstName) { %>
-            <h5><%= user.linkedinFirstName%></h5>
-            <h5><%= user.linkedinFirstName%></h5>
+            <h5>Linkedin</h5>
+            <p><%= `${user.linkedinFirstName} ${user.linkedinLastName}` %></p>
           <% } %>
 				</div>
       </div>
