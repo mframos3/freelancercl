@@ -10,7 +10,6 @@ const querystring = require('querystring');
 const { Validator } = require('sequelize');
 const pkg = require('../../package.json');
 
-
 const clientId = '77c56cbij2arr0';
 const clientSecret = 'C7oQMzl70UMzRmPy';
 
@@ -35,14 +34,12 @@ async function linkedinApi(code) {
           },
         })
           .then((res2) => {
+            console.log("INFORMACION");
+            console.log(res2.data);
             const linkedinFirstName = res2.data.localizedFirstName.toString();
             resolve(linkedinFirstName);
           });
       });
-  // console.log("nuevo aux");
-  // console.log(aux);
-  // currentUser2 = await currentUser2.update({ linkedinFirstName: aux.linkedinFirstName });
-  // await currentUser2.save();
   }));
 }
 
@@ -112,12 +109,8 @@ router.get('index.landing', '/', async (ctx) => {
   // }
   if (code) {
     // console.log(linkedinFirstName);
-    const linke = await linkedinApi(code);
-    console.log('Aqui está la wea');
-    console.log(linke);
-    console.log('PASAMO O NO LA WEA');
-    const u = await ctx.orm.user.findByPk(ctx.session.userId);
-    console.log(u);
+    const linkedin = await linkedinApi(code);
+    currentUser.linkedinFirstName = linkedin;
   }
   await ctx.render('index', {
     appVersion: pkg.version,
