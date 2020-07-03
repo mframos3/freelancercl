@@ -13,6 +13,7 @@ for (let i = 1; i < 11; i += 1) {
     password: bcrypt.hashSync('123456789', PASSWORD_SALT),
     cvPath: '',
     linkedinFirstName: null,
+    linkedinLastName: null,
     rating: 0,
     occupation: faker.name.jobTitle(),
     isAdmin: (i === 1),
