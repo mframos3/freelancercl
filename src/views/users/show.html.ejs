@@ -13,7 +13,7 @@
             <p><a href="<%= linkedin %>"> Mostrar información de Linkedin</a></p>
           <% } %>
           <% if (currentUser && currentUser.id == user.id && user.linkedinFirstName) { %>
-            <h5>Linkedin</h5>
+            <h6>Linkedin</h6>
             <p><%= `${user.linkedinFirstName} ${user.linkedinLastName}` %></p>
           <% } %>
 				</div>
