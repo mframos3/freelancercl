@@ -1,4 +1,152 @@
-<div class="general">
+<body>
+	<div class="profile-main">
+		<div class="profile-header">
+			<div class="user-detail">
+				<div class="user-image">
+					<img src="<%= user.imagePath %>">
+				</div>
+				<div class="user-data">
+          <h2><%= user.name %></h2>
+          <h5><%= user.email %></h5>
+					<p><%= user.occupation %><br>
+					</p>
+				</div>
+      </div>
+      <ul class="tabs">
+        <li class="tab-link current" data-tab="Basic-detail">Detalles</li>
+        <li class="tab-link" data-tab="Edu-detail">Ofertas</li>
+        <li class="tab-link" data-tab="Portfolio">Búsquedas</li>
+      </ul>
+    </div>
+    <div class="profile-bottom">
+			<div class="tab-panel-main">
+				<div id="Basic-detail" class="tab-content current">
+          <div id="react-follower" ></div>
+					<div class="bio-box">
+            <% if (currentUser && currentUser.id == user.id) { %>
+              <form action="<%= submitFilePath %>" enctype="multipart/form-data" method="post">
+                <div class="field">
+                  <% if (currentUser.cvPath) {%>
+                    <label for="CV">Actualizar CV</label>
+                  <% } else {%>
+                    <label for="CV">Seleccionar CV</label>
+                  <% } %>
+                  <input type="file" name="CV" id="CV"/>
+                  <a href="#openModal2" type="button" id="vista"> Vista Previa</a>
+                </div>
+
+                <div class="field">
+                  <% if (currentUser.imagePath) {%>
+                    <label for="CV">Actualizar Foto de Perfil</label>
+                  <% } else {%>
+                    <label for="CV">Seleccionar Foto de Perfil</label>
+                  <% } %>                  
+                  <input type="file" name="img" />
+                </div>
+                <div class="field">
+                  <input class="action-btn"type="submit" name="uploadFile" value="Subir" />
+                </div>
+                </form> 
+            <% } %>
+					</div>
+					<div class="detail-box">
+            <h3><a href="<%= user.cvPath %>">Descargar CV</h3></p>
+            <% if (user.cvPath) { %> 
+              <h3><a href="#openModal1">Ver Currículum</a></h3>
+              <% } else {%>
+                <li>Sin Currículum </li>
+              <% } %>
+					</div>
+				</div>
+				<div id="Edu-detail" class="tab-content">
+          <div class="profile-cards">
+            <% offeringPostsList.forEach((offeringPost) => { %>
+              <div class="profile-card">
+                <img class="profile-card__image" src='<%= offeringPost.img %>' alt="OfferingPost" />
+                <div class="profile-card__content">
+                  <div class="profile-card__link">
+                    <a href='<%= showOfferingPostPath(offeringPost) %>'><%= offeringPost.name %></a>
+                  </div>
+                  <p>
+                    <%= offeringPost.description %>
+                  </p>
+                </div>
+                <div class="profile-card__info">
+                  <div>
+                    <%= offeringPost.rating %>
+                  </div>
+                  <div>
+                    <%= offeringPost.category %>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+					
+				</div>
+				<div id="Portfolio" class="tab-content">
+          <div class="profile-cards">
+            <% searchingPostsList.forEach((searchingPost) => { %>
+              <div class="profile-card">
+                <img class="profile-card__image" src='<%= searchingPost.img %>' alt="searchingPost" />
+                <div class="profile-card__content">
+                  <div class="profile-card__link">
+                    <a href='<%= showSearchingPostPath(searchingPost) %>'><%= searchingPost.name %></a>
+                  </div>
+                  <p>
+                    <%= searchingPost.description %>
+                  </p>
+                </div>
+                <div class="profile-card__info">
+                  <div>
+                    <%= searchingPost.category %>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+					
+				</div>
+      </div>
+    </div>
+		<!-- <div id="bottom-profile"></div> -->
+  </div>
+  
+  <!-- <div class="container-all" id="popupSearchw"> 
+    <div class="popup" id="popupCv">
+        <div class="container-text">
+         <div style="clear:both" class="cvPdf" margin= "auto" display="block" margin-left="auto" margin-right="auto">
+           <iframe id="viewer" frameborder="0" scrolling="no" height="400px" width="300px"></iframe>
+           <img id="viewerDefault" height="400px" ></img>
+        </div>
+        </div>
+        <a href="#" class="btn-close-popup">X</a>
+    </div>
+  </div> -->
+
+  <div id="openModal1" class="modalDialog">
+    <div>
+      <a href="#close" title="Close" class="close">X</a>
+      <embed src="<%= user.cvPath %>" type="application/pdf" />
+    </div>
+  </div>
+
+  <div id="openModal2" class="modalDialog">
+    <div>
+      <a href="#close" title="Close" class="close">X</a>
+      <embed id="viewer" src=""/>
+    </div>
+  </div>
+
+  </div>
+
+  
+
+
+</body>
+
+
+<!-- <div class="general">
 <!DOCTYPE html>
 <body>
 	<div class="profile-main">
@@ -132,17 +280,6 @@
 
   </div>
   
- <div class="container-all" id="popupSearch"> 
-   <div class="popup" id="popupCv">
-       <div class="container-text">
-        <div style="clear:both" class="cvPdf" margin= "auto" display="block" margin-left="auto" margin-right="auto">
-          <iframe id="viewer" frameborder="0" scrolling="no" height="400px" width="300px"></iframe>
-          <img id="viewerDefault" height="400px" ></img>
-       </div>
-       </div>
-       <a href="#" class="btn-close-popup">X</a>
-   </div>
-   
-  </div>
+ 
 </body>
-</div>
+</div> -->
