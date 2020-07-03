@@ -7,11 +7,10 @@ const router = new KoaRouter();
 
 const axios = require('axios');
 const querystring = require('querystring');
-const { Validator } = require('sequelize');
 const pkg = require('../../package.json');
 
-const clientId = '77c56cbij2arr0';
-const clientSecret = 'C7oQMzl70UMzRmPy';
+const clientId = process.env.LINKEDIN_ID;
+const clientSecret = process.env.LINKEDIN_SECRET;
 
 async function linkedinApi(code) {
   return new Promise(((resolve, reject) => {
@@ -24,8 +23,6 @@ async function linkedinApi(code) {
     }))
       .then((res2) => {
         const accessToken = res2.data.access_token;
-        console.log("ACCESS TOKEN");
-        console.log(accessToken);
         return accessToken;
       }).then((accessToken) => {
         axios.get('https://api.linkedin.com/v2/me', {
@@ -36,8 +33,6 @@ async function linkedinApi(code) {
           },
         })
           .then((res2) => {
-            console.log("INFORMACION");
-            console.log(res2);
             resolve(res2.data);
           });
       });
@@ -96,18 +91,8 @@ router.get('index.landing', '/', async (ctx) => {
   });
   const showOfferingPostPath = (offeringPost) => ctx.router.url('offeringPosts.show', { pid: offeringPost.id });
   const showSearchingPostPath = (searchingPost) => ctx.router.url('searchingPosts.show', { id: searchingPost.id });
-
-  // Para popUp
-  // const user = ctx.orm.user.build();
-  // const searchingPost = ctx.orm.searchingPost.build(ctx.request.body);
-  // const offeringPost = ctx.orm.offeringPost.build(ctx.request.body);
-  // const passwordError = '';
-
   // LINKEDIN
   const { code } = ctx.query;
-  // if (currentUser) {
-  //   currentUser.linkedinData = linkedinData1;
-  // }
   if (code) {
     const linkedin = await linkedinApi(code);
     currentUser.linkedinFirstName = linkedin.localizedFirstName;
@@ -125,15 +110,9 @@ router.get('index.landing', '/', async (ctx) => {
     newRegisterPath: ctx.router.url('users.new'),
     notice: ctx.flashMessage.notice,
     submitUserPath: ctx.router.url('users.create'),
-    // Para popUp
-    // user,
-    // searchingPost,
-    // offeringPost,
     submitSearchingPostPath: ctx.router.url('searchingPosts.create'),
     submitOfferingPostPath: ctx.router.url('offeringPosts.create'),
     backPath: ctx.router.url('searchingPosts.list'),
-    //
-    // passwordError,
     bestUsers,
     bestOfferingPosts,
     offeringPostsFollowing,
