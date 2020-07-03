@@ -32,17 +32,23 @@ export default class Validation extends Component {
     const { currentError } = this.state;
     let alert;
     if (currentError) {
-      alert = <span visibility="hidden" className="errorMessage" style={{ color: 'red' }}>{currentError} <IoMdCloseCircleOutline /></span>;
+      alert = (
+        <span visibility="hidden" className="errorMessage" style={{ color: 'red' }}>
+          {currentError}
+          {' '}
+          <IoMdCloseCircleOutline />
+        </span>
+      );
     } else {
       alert = '';
     }
     return (
       <div>
         <div className="field">
-          <label htmlFor="name" > Nombre</label>
+          <label htmlFor="name"> Nombre</label>
           <input type="text" name="name" value={this.props.serverData.name} onChange={this.handleError} />
-          {alert}
         </div>
+        {alert}
       </div>
     );
   }

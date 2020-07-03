@@ -13,7 +13,7 @@
       <% if (!searchingPost.isNewRecord) { %>
         <input type="hidden" name="_method" value="patch" />
       <% } %>
-      <div id="react-name" data-name="<%= searchingPost.name %>"> </div>
+      <div id="react-name" data-name="<%= searchingPost.name %>"></div>
       <div  class="field">
         <label for="category">Categoría</label>
         <select name="category" id="category">
@@ -30,10 +30,9 @@
           <option value="Salud">Salud</option>
           <option value="Asesoría">Asesoría</option>
           <option value="Otros">Otros</option>
-
         </select>
       </div>
-      <div id="react-description" data-description="<%= searchingPost.description %>"> </div>
+      <div id="react-description" data-description="<%= searchingPost.description %>"></div>
       <div  class="field">
         <input type="hidden" name="userId" value=<%= currentUser.id %>></input>
       </div>
