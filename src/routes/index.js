@@ -24,6 +24,8 @@ async function linkedinApi(code) {
     }))
       .then((res2) => {
         const accessToken = res2.data.access_token;
+        console.log("ACCESS TOKEN");
+        console.log(accessToken);
         return accessToken;
       }).then((accessToken) => {
         axios.get('https://api.linkedin.com/v2/me', {
